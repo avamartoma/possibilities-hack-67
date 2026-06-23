@@ -32,17 +32,21 @@ courses_raw = json.loads((SAMPLE / "course_data.json").read_text())
 #    Skills are chosen to intersect the real user + course skill vocabularies so
 #    real users get sensible fits and missing skills map to real courses.
 # ---------------------------------------------------------------------------
+#    Every skill below is drawn from the 30 skills that actually appear in
+#    user_data.json, so real users can reach meaningful (non-zero) fit on every
+#    role. (The dataset has no soft skills like "Communication"/"Scrum", so we
+#    use the closest real domain skills instead.)
 ROLE_SKILLS = {
-    "Software Engineer": ["Python", "AWS", "DevOps", "Software", "Engineering", "Data Analysis"],
+    "Software Engineer": ["Python", "AWS", "DevOps", "Software", "Engineering", "Computer"],
     "DevOps Engineer": ["AWS", "DevOps", "Blockchain", "Network Security", "Python", "Information Security"],
-    "Data Scientist": ["Python", "Machine Learning", "Data Analysis", "AWS", "Economics", "Investing"],
-    "UX Designer": ["UX/UI", "Graphic Design", "Photoshop", "Communication", "Content Creation", "Creative Writing"],
-    "Product Manager": ["Agile", "Scrum", "Project Planning", "Strategic Planning", "Communication", "Data Analysis"],
-    "Financial Analyst": ["Financial Modeling", "Corporate Finance", "Investing", "Economics", "Excel", "Accounting"],
-    "Marketing Specialist": ["Marketing Strategies", "SEO", "Content Creation", "Communication", "Strategic Planning", "Marketing"],
-    "HR Coordinator": ["Recruiting", "HR Policies", "Employee Relations", "Communication", "Negotiation", "Administration"],
-    "Sales Representative": ["Negotiation", "Communication", "Public Speaking", "Strategic Planning", "Business", "Marketing"],
-    "Customer Service Manager": ["Communication", "Employee Relations", "Negotiation", "Project Planning", "Administration", "Business"],
+    "Data Scientist": ["Python", "Machine Learning", "Data Analysis", "AWS", "Science", "Information"],
+    "UX Designer": ["Software", "Computer", "Technology", "Information", "Psychology", "Engineering"],
+    "Product Manager": ["Business", "Administration", "Data Analysis", "Marketing", "Technology", "Economics"],
+    "Financial Analyst": ["Financial Modeling", "Corporate Finance", "Investing", "Economics", "Accounting", "Finance"],
+    "Marketing Specialist": ["Marketing", "Business", "Economics", "Administration", "Data Analysis", "Technology"],
+    "HR Coordinator": ["Administration", "Business", "Psychology", "Education", "Teaching", "Information"],
+    "Sales Representative": ["Business", "Marketing", "Economics", "Finance", "Administration", "Investing"],
+    "Customer Service Manager": ["Business", "Administration", "Healthcare", "Education", "Psychology", "Technology"],
 }
 
 CATEGORY = {

@@ -21,8 +21,13 @@ What's **real** (derived from the files):
 What's **curated** (the only hand-authored part): each role's `skills` list.
 `jobs_data.json` has no skills field, and aggregating the skills of users who
 hold each role is noise (the sample data is randomly generated — verified), so
-role→skills is hand-authored, with skills chosen to intersect the real user and
-course skill vocabularies.
+role→skills is hand-authored. **Every curated skill is drawn from the 30 skills
+that actually appear in `user_data.json`** so that real users reach non-zero fit
+on every role. (Earlier versions used soft skills like "Communication"/"Scrum"
+that no user has, which forced several roles to 0% for everyone — fixed.)
+
+The role list in the left rail is a **search box**: type to filter roles by
+name, category, or skill.
 
 ## What's here
 

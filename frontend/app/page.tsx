@@ -16,6 +16,7 @@ export default function Home() {
   const [roles, setRoles] = useState<Role[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [roleId, setRoleId] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
     getUsers().then((u) => {
@@ -29,6 +30,17 @@ export default function Home() {
   }, []);
 
   const activeUser = users.find((u) => u.id === userId);
+
+  // Filter roles by name / category / skills as the user types.
+  const q = query.trim().toLowerCase();
+  const filteredRoles = q
+    ? roles.filter(
+        (r) =>
+          r.name.toLowerCase().includes(q) ||
+          (r.category ?? "").toLowerCase().includes(q) ||
+          r.skills.some((s) => s.toLowerCase().includes(q))
+      )
+    : roles;
 
   const railCard: React.CSSProperties = {
     background: li.cardBg,
@@ -109,37 +121,65 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Role list */}
+          {/* Role search */}
           <div style={{ ...railCard, padding: 16 }}>
             <h3 style={{ margin: "0 0 12px", fontSize: 16, color: li.textPrimary }}>
               Explore roles
             </h3>
-            {roles.map((r) => {
-              const active = r.id === roleId;
-              return (
-                <button
-                  key={r.id}
-                  onClick={() => setRoleId(r.id)}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "left",
-                    padding: "8px 12px",
-                    marginBottom: 4,
-                    borderRadius: 6,
-                    border: "none",
-                    background: active ? li.blueLight : "transparent",
-                    color: active ? li.blue : li.textPrimary,
-                    cursor: "pointer",
-                    fontWeight: active ? 600 : 500,
-                    fontSize: 14,
-                    fontFamily: li.font,
-                  }}
-                >
-                  {r.name}
-                </button>
-              );
-            })}
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search roles or skills"
+              aria-label="Search roles"
+              style={{
+                width: "100%",
+                padding: "8px 12px",
+                borderRadius: 6,
+                border: `1px solid ${li.cardBorder}`,
+                background: li.blueLight,
+                fontSize: 14,
+                fontFamily: li.font,
+                marginBottom: 10,
+              }}
+            />
+            <div style={{ maxHeight: 360, overflowY: "auto" }}>
+              {filteredRoles.length === 0 ? (
+                <p style={{ color: li.textHint, fontSize: 14, margin: "4px 8px" }}>
+                  No roles match “{query}”.
+                </p>
+              ) : (
+                filteredRoles.map((r) => {
+                  const active = r.id === roleId;
+                  return (
+                    <button
+                      key={r.id}
+                      onClick={() => setRoleId(r.id)}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "8px 12px",
+                        marginBottom: 4,
+                        borderRadius: 6,
+                        border: "none",
+                        background: active ? li.blueLight : "transparent",
+                        color: active ? li.blue : li.textPrimary,
+                        cursor: "pointer",
+                        fontWeight: active ? 600 : 500,
+                        fontSize: 14,
+                        fontFamily: li.font,
+                      }}
+                    >
+                      {r.name}
+                      <span style={{ display: "block", color: li.textHint, fontSize: 12 }}>
+                        {r.category}
+                      </span>
+                    </button>
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
 
