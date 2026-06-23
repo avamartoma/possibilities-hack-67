@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Career Map — Comparison (static demo)</title>
+<!--
+  Zero-dependency static mirror of the Next.js Comparison Page.
+  No Node, no backend, no network: data is embedded inline below and the
+  fit math mirrors backend/fit.py::compute_fit and frontend/lib/fit.ts.
+  Open by double-clicking this file in any browser.
+
+  Keep DATA in sync with backend/data/{users,roleSkills}.json.
+-->
+<style>
+  body { margin: 0; background: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px; }
+  h1 { margin-bottom: 4px; }
+  .subtitle { color: #64748b; margin-top: 0; }
+  .picker { margin-bottom: 20px; }
+  .picker label { font-weight: 600; margin-right: 12px; }
+  select { padding: 8px 12px; border-radius: 8px; font-size: 15px; }
+  .tagline { margin-left: 12px; color: #94a3b8; font-style: italic; }
+  .layout { display: flex; gap: 32px; align-items: flex-start; }
+  .roles { width: 240px; flex-shrink: 0; }
+  .roles h3 { margin-top: 0; }
+  .role-btn {
+    display: block; width: 100%; text-align: left; padding: 10px 14px;
+    margin-bottom: 6px; border-radius: 8px; border: 1px solid #e2e8f0;
+    background: #fff; color: #0f172a; cursor: pointer; font-weight: 500; font-size: 15px;
+  }
+  .role-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .panel-wrap { flex: 1; }
+  .panel {
+    max-width: 760px; background: #fff; border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12); padding: 32px; color: #0f172a;
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 28px; }
+  .role-desc { margin: 0 0 20px; color: #475569; line-height: 1.5; }
+  .ring-row { display: flex; gap: 32px; align-items: center; margin-bottom: 28px; flex-wrap: wrap; }
+  .companies { flex: 1; min-width: 220px; }
+  .companies h4 { margin: 0 0 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .company-chip {
+    background: #eff6ff; color: #1d4ed8; border-radius: 999px;
+    padding: 6px 14px; font-size: 14px; font-weight: 500;
+  }
+  .ring-label { margin-top: 8px; font-weight: 600; }
+  .skill-cols { display: flex; gap: 24px; width: 100%; }
+  .skill-cols > div { flex: 1; }
+  .skill-cols h4 { margin: 0 0 12px; }
+  .skill-list { list-style: none; padding: 0; margin: 0; }
+  .skill-item {
+    display: flex; align-items: center; gap: 8px; border-radius: 8px;
+    padding: 8px 12px; margin-bottom: 8px; font-weight: 500;
+  }
+  .skill-item .mark { font-weight: 700; }
+  .skill-have { background: #dcfce7; color: #166534; }
+  .skill-missing { background: #f1f5f9; color: #475569; }
+  .empty-have { color: #94a3b8; font-size: 14px; }
+  .empty-missing { color: #16a34a; font-size: 14px; font-weight: 600; }
+  .build-btn {
+    margin-top: 28px; width: 100%; background: #2563eb; color: #fff; border: none;
+    border-radius: 12px; padding: 16px; font-size: 17px; font-weight: 700; cursor: pointer;
+  }
+  #ring-arc { transition: stroke-dashoffset 1s ease-out; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #0f172a; color: #fff; padding: 14px 20px; border-radius: 12px;
+    font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); max-width: 520px;
+    opacity: 0; transition: opacity .25s ease; pointer-events: none; white-space: pre-wrap;
+  }
+  .toast.show { opacity: 1; }
+  .static-badge {
+    display: inline-block; background: #fef3c7; color: #92400e; border-radius: 999px;
+    padding: 2px 10px; font-size: 12px; font-weight: 600; margin-left: 10px; vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Career Map — Role Comparison <span class="static-badge">static demo</span></h1>
+  <p class="subtitle">Pick who you are, then explore how you fit each role.</p>
+
+  <section class="picker">
+    <label for="user-select">Viewing as:</label>
+    <select id="user-select"></select>
+    <span class="tagline" id="tagline"></span>
+  </section>
+
+  <div class="layout">
+    <div class="roles">
+      <h3>Roles</h3>
+      <div id="role-list"></div>
+    </div>
+    <div class="panel-wrap">
+      <div id="panel"></div>
+    </div>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ---- Embedded data (mirror of backend/data/{users,roleSkills}.json) ----
+const USERS = [
+  { id: "user_5329", name: "Alex Rivera", degree: "Economics", skills: ["Corporate Finance","Economics","Ethical Hacking","Financial Modeling","Information Security","Investing","Network Security"], hero: true, tagline: "Econ grad with a hidden security streak" },
+  { id: "user_5377", name: "Sam Carter", degree: "Software Engineering", skills: ["AWS","Blockchain","Computer","DevOps","Engineering","Science","Software"], tagline: "Builder, all-in on infrastructure" },
+  { id: "user_8705", name: "Jordan Lee", degree: "Information Technology", skills: ["AWS","Blockchain","Computer","Corporate Finance","DevOps","Financial Modeling","Information","Investing","Science","Technology"], tagline: "Half techie, half finance" },
+  { id: "user_4579", name: "Maya Brooks", degree: "Psychology", skills: ["Education","Psychology"], tagline: "People-first, exploring her options" },
+  { id: "user_9138", name: "Chris Diaz", degree: "Accounting", skills: ["Accounting","Corporate Finance","Ethical Hacking","Financial Modeling","Information Security","Investing","Network Security"], tagline: "Numbers person curious about more" }
+];
+
+const ROLES_MAP = {
+  software_engineer: { id: "software_engineer", name: "Software Engineer", category: "Technology", description: "Designs, builds, and maintains software systems and applications, turning requirements into reliable, scalable code.", skills: ["Python","AWS","DevOps","Software","Engineering","Data Analysis"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  devops_engineer: { id: "devops_engineer", name: "DevOps Engineer", category: "Technology", description: "Automates infrastructure, builds CI/CD pipelines, and keeps systems deployable, observable, and secure.", skills: ["AWS","DevOps","Blockchain","Network Security","Python","Information Security"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  data_scientist: { id: "data_scientist", name: "Data Scientist", category: "Technology", description: "Finds patterns in data and builds models that turn raw numbers into predictions and decisions.", skills: ["Python","Machine Learning","Data Analysis","AWS","Economics","Investing"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  ux_designer: { id: "ux_designer", name: "UX Designer", category: "Design", description: "Shapes how products feel to use — research, wireframes, and visual design that make experiences intuitive.", skills: ["UX/UI","Graphic Design","Photoshop","Communication","Content Creation","Creative Writing"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  product_manager: { id: "product_manager", name: "Product Manager", category: "Business", description: "Owns the what and why of a product — sets priorities, aligns teams, and ships things people want.", skills: ["Agile","Scrum","Project Planning","Strategic Planning","Communication","Data Analysis"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  financial_analyst: { id: "financial_analyst", name: "Financial Analyst", category: "Finance", description: "Models the numbers behind decisions — forecasts, valuations, and the story the data tells about money.", skills: ["Financial Modeling","Corporate Finance","Investing","Economics","Excel","Accounting"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  marketing_specialist: { id: "marketing_specialist", name: "Marketing Specialist", category: "Business", description: "Gets the right message to the right people — campaigns, content, and channels that drive growth.", skills: ["Marketing Strategies","SEO","Content Creation","Communication","Strategic Planning","Marketing"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  hr_coordinator: { id: "hr_coordinator", name: "HR Coordinator", category: "Business", description: "Keeps the people side of a company running — hiring, onboarding, and the policies that hold teams together.", skills: ["Recruiting","HR Policies","Employee Relations","Communication","Negotiation","Administration"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  sales_representative: { id: "sales_representative", name: "Sales Representative", category: "Business", description: "Turns prospects into customers — builds relationships, understands needs, and closes deals.", skills: ["Negotiation","Communication","Public Speaking","Strategic Planning","Business","Marketing"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] },
+  customer_service_manager: { id: "customer_service_manager", name: "Customer Service Manager", category: "Business", description: "Leads the team that keeps customers happy — resolves issues, sets standards, and turns support into loyalty.", skills: ["Communication","Employee Relations","Negotiation","Project Planning","Administration","Business"], companies: ["AI Dynamics","FutureWorks","Global Solutions LLC","Innovatech","Tech Innovators Inc."] }
+};
+const ROLES = Object.values(ROLES_MAP);
+
+// ---- Fit math (mirror of backend/fit.py + frontend/lib/fit.ts) ----
+function computeFit(userSkills, role) {
+  const userSet = new Set(userSkills.map((s) => s.toLowerCase()));
+  const have = role.skills.filter((s) => userSet.has(s.toLowerCase())).sort();
+  const missing = role.skills.filter((s) => !userSet.has(s.toLowerCase())).sort();
+  const percent = role.skills.length === 0 ? 0 : Math.round((100 * have.length) / role.skills.length);
+  return {
+    role: { id: role.id, name: role.name, description: role.description, companies: role.companies },
+    percent, haveSkills: have, missingSkills: missing
+  };
+}
+
+function band(percent) {
+  if (percent >= 70) return { color: "#16a34a", label: "Ready to go" };
+  if (percent >= 40) return { color: "#2563eb", label: "On your way" };
+  return { color: "#d97706", label: "Just getting started" };
+}
+
+// ---- State ----
+let currentUserId = (USERS.find((u) => u.hero) || USERS[0]).id;
+let currentRoleId = ROLES[0].id;
+
+// ---- Render helpers ----
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function renderUserPicker() {
+  const sel = document.getElementById("user-select");
+  sel.innerHTML = USERS.map((u) =>
+    `<option value="${u.id}" ${u.id === currentUserId ? "selected" : ""}>${esc(u.name)} — ${esc(u.degree || "")} ${u.hero ? "⭐" : ""}</option>`
+  ).join("");
+  const u = USERS.find((x) => x.id === currentUserId);
+  document.getElementById("tagline").textContent = u && u.tagline ? `“${u.tagline}”` : "";
+}
+
+function renderRoleList() {
+  document.getElementById("role-list").innerHTML = ROLES.map((r) =>
+    `<button class="role-btn ${r.id === currentRoleId ? "active" : ""}" data-role="${r.id}">${esc(r.name)}</button>`
+  ).join("");
+}
+
+function ringSVG(percent) {
+  const size = 180, stroke = 14;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const { color, label } = band(percent);
+  // start empty (offset = full circumference), then animate to target after a frame
+  return `
+    <div style="width:${size}px;text-align:center;">
+      <svg width="${size}" height="${size}">
+        <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#e5e7eb" stroke-width="${stroke}"></circle>
+        <circle id="ring-arc" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}"
+          stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c}"
+          transform="rotate(-90 ${size/2} ${size/2})"></circle>
+        <text x="50%" y="47%" text-anchor="middle" dominant-baseline="middle"
+          style="font-size:${size*0.26}px;font-weight:700;fill:${color};">${percent}%</text>
+        <text x="50%" y="63%" text-anchor="middle" dominant-baseline="middle"
+          style="font-size:${size*0.075}px;fill:#6b7280;letter-spacing:0.5px;">JOB FIT</text>
+      </svg>
+      <div class="ring-label" style="color:${color};">${label}</div>
+    </div>`;
+}
+
+function skillColumns(have, missing) {
+  const chip = (s, kind) => `<li class="skill-item ${kind === "have" ? "skill-have" : "skill-missing"}"><span class="mark">${kind === "have" ? "✓" : "○"}</span>${esc(s)}</li>`;
+  const haveCol = have.length === 0
+    ? `<p class="empty-have">None yet — every one of these is a fresh start.</p>`
+    : `<ul class="skill-list">${have.map((s) => chip(s, "have")).join("")}</ul>`;
+  const missingCol = missing.length === 0
+    ? `<p class="empty-missing">You have everything this role needs. 🎉</p>`
+    : `<ul class="skill-list">${missing.map((s) => chip(s, "missing")).join("")}</ul>`;
+  return `
+    <div class="skill-cols">
+      <div>
+        <h4 style="color:#166534;">Skills you have (${have.length})</h4>
+        ${haveCol}
+      </div>
+      <div>
+        <h4 style="color:#475569;">Skills to build (${missing.length})</h4>
+        ${missingCol}
+      </div>
+    </div>`;
+}
+
+function renderPanel() {
+  const user = USERS.find((u) => u.id === currentUserId);
+  const role = ROLES_MAP[currentRoleId];
+  const fit = computeFit(user.skills, role);
+
+  document.getElementById("panel").innerHTML = `
+    <div class="panel">
+      <h2>${esc(fit.role.name)}</h2>
+      <p class="role-desc">${esc(fit.role.description)}</p>
+      <div class="ring-row">
+        ${ringSVG(fit.percent)}
+        <div class="companies">
+          <h4>Companies hiring</h4>
+          <div class="chips">
+            ${fit.role.companies.map((c) => `<span class="company-chip">${esc(c)}</span>`).join("")}
+          </div>
+        </div>
+      </div>
+      ${skillColumns(fit.haveSkills, fit.missingSkills)}
+      <button class="build-btn" id="build-btn">Build my path →</button>
+    </div>`;
+
+  // Animate the ring fill (0 -> percent) after a frame, matching FitRing.tsx.
+  const arc = document.getElementById("ring-arc");
+  if (arc) {
+    const c = parseFloat(arc.getAttribute("stroke-dasharray"));
+    requestAnimationFrame(() => { arc.setAttribute("stroke-dashoffset", c * (1 - fit.percent / 100)); });
+  }
+
+  document.getElementById("build-btn").addEventListener("click", () => {
+    const payload = { roleId: fit.role.id, missingSkills: fit.missingSkills };
+    console.log("Build my path →", payload);
+    showToast("Build my path →\n" + JSON.stringify(payload, null, 2));
+  });
+}
+
+let toastTimer;
+function showToast(text) {
+  const t = document.getElementById("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+// ---- Wire up ----
+document.getElementById("user-select").addEventListener("change", (e) => {
+  currentUserId = e.target.value;
+  renderUserPicker();
+  renderPanel();
+});
+document.getElementById("role-list").addEventListener("click", (e) => {
+  const btn = e.target.closest(".role-btn");
+  if (!btn) return;
+  currentRoleId = btn.dataset.role;
+  renderRoleList();
+  renderPanel();
+});
+
+renderUserPicker();
+renderRoleList();
+renderPanel();
+</script>
+</body>
+</html>
