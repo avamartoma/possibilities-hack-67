@@ -194,7 +194,7 @@ hand-offs before building in parallel.
 | `course_data.json` | 600 | name, category, skills (list), length, level |
 
 - Building on this sample data **now**; richer/more varied data later.
-- **Known limitation (being raised with Pablo):** jobs have only **10
+- **Known limitation (still open):** jobs have only **10
   titles / 5 industries and no `skills` field** — so role→skills is
   *inferred* (AI), and the data can't yet showcase truly niche roles.
 
@@ -230,4 +230,4 @@ student career apps already exist. Our defensible wedge:
 1. Who owns the **Lock-in** button (undecided; not Jaden).
 2. **Milestone**: same page as Role Detail, or separate?
 3. **Local leaderboard** alongside the streak, or streak only?
-4. **Jobs-data diversity** — being raised with Pablo.
+4. **Jobs-data diversity** — still open (need richer/more varied data).

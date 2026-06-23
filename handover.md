@@ -55,9 +55,8 @@ difference; path = what closes it; fit % = overlap).
 - **Code so far:** `milestone_generator.py` (Namyanzi, the Milestone
   page) is in the repo. Other pages not yet started.
 - **Docs:** `README.md`, `handover.md` (this file),
-  `ava_personal_notes.md` (Ava's full notes). `questions_for_pablo.md`
-  has been retired (its open questions are resolved by the locked flow;
-  the one remaining item — jobs-data diversity — lives in §6).
+  `ava_personal_notes.md` (Ava's full notes), `presentation_notes.md`
+  (slide-ready summary for the deck).
 
 ---
 
@@ -88,7 +87,7 @@ Comparison page and (implicitly) the Milestone page, so it should be
 1. **Milestone page placement** — same page as the Role Detail, or a
    separate page? (Owner call: Daniel + Namyanzi.)
 2. **Local leaderboard** — include alongside the streak, or streak only?
-3. **Jobs-data diversity** — see §6; being raised with Pablo.
+3. **Jobs-data diversity** — see §6; still open.
 
 ---
 
@@ -104,9 +103,9 @@ The three datasets live in `sample_data/`.
 
 Known data facts (measured 2026-06-23):
 - Jobs: **10 distinct titles, 5 industries, no `skills` field.** This is
-  the one open data issue (**raising with Pablo**): the data has no role
-  diversity, so it can't really showcase "discover roles you'd never
-  heard of." We build against it for now; richer data comes later.
+  the one open data issue: the data has no role diversity, so it can't
+  really showcase "discover roles you'd never heard of." We build against
+  it for now; richer data comes later.
 - Role→skills must be **inferred** (AI from `position`+`description`,
   and/or from skills of users who hold the job via `job_history`).
 - ~30 distinct user skills, ~34 course skills, only ~12 overlap.
@@ -168,7 +167,6 @@ git push origin main      # (or a feature branch + PR if you prefer)
   was dropped**; Explore is now **broad clickable bubbles**. Added the
   **"Lock in"** entry button and an **"Explain"** chatbot router.
 - **Modular ownership** assigned across 5 people (§4).
-- `questions_for_pablo.md` retired; open items folded into §5/§6.
 - First code landed: `milestone_generator.py` (Namyanzi).
 
 ### 2026-06-23 (session 1) — project kickoff / ideation
