@@ -111,78 +111,79 @@ export default function ComparisonPanel({
           <FitRing percent={fit.percent} />
           <div style={{ flex: 1, minWidth: 240 }}>
             <h4 style={{ margin: "0 0 10px", fontSize: 16 }}>
-              {fit.percent >= 70 ? "Jobs where you’d be a top applicant" : "Companies hiring"}
+              {fit.percent >= 70 ? "Jobs where you’d be a top applicant" : "Open roles"}
+              {fit.role.jobCount != null && (
+                <span style={{ color: li.textSecondary, fontWeight: 400 }}>
+                  {" "}· {fit.role.jobCount} open
+                </span>
+              )}
             </h4>
+            {/* Real postings from jobs_data.json (company, location, salary,
+                level, and the REAL easyApply flag). */}
             <div>
-              {fit.role.companies.map((c, i) => {
-                // Synthesized but plausible LinkedIn job-card cues (deterministic by index).
-                const posted = ["2 weeks ago", "3 days ago", "1 month ago", "5 days ago", "2 months ago"][i % 5];
-                const alumni = [11, 3, 7, 1, 5][i % 5];
-                const easyApply = i % 2 === 0;
-                return (
+              {(fit.role.postings ?? []).map((p, i, arr) => (
+                <div
+                  key={p.id}
+                  style={{
+                    display: "flex",
+                    gap: 12,
+                    padding: "10px 0",
+                    borderBottom: i < arr.length - 1 ? `1px solid ${li.cardBorder}` : "none",
+                  }}
+                >
                   <div
-                    key={c}
                     style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 6,
+                      background: li.blueLight,
+                      color: li.blue,
                       display: "flex",
-                      gap: 12,
-                      padding: "10px 0",
-                      borderBottom:
-                        i < fit.role.companies.length - 1 ? `1px solid ${li.cardBorder}` : "none",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 18,
+                      fontWeight: 700,
+                      flexShrink: 0,
                     }}
                   >
-                    {/* company logo square */}
-                    <div
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 6,
-                        background: li.blueLight,
-                        color: li.blue,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: 18,
-                        fontWeight: 700,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {c.charAt(0)}
+                    {p.company.charAt(0)}
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, color: li.blue, fontSize: 15 }}>
+                      {fit.role.name}
                     </div>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, color: li.blue, fontSize: 15 }}>
-                        {fit.role.name}
-                      </div>
-                      <div style={{ color: li.textSecondary, fontSize: 14 }}>{c}</div>
-                      {/* fit-based applicant chip (verified LinkedIn phrasing) */}
-                      {fit.percent >= 70 && (
-                        <span
-                          style={{
-                            display: "inline-block",
-                            marginTop: 4,
-                            background: li.greenBg,
-                            color: li.green,
-                            borderRadius: 4,
-                            padding: "1px 8px",
-                            fontSize: 12,
-                            fontWeight: 600,
-                          }}
-                        >
-                          Strong applicant
-                        </span>
+                    <div style={{ color: li.textSecondary, fontSize: 14 }}>
+                      {p.company} · {p.location}
+                    </div>
+                    {fit.percent >= 70 && (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          marginTop: 4,
+                          background: li.greenBg,
+                          color: li.green,
+                          borderRadius: 4,
+                          padding: "1px 8px",
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Strong applicant
+                      </span>
+                    )}
+                    <div style={{ color: li.textHint, fontSize: 12, marginTop: 4 }}>
+                      {p.level} · ${Math.round(p.salaryFrom / 1000)}K–$
+                      {Math.round(p.salaryTo / 1000)}K
+                      {p.easyApply && (
+                        <>
+                          {" · "}
+                          <span style={{ color: li.blue, fontWeight: 600 }}>⚡ Easy Apply</span>
+                        </>
                       )}
-                      <div style={{ color: li.textHint, fontSize: 12, marginTop: 4 }}>
-                        {alumni} school alumni work here · Posted {posted}
-                        {easyApply && (
-                          <>
-                            {" · "}
-                            <span style={{ color: li.blue, fontWeight: 600 }}>⚡ Easy Apply</span>
-                          </>
-                        )}
-                      </div>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </div>
         </div>

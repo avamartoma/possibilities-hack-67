@@ -2,13 +2,15 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult } from "./types";
+import type { Role, User, FitResult, Course } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
+import coursesData from "../data/courses.json";
 
 const ROLES = rolesData as Record<string, Role>;
 const USERS = usersData as User[];
+const COURSES = coursesData as Record<string, Course[]>;
 
 async function tryFetch<T>(url: string): Promise<T | null> {
   try {
@@ -28,6 +30,12 @@ export async function getRoles(): Promise<Role[]> {
 export async function getUsers(): Promise<User[]> {
   const live = await tryFetch<User[]>("/api/users");
   return live ?? USERS;
+}
+
+// Skill -> real courses (from course_data.json), for the Milestone page.
+export async function getCourses(): Promise<Record<string, Course[]>> {
+  const live = await tryFetch<Record<string, Course[]>>("/api/courses");
+  return live ?? COURSES;
 }
 
 export async function getFit(userId: string, roleId: string): Promise<FitResult> {
