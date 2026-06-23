@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Close the Gap</title>
+<style>
+:root{
+  --li-blue:#0A66C2;--li-blue-hover:#004182;--li-green:#01754F;--li-green-brand:#0F9F6F;
+  --li-bg:#F4F2EE;--li-card:#FFFFFF;--li-border:#E4E4E4;
+  --li-text:rgba(0,0,0,.9);--li-text-2:rgba(0,0,0,.6);--li-text-3:rgba(0,0,0,.45);
+  --li-green-bg:#D6FAEE;--li-red-bg:#FFEFEA;--li-blue-bg:#E8F3FF;
+  --li-font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --li-radius:8px;--li-ring:0 0 0 1px rgb(140 140 140/.2);
+  --li-shadow:0 0 1px 0 rgb(140 140 140/.2),0 4px 12px 0 rgb(0 0 0/.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--li-bg);color:var(--li-text);font-family:var(--li-font);font-size:14px;line-height:1.4}
+.topbar{background:var(--li-card);border-bottom:1px solid var(--li-border);height:52px;display:flex;align-items:center;padding:0 24px;gap:8px}
+.logo{background:var(--li-blue);color:#fff;font-weight:700;border-radius:6px;padding:4px 8px;font-size:18px}
+.topbar .title{font-weight:600;font-size:16px}
+.container{max-width:1128px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:360px 1fr;gap:24px}
+@media(max-width:900px){.container{grid-template-columns:1fr}}
+.card{background:var(--li-card);border-radius:var(--li-radius);box-shadow:var(--li-ring);padding:24px}
+.card+.card{margin-top:16px}
+.card h2{font-size:16px;font-weight:600;margin-bottom:16px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--li-text-2);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:8px 12px;border:1px solid var(--li-border);border-radius:4px;font-size:14px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--li-blue);box-shadow:0 0 0 1px var(--li-blue)}
+.btn-primary{width:100%;padding:12px;background:var(--li-blue);color:#fff;border:none;border-radius:9999px;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px}
+.btn-primary:hover{background:var(--li-blue-hover)}
+.btn-primary:disabled{background:var(--li-border);cursor:not-allowed}
+.right-panel{display:flex;flex-direction:column;gap:16px}
+/* Streak */
+.streak-card{background:var(--li-card);box-shadow:var(--li-ring);border-radius:var(--li-radius);padding:16px 20px;display:flex;align-items:center;gap:16px}
+.streak-num{font-size:28px;font-weight:700;color:#E7A33E}
+.streak-label{font-weight:600;font-size:14px}
+.streak-goal{font-size:12px;color:var(--li-text-2)}
+/* Progress */
+.progress-card{background:var(--li-card);box-shadow:var(--li-ring);border-radius:var(--li-radius);padding:16px 20px}
+.progress-bar-bg{background:var(--li-border);border-radius:9999px;height:8px;overflow:hidden;margin:8px 0}
+.progress-bar-fill{height:100%;background:var(--li-green-brand);border-radius:9999px;transition:width 1s}
+.progress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--li-text-2)}
+/* Tabs */
+.tabs{display:flex;border-bottom:1px solid var(--li-border);margin-bottom:16px}
+.tab{padding:12px 16px;font-size:14px;font-weight:600;color:var(--li-text-2);cursor:pointer;border-bottom:2px solid transparent}
+.tab:hover{color:var(--li-text)}
+.tab.active{color:var(--li-green);border-bottom-color:var(--li-green)}
+/* Milestones */
+.milestones-container{max-height:580px;overflow-y:auto}
+.milestone{border-left:2px solid var(--li-border);padding:10px 16px;margin-bottom:10px}
+.milestone.current{border-left-color:var(--li-blue);background:var(--li-blue-bg)}
+.milestone.goal{border-left-color:var(--li-green);background:var(--li-green-bg)}
+.ms-quarter{font-size:12px;font-weight:600;color:var(--li-blue);text-transform:uppercase}
+.ms-theme{font-size:14px;font-weight:600;margin:4px 0 6px}
+.ms-section-title{font-size:12px;font-weight:600;color:var(--li-text-2);margin:6px 0 2px}
+.ms-list{list-style:none;font-size:13px;color:var(--li-text-2)}
+.ms-list li{padding:2px 0 2px 14px;position:relative}
+.ms-list li::before{content:"·";position:absolute;left:3px;font-weight:700}
+.skill-chip{display:inline-block;font-size:12px;padding:3px 10px;border-radius:9999px;margin:2px;font-weight:600}
+.skill-have{background:var(--li-green-bg);color:var(--li-green)}
+.skill-miss{background:var(--li-red-bg);color:#B24020}
+.skill-focus{background:var(--li-blue-bg);color:var(--li-blue)}
+.weekly-tag{display:inline-block;background:var(--li-green);color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;margin-left:6px}
+/* Leaderboard — horizontal bars */
+.lb-header{font-size:12px;color:var(--li-text-2);padding-bottom:12px;border-bottom:1px solid var(--li-border);margin-bottom:12px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 0}
+.lb-row.you{background:var(--li-blue-bg);margin:0 -24px;padding:8px 24px;border-radius:4px}
+.lb-rank{width:20px;font-size:13px;font-weight:600;color:var(--li-text-3)}
+.lb-name{width:120px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-bar-bg{flex:1;height:8px;background:var(--li-border);border-radius:9999px;overflow:hidden}
+.lb-bar{height:100%;border-radius:9999px;transition:width .8s}
+.lb-bar.c1{background:var(--li-green-brand)}.lb-bar.c2{background:var(--li-blue)}.lb-bar.c3{background:#E7A33E}
+.lb-pts{font-size:12px;font-weight:600;color:var(--li-text-2);width:36px;text-align:right}
+/* Opportunities — careermap style */
+.opp-role{border:1px solid var(--li-border);border-radius:var(--li-radius);padding:16px;margin-bottom:12px;cursor:pointer;transition:.15s}
+.opp-role:hover{border-color:var(--li-blue);box-shadow:var(--li-shadow)}
+.opp-role h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.opp-role .sub{font-size:12px;color:var(--li-text-2)}
+.fit-label{font-weight:600;font-size:13px;margin:10px 0 0}
+.fit-bar-bg{background:#eee;border-radius:9999px;height:8px;overflow:hidden;margin:6px 0}
+.fit-bar{height:100%;background:var(--li-green-brand);border-radius:9999px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="topbar"><span class="logo">in</span><span class="title">Close the Gap</span></div>
+<div class="container">
+  <div class="left-panel">
+    <div class="card">
+      <h2>Your Profile</h2>
+      <div class="form-group"><label>Name</label><input id="name" value="Jordan Lee"></div>
+      <div class="form-group"><label>School</label><input id="school" value="Lincoln High School"></div>
+      <div class="form-group"><label>Current Level</label><input id="degree" value="High School Sophomore"></div>
+      <div class="form-group"><label>Graduation Year</label><input type="number" id="grad_year" value="2028"></div>
+      <div class="form-group"><label>Location</label><select id="location"><option>San Francisco, CA</option><option>New York, NY</option><option>Boston, MA</option><option>Seattle, WA</option><option>Austin, TX</option></select></div>
+      <div class="form-group"><label>Skills (comma separated)</label><input id="skills" value="Python, Robotics, Data Analysis"></div>
+      <div class="form-group"><label>Interests</label><input id="interests" value="Artificial Intelligence, Robotics, Machine Learning"></div>
+      <div class="form-group"><label>Experience So Far</label><input id="experience" value="Robotics club, research internship at university lab"></div>
+      <div class="form-group"><label>Target Career</label><input id="target_career" value="Data Scientist"></div>
+      <button class="btn-primary" id="generateBtn" onclick="generate()">Build My Path</button>
+    </div>
+  </div>
+  <div class="right-panel">
+    <div id="placeholder" class="card" style="text-align:center;padding:60px 24px;color:var(--li-text-3)">
+      <p>Fill in your profile and hit <strong>Build My Path</strong></p>
+    </div>
+    <div id="results" class="hidden">
+      <div class="streak-card">
+        <div class="streak-num">1</div>
+        <div><div class="streak-label">Week Streak</div><div class="streak-goal" id="streakText">Complete your first milestone!</div></div>
+      </div>
+      <div class="progress-card">
+        <div style="font-size:14px;font-weight:600">Career Progress</div>
+        <p style="font-size:12px;color:var(--li-text-2);margin-top:4px" id="progressSub"></p>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:15%"></div></div>
+        <div class="progress-labels"><span>You (Now)</span><span id="progressTarget"></span></div>
+      </div>
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('path')">My Path</div>
+          <div class="tab" onclick="switchTab('opps')">Opportunities</div>
+          <div class="tab" onclick="switchTab('lb')">Leaderboard</div>
+        </div>
+        <div id="pathTab" class="milestones-container"></div>
+        <div id="oppsTab" class="hidden"></div>
+        <div id="lbTab" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+let D=null;
+async function generate(){
+  const b=document.getElementById('generateBtn');b.disabled=true;b.textContent='Analyzing...';
+  const p={name:document.getElementById('name').value,school:document.getElementById('school').value,degree:document.getElementById('degree').value,grad_year:document.getElementById('grad_year').value,location:document.getElementById('location').value,skills:document.getElementById('skills').value,interests:document.getElementById('interests').value,experience:document.getElementById('experience').value,target_career:document.getElementById('target_career').value};
+  try{const r=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});D=await r.json();render();}catch(e){alert('Server not running.');}
+  b.disabled=false;b.textContent='Build My Path';
+}
+function render(){
+  document.getElementById('placeholder').classList.add('hidden');
+  document.getElementById('results').classList.remove('hidden');
+  const sh=D.user.skills.length,sn=D.goal_profile.skills_to_acquire.length+sh;
+  document.getElementById('progressFill').style.width=Math.min(Math.round((sh/sn)*100),90)+'%';
+  document.getElementById('progressTarget').textContent=D.user.target_career;
+  document.getElementById('progressSub').textContent=D.goal_profile.skills_to_acquire.length+' skills to close the gap';
+  if(D.milestones[0]&&D.milestones[0].streak_goal)document.getElementById('streakText').textContent=D.milestones[0].streak_goal;
+  renderPath();renderOpps();renderLB();
+}
+function renderPath(){
+  document.getElementById('pathTab').innerHTML=D.milestones.map((m,i)=>{
+    const isG=m.quarter.includes('GOAL'),isC=i===0,cls=isG?'goal':isC?'current':'';
+    if(isG&&m.profile_snapshot){const s=m.profile_snapshot;return`<div class="milestone ${cls}"><div class="ms-quarter">${m.quarter}</div><div class="ms-theme">${m.theme}</div><div style="font-size:13px"><strong>${s.headline||''}</strong><br>${(s.experience||[]).join(' → ')}<br>${s.salary_range?'$'+s.salary_range.from+'–$'+s.salary_range.to:''}</div></div>`;}
+    let h=`<div class="milestone ${cls}"><div class="ms-quarter">${m.quarter}${isC?'<span class="weekly-tag">NOW</span>':''}</div><div class="ms-theme">${m.theme}</div>`;
+    if(m.profile_updates&&m.profile_updates.length)h+=`<div class="ms-section-title">Profile Updates</div><ul class="ms-list">${m.profile_updates.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    if(m.opportunities){const o=m.opportunities;[{t:'Courses',i:o.courses_certs},{t:'Jobs/Internships',i:o.jobs_internships},{t:'Projects',i:o.projects},{t:'Volunteering',i:o.volunteering},{t:'Networking',i:o.networking}].filter(s=>s.i&&s.i.length).forEach(s=>{h+=`<div class="ms-section-title">${s.t}</div><ul class="ms-list">${s.i.map(x=>`<li>${x}</li>`).join('')}</ul>`;});}
+    if(!m.opportunities&&m.action_items)h+=`<div class="ms-section-title">Action Items</div><ul class="ms-list">${m.action_items.map(a=>`<li>${a}</li>`).join('')}</ul>`;
+    if(m.skill_target)h+=`<span class="skill-chip skill-focus">${m.skill_target}</span>`;
+    if(m.streak_goal)h+=`<span class="skill-chip" style="background:#fef3c7;color:#92400e">${m.streak_goal}</span>`;
+    return h+'</div>';
+  }).join('');
+}
+function renderOpps(){
+  const g=D.goal_profile,loc=D.user.current_location,skills=g.skills_to_acquire;
+  const roles=[
+    {name:'Coca-Cola Scholars Program',desc:'$20K scholarship for HS juniors with leadership',fit:85},
+    {name:'LinkedIn Possibilities in Tech',desc:'Scholarship + mentorship for underrepresented students in CS',fit:78},
+    {name:'QuestBridge National College Match',desc:'Full-ride scholarships to top colleges',fit:72},
+    {name:'Google CSSI',desc:'3-week CS summer intensive at Google for rising freshmen',fit:68},
+    {name:'Code2040 Fellows',desc:'Internship program connecting Black/Latinx talent to tech',fit:60},
+    {name:'NASA SEES',desc:'STEM Enhancement in Earth Science research program',fit:55}
+  ];
+  document.getElementById('oppsTab').innerHTML=`<p style="font-size:12px;color:var(--li-text-2);margin-bottom:14px">Programs for someone targeting <strong>${g.target_role}</strong> in <strong>${loc}</strong></p>`+
+    roles.map(r=>`<div class="opp-role"><h3>${r.name}</h3><p class="sub">${r.desc}</p><p class="fit-label">Your fit: ${r.fit}%</p><div class="fit-bar-bg"><div class="fit-bar" style="width:${r.fit}%"></div></div><div style="margin-top:8px"><span class="skill-chip skill-have">${skills[0]||'Explore'}</span><span class="skill-chip skill-have">${skills[1]||''}</span><span class="skill-chip skill-miss">${skills[2]||'Apply'}</span></div></div>`).join('')+
+    `<div style="margin-top:12px;font-size:12px;color:var(--li-text-2)">Skills to build: ${skills.slice(0,5).join(', ')}</div>`;
+}
+function renderLB(){
+  const lb=D.leaderboard,name=D.user.name;
+  const yourScore=(D.user.skills.length*5)+(D.user.posts_activity?D.user.posts_activity.length*10:0);
+  let all=[...lb];
+  all.splice(all.findIndex(e=>e.progress_score<yourScore)===-1?all.length:all.findIndex(e=>e.progress_score<yourScore),0,{name:name+' (You)',progress_score:yourScore,degree:D.user.school_history?D.user.school_history[0].degree:'Student',isYou:true});
+  all=all.slice(0,8);const max=all[0].progress_score;
+  const colors=['c1','c2','c3','c2','c1','c3','c2','c1'];
+  document.getElementById('lbTab').innerHTML=`<div class="lb-header">${D.user.current_location} · Same quarter, similar paths</div>`+
+    all.map((e,i)=>`<div class="lb-row${e.isYou?' you':''}"><div class="lb-rank">${i+1}</div><div class="lb-name">${e.name}</div><div class="lb-bar-bg"><div class="lb-bar ${colors[i]}" style="width:${Math.max((e.progress_score/max)*100,10)}%"></div></div><div class="lb-pts">${e.progress_score}</div></div>`).join('');
+}
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('pathTab').classList.add('hidden');
+  document.getElementById('oppsTab').classList.add('hidden');
+  document.getElementById('lbTab').classList.add('hidden');
+  if(t==='path'){document.getElementById('pathTab').classList.remove('hidden');document.querySelectorAll('.tab')[0].classList.add('active');}
+  else if(t==='opps'){document.getElementById('oppsTab').classList.remove('hidden');document.querySelectorAll('.tab')[1].classList.add('active');}
+  else{document.getElementById('lbTab').classList.remove('hidden');document.querySelectorAll('.tab')[2].classList.add('active');}
+}
+</script>
+</body>
+</html>
