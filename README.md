@@ -6,14 +6,16 @@ heard of, then use their profile data + AI to map the gap between where
 they are and a field they're excited about (Khan-Academy-style progress
 and % mastery).
 
-> **Status: ideation only — nothing is built yet.**
+> **Status: concept locked — building modularly (one owner per page).**
 
 ## Start here
 
 - **[`handover.md`](handover.md)** — single-file context for anyone
-  joining the project. Read this first.
-- **[`questions_for_pablo.md`](questions_for_pablo.md)** — the live
-  brainstorming and open decisions.
+  joining the project. Read this first (locked flow + page ownership).
+- **[`presentation_notes.md`](presentation_notes.md)** — slide-ready
+  summary of the idea, flow, wireframe, and tech stack.
+- **[`ava_personal_notes.md`](ava_personal_notes.md)** — Ava's full
+  working notes and session log.
 
 ## Sample data
 
