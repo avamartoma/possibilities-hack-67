@@ -1,0 +1,82 @@
+{
+  "software_engineer": {
+    "id": "software_engineer",
+    "name": "Software Engineer",
+    "category": "Technology",
+    "description": "Designs, builds, and maintains software systems and applications, turning requirements into reliable, scalable code.",
+    "skills": ["Python", "AWS", "DevOps", "Software", "Engineering", "Data Analysis"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "devops_engineer": {
+    "id": "devops_engineer",
+    "name": "DevOps Engineer",
+    "category": "Technology",
+    "description": "Automates infrastructure, builds CI/CD pipelines, and keeps systems deployable, observable, and secure.",
+    "skills": ["AWS", "DevOps", "Blockchain", "Network Security", "Python", "Information Security"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "data_scientist": {
+    "id": "data_scientist",
+    "name": "Data Scientist",
+    "category": "Technology",
+    "description": "Finds patterns in data and builds models that turn raw numbers into predictions and decisions.",
+    "skills": ["Python", "Machine Learning", "Data Analysis", "AWS", "Economics", "Investing"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "ux_designer": {
+    "id": "ux_designer",
+    "name": "UX Designer",
+    "category": "Design",
+    "description": "Shapes how products feel to use — research, wireframes, and visual design that make experiences intuitive.",
+    "skills": ["UX/UI", "Graphic Design", "Photoshop", "Communication", "Content Creation", "Creative Writing"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "product_manager": {
+    "id": "product_manager",
+    "name": "Product Manager",
+    "category": "Business",
+    "description": "Owns the what and why of a product — sets priorities, aligns teams, and ships things people want.",
+    "skills": ["Agile", "Scrum", "Project Planning", "Strategic Planning", "Communication", "Data Analysis"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "financial_analyst": {
+    "id": "financial_analyst",
+    "name": "Financial Analyst",
+    "category": "Finance",
+    "description": "Models the numbers behind decisions — forecasts, valuations, and the story the data tells about money.",
+    "skills": ["Financial Modeling", "Corporate Finance", "Investing", "Economics", "Excel", "Accounting"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "marketing_specialist": {
+    "id": "marketing_specialist",
+    "name": "Marketing Specialist",
+    "category": "Business",
+    "description": "Gets the right message to the right people — campaigns, content, and channels that drive growth.",
+    "skills": ["Marketing Strategies", "SEO", "Content Creation", "Communication", "Strategic Planning", "Marketing"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "hr_coordinator": {
+    "id": "hr_coordinator",
+    "name": "HR Coordinator",
+    "category": "Business",
+    "description": "Keeps the people side of a company running — hiring, onboarding, and the policies that hold teams together.",
+    "skills": ["Recruiting", "HR Policies", "Employee Relations", "Communication", "Negotiation", "Administration"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "sales_representative": {
+    "id": "sales_representative",
+    "name": "Sales Representative",
+    "category": "Business",
+    "description": "Turns prospects into customers — builds relationships, understands needs, and closes deals.",
+    "skills": ["Negotiation", "Communication", "Public Speaking", "Strategic Planning", "Business", "Marketing"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  },
+  "customer_service_manager": {
+    "id": "customer_service_manager",
+    "name": "Customer Service Manager",
+    "category": "Business",
+    "description": "Leads the team that keeps customers happy — resolves issues, sets standards, and turns support into loyalty.",
+    "skills": ["Communication", "Employee Relations", "Negotiation", "Project Planning", "Administration", "Business"],
+    "companies": ["AI Dynamics", "FutureWorks", "Global Solutions LLC", "Innovatech", "Tech Innovators Inc."]
+  }
+}
