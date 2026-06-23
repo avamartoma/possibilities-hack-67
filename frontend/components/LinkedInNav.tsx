@@ -116,6 +116,7 @@ export default function LinkedInNav({
         <NavIcon label="Jobs" path={ICONS.jobs} />
         <NavIcon label="Messaging" path={ICONS.messaging} />
         <NavIcon label="Notifications" path={ICONS.notifications} />
+        {/* full labels match the real LinkedIn nav order: Home · My Network · Jobs · Messaging · Notifications · Me */}
 
         {/* Me / avatar */}
         <div

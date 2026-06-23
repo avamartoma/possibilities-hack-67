@@ -109,44 +109,80 @@ export default function ComparisonPanel({
           }}
         >
           <FitRing percent={fit.percent} />
-          <div style={{ flex: 1, minWidth: 220 }}>
-            <h4 style={{ margin: "0 0 10px", fontSize: 16 }}>Companies hiring</h4>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {fit.role.companies.map((c) => (
-                <span
-                  key={c}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    background: li.cardBg,
-                    border: `1px solid ${li.cardBorder}`,
-                    color: li.textPrimary,
-                    borderRadius: 16,
-                    padding: "5px 12px",
-                    fontSize: 14,
-                    fontWeight: 500,
-                  }}
-                >
-                  <span
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <h4 style={{ margin: "0 0 10px", fontSize: 16 }}>
+              {fit.percent >= 70 ? "Jobs where you’d be a top applicant" : "Companies hiring"}
+            </h4>
+            <div>
+              {fit.role.companies.map((c, i) => {
+                // Synthesized but plausible LinkedIn job-card cues (deterministic by index).
+                const posted = ["2 weeks ago", "3 days ago", "1 month ago", "5 days ago", "2 months ago"][i % 5];
+                const alumni = [11, 3, 7, 1, 5][i % 5];
+                const easyApply = i % 2 === 0;
+                return (
+                  <div
+                    key={c}
                     style={{
-                      width: 18,
-                      height: 18,
-                      borderRadius: 4,
-                      background: li.blueLight,
-                      color: li.blue,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 11,
-                      fontWeight: 700,
+                      display: "flex",
+                      gap: 12,
+                      padding: "10px 0",
+                      borderBottom:
+                        i < fit.role.companies.length - 1 ? `1px solid ${li.cardBorder}` : "none",
                     }}
                   >
-                    {c.charAt(0)}
-                  </span>
-                  {c}
-                </span>
-              ))}
+                    {/* company logo square */}
+                    <div
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 6,
+                        background: li.blueLight,
+                        color: li.blue,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 18,
+                        fontWeight: 700,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {c.charAt(0)}
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, color: li.blue, fontSize: 15 }}>
+                        {fit.role.name}
+                      </div>
+                      <div style={{ color: li.textSecondary, fontSize: 14 }}>{c}</div>
+                      {/* fit-based applicant chip (verified LinkedIn phrasing) */}
+                      {fit.percent >= 70 && (
+                        <span
+                          style={{
+                            display: "inline-block",
+                            marginTop: 4,
+                            background: li.greenBg,
+                            color: li.green,
+                            borderRadius: 4,
+                            padding: "1px 8px",
+                            fontSize: 12,
+                            fontWeight: 600,
+                          }}
+                        >
+                          Strong applicant
+                        </span>
+                      )}
+                      <div style={{ color: li.textHint, fontSize: 12, marginTop: 4 }}>
+                        {alumni} school alumni work here · Posted {posted}
+                        {easyApply && (
+                          <>
+                            {" · "}
+                            <span style={{ color: li.blue, fontWeight: 600 }}>⚡ Easy Apply</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
