@@ -20,6 +20,7 @@ from .fit import compute_fit
 DATA_DIR = Path(__file__).parent / "data"
 ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
 USERS: list = json.loads((DATA_DIR / "users.json").read_text())
+COURSES: dict = json.loads((DATA_DIR / "courses.json").read_text())
 USERS_BY_ID = {u["id"]: u for u in USERS}
 
 app = FastAPI(title="Career Map — Comparison API")
@@ -43,6 +44,12 @@ def get_roles() -> List[dict]:
 def get_users() -> List[dict]:
     """Demo users for the avatar / user picker."""
     return USERS
+
+
+@app.get("/api/courses")
+def get_courses() -> dict:
+    """Skill -> real courses (from course_data.json) for the Milestone page."""
+    return COURSES
 
 
 @app.get("/api/fit")

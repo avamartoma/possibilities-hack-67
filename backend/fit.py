@@ -25,13 +25,20 @@ def compute_fit(user_skills, role):
 
     percent = round(100 * len(have) / len(role_skills)) if role_skills else 0
 
+    # Pass through the real role enrichment (companies/salary/postings/etc.)
+    # produced by precompute.py from the real datasets.
+    role_out = {
+        "id": role["id"],
+        "name": role["name"],
+        "description": role["description"],
+        "companies": role.get("companies", []),
+    }
+    for k in ("salaryFrom", "salaryTo", "easyApplyPct", "jobCount", "postings"):
+        if k in role:
+            role_out[k] = role[k]
+
     return {
-        "role": {
-            "id": role["id"],
-            "name": role["name"],
-            "description": role["description"],
-            "companies": role.get("companies", []),
-        },
+        "role": role_out,
         "percent": percent,
         "haveSkills": have,
         "missingSkills": missing,

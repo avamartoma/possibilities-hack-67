@@ -1,0 +1,988 @@
+{
+  "AWS": [
+    {
+      "id": "course_9086",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_9298",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3546",
+      "name": "Cloud Computing with AWS",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Agile": [
+    {
+      "id": "course_9262",
+      "name": "Agile Project Management",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2852",
+      "name": "Project Management Basics",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_4862",
+      "name": "Scrum Master Certification",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Blockchain": [
+    {
+      "id": "course_9086",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_9298",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3546",
+      "name": "Cloud Computing with AWS",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Communication": [
+    {
+      "id": "course_1555",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_3685",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_6998",
+      "name": "Negotiation Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Content Creation": [
+    {
+      "id": "course_9025",
+      "name": "Introduction to Marketing",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5731",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8848",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Corporate Finance": [
+    {
+      "id": "course_5606",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_1995",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5149",
+      "name": "Investment Strategies",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Creative Writing": [
+    {
+      "id": "course_5731",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8848",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_7391",
+      "name": "Technical Writing Essentials",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Data Analysis": [
+    {
+      "id": "course_1476",
+      "name": "Machine Learning Fundamentals",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_7905",
+      "name": "AI for Everyone",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_5189",
+      "name": "Deep Learning with TensorFlow",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "DevOps": [
+    {
+      "id": "course_9086",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_9298",
+      "name": "Introduction to DevOps",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3546",
+      "name": "Cloud Computing with AWS",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Employee Relations": [
+    {
+      "id": "course_2121",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_5985",
+      "name": "Employee Relations",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5942",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Ethical Hacking": [
+    {
+      "id": "course_8452",
+      "name": "Cybersecurity Essentials",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8279",
+      "name": "Network Security",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3433",
+      "name": "Ethical Hacking",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Excel": [
+    {
+      "id": "course_8420",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_2698",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_6530",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Financial Modeling": [
+    {
+      "id": "course_5606",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_8420",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_2698",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Graphic Design": [
+    {
+      "id": "course_7630",
+      "name": "Advanced Photoshop Techniques",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_3848",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2293",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "HR Policies": [
+    {
+      "id": "course_2121",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_5985",
+      "name": "Employee Relations",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5942",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Information Security": [
+    {
+      "id": "course_8452",
+      "name": "Cybersecurity Essentials",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8279",
+      "name": "Network Security",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3433",
+      "name": "Ethical Hacking",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Investing": [
+    {
+      "id": "course_5606",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_1995",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5149",
+      "name": "Investment Strategies",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Lighting": [
+    {
+      "id": "course_8160",
+      "name": "Digital Photography",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_9975",
+      "name": "Digital Photography",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_7867",
+      "name": "Digital Photography",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Machine Learning": [
+    {
+      "id": "course_1476",
+      "name": "Machine Learning Fundamentals",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_7905",
+      "name": "AI for Everyone",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_5189",
+      "name": "Deep Learning with TensorFlow",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Marketing Strategies": [
+    {
+      "id": "course_9025",
+      "name": "Introduction to Marketing",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_4950",
+      "name": "SEO Basics",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_2994",
+      "name": "SEO Basics",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Negotiation": [
+    {
+      "id": "course_1555",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_3685",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_6998",
+      "name": "Negotiation Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Network Security": [
+    {
+      "id": "course_8452",
+      "name": "Cybersecurity Essentials",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8279",
+      "name": "Network Security",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_3433",
+      "name": "Ethical Hacking",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "Photo Editing": [
+    {
+      "id": "course_8160",
+      "name": "Digital Photography",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_9975",
+      "name": "Digital Photography",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_7867",
+      "name": "Digital Photography",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Photography": [
+    {
+      "id": "course_8160",
+      "name": "Digital Photography",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_9975",
+      "name": "Digital Photography",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_7867",
+      "name": "Digital Photography",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Photoshop": [
+    {
+      "id": "course_7630",
+      "name": "Advanced Photoshop Techniques",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_3848",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2293",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Project Planning": [
+    {
+      "id": "course_9262",
+      "name": "Agile Project Management",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2852",
+      "name": "Project Management Basics",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_4862",
+      "name": "Scrum Master Certification",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Public Speaking": [
+    {
+      "id": "course_1555",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_3685",
+      "name": "Effective Communication Skills",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_6998",
+      "name": "Negotiation Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ],
+  "Python": [
+    {
+      "id": "course_1476",
+      "name": "Machine Learning Fundamentals",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_7905",
+      "name": "AI for Everyone",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_5189",
+      "name": "Deep Learning with TensorFlow",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Recruiting": [
+    {
+      "id": "course_2121",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_5985",
+      "name": "Employee Relations",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_5942",
+      "name": "Human Resource Management",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "SEO": [
+    {
+      "id": "course_9025",
+      "name": "Introduction to Marketing",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_4950",
+      "name": "SEO Basics",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_2994",
+      "name": "SEO Basics",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Scrum": [
+    {
+      "id": "course_9262",
+      "name": "Agile Project Management",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2852",
+      "name": "Project Management Basics",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_4862",
+      "name": "Scrum Master Certification",
+      "length": {
+        "value": 3,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Strategic Planning": [
+    {
+      "id": "course_8420",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 6,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_2698",
+      "name": "Advanced Excel Techniques",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    },
+    {
+      "id": "course_6530",
+      "name": "Financial Analysis and Modeling",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    }
+  ],
+  "Technical Writing": [
+    {
+      "id": "course_5731",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 2,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_8848",
+      "name": "Writing for the Web",
+      "length": {
+        "value": 8,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_7391",
+      "name": "Technical Writing Essentials",
+      "length": {
+        "value": 5,
+        "unit": "hours"
+      },
+      "level": "Medium"
+    }
+  ],
+  "UX/UI": [
+    {
+      "id": "course_7630",
+      "name": "Advanced Photoshop Techniques",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    },
+    {
+      "id": "course_3848",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 7,
+        "unit": "hours"
+      },
+      "level": "Hard"
+    },
+    {
+      "id": "course_2293",
+      "name": "Graphic Design for Beginners",
+      "length": {
+        "value": 4,
+        "unit": "hours"
+      },
+      "level": "Easy"
+    }
+  ]
+}
