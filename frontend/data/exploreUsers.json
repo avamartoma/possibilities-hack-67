@@ -1,0 +1,70 @@
+[
+  {
+    "id": "user_3490",
+    "name": "Charlie Brown",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Computer Science",
+        "graduation_year": 2015
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Information Technology",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_342402"
+    ],
+    "skills": [
+      "AWS",
+      "Science",
+      "DevOps",
+      "Computer",
+      "Information",
+      "Technology",
+      "Blockchain"
+    ],
+    "current_location": "San Francisco, CA"
+  },
+  {
+    "id": "user_1767",
+    "name": "Bob Smith",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Economics",
+        "graduation_year": 2011
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Finance",
+        "graduation_year": 2021
+      }
+    ],
+    "job_history": [
+      "job_849223"
+    ],
+    "skills": [
+      "Economics",
+      "Investing",
+      "Corporate Finance",
+      "Finance",
+      "Financial Modeling"
+    ],
+    "current_location": "Seattle, WA"
+  },
+  {
+    "id": "user_demo_student",
+    "name": "Riley Chen",
+    "school_history": [],
+    "job_history": [],
+    "skills": [
+      "Communication",
+      "Creative Writing",
+      "Content Creation"
+    ],
+    "current_location": "Austin, TX"
+  }
+]
