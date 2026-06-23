@@ -1,0 +1,12 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1d2226;
+  background: #f3f6f8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, textarea { font: inherit; }
+button { cursor: pointer; }
