@@ -8,19 +8,17 @@ Endpoints:
 Run: uvicorn backend.main:app --reload  (from the repo root)
 """
 
-import json
-from pathlib import Path
 from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .fit import compute_fit
+from .build_data import build_all
 
-DATA_DIR = Path(__file__).parent / "data"
-ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
-USERS: list = json.loads((DATA_DIR / "users.json").read_text())
-COURSES: dict = json.loads((DATA_DIR / "courses.json").read_text())
+# Build app data directly from the real sample_data/ files at startup
+# (no pre-generated files in backend/).
+ROLES, USERS, COURSES = build_all()
 USERS_BY_ID = {u["id"]: u for u in USERS}
 
 app = FastAPI(title="Career Map — Comparison API")
