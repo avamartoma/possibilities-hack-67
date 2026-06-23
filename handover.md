@@ -46,9 +46,11 @@ difference; path = what closes it; fit % = overlap).
 - **Stack (DECIDED):** **Python backend + React/TypeScript frontend.**
   Backend hosts the skill-overlap engine + AI inference; frontend is the
   pages. They talk over a JSON/HTTP API.
-- **Data:** running on the existing sample data in `sample_data/` for
-  now; we plan to get richer/more varied data later (the jobs data has
-  no diversity — see §5 and §6). Not a blocker for building the pages.
+- **Data:** running on the synthetic sample data in `sample_data/`.
+  `jobs_data.json` now has **207 distinct positions across 21 industries**
+  (expanded 2026-06-23 from the original 10 titles / 5 industries) so it
+  can showcase discovering unfamiliar roles. Jobs still have no `skills`
+  field (role→skills is inferred). Real/richer data may come later.
 - **Repo:** LIVE — public GitHub repo
   `https://github.com/avamartoma/possibilities-hack-67`, branch `main`.
   Local git identity: ava.martoma@gmail.com.
@@ -87,7 +89,6 @@ Comparison page and (implicitly) the Milestone page, so it should be
 1. **Milestone page placement** — same page as the Role Detail, or a
    separate page? (Owner call: Daniel + Namyanzi.)
 2. **Local leaderboard** — include alongside the streak, or streak only?
-3. **Jobs-data diversity** — see §6; still open.
 
 ---
 
@@ -98,14 +99,13 @@ The three datasets live in `sample_data/`.
 | File | Records | Key fields |
 |---|---|---|
 | `user_data.json` | 2,000 | `school_history` (degree, grad_year), `job_history` (→ job IDs), `current_location`, `posts_activity` (free text), `skills`, `courses` (→ course IDs) |
-| `jobs_data.json` | 1,000 | `company`, `location`, `position`, `salary_range` {from,to}, `industry` (5 only), `level`, `easy_apply`, `description` (templated) |
+| `jobs_data.json` | 1,000 | `company`, `location`, `position` (**207 distinct**), `salary_range` {from,to}, `industry` (**21**), `level`, `easy_apply`, `description` (templated) |
 | `course_data.json` | 600 | `name`, `category`, `skills` (list), `length` {value,unit}, `level` |
 
 Known data facts (measured 2026-06-23):
-- Jobs: **10 distinct titles, 5 industries, no `skills` field.** This is
-  the one open data issue: the data has no role diversity, so it can't
-  really showcase "discover roles you'd never heard of." We build against
-  it for now; richer data comes later.
+- Jobs: **207 distinct titles across 21 industries** (expanded
+  2026-06-23 from 10 titles / 5 industries), with company, location, and
+  salary made coherent per role. Jobs still have **no `skills` field**.
 - Role→skills must be **inferred** (AI from `position`+`description`,
   and/or from skills of users who hold the job via `job_history`).
 - ~30 distinct user skills, ~34 course skills, only ~12 overlap.
@@ -168,6 +168,10 @@ git push origin main      # (or a feature branch + PR if you prefer)
   **"Lock in"** entry button and an **"Explain"** chatbot router.
 - **Modular ownership** assigned across 5 people (§4).
 - First code landed: `milestone_generator.py` (Namyanzi).
+- **Data expanded:** `jobs_data.json` regenerated from 10 titles / 5
+  industries to **207 distinct positions across 21 industries**, with
+  coherent company/location/salary per role; all job ids + schema
+  preserved (user `job_history` refs still resolve).
 
 ### 2026-06-23 (session 1) — project kickoff / ideation
 - Defined the 3-layer concept (Explore → Compare → Close the gap) and the

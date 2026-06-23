@@ -190,13 +190,15 @@ hand-offs before building in parallel.
 | File | Records | Key fields |
 |---|---|---|
 | `user_data.json` | 2,000 | school_history, job_history (→jobs), location, posts_activity (free text), skills, courses (→courses) |
-| `jobs_data.json` | 1,000 | company, location, position, salary_range, industry (5), level, easy_apply, description |
+| `jobs_data.json` | 1,000 | company, location, position (**207 distinct**), salary_range, industry (**21**), level, easy_apply, description |
 | `course_data.json` | 600 | name, category, skills (list), length, level |
 
-- Building on this sample data **now**; richer/more varied data later.
-- **Known limitation (still open):** jobs have only **10
-  titles / 5 industries and no `skills` field** — so role→skills is
-  *inferred* (AI), and the data can't yet showcase truly niche roles.
+- Building on the synthetic sample data in `sample_data/`.
+- `jobs_data.json` was **expanded to 207 distinct positions across 21
+  industries** (from the original 10 titles / 5 industries), with
+  company/location/salary made coherent per role — so it can now showcase
+  niche, unfamiliar careers. Remaining limitation: jobs still have **no
+  `skills` field**, so role→skills is *inferred* (AI).
 
 ---
 
@@ -230,4 +232,3 @@ student career apps already exist. Our defensible wedge:
 1. Who owns the **Lock-in** button (undecided; not Jaden).
 2. **Milestone**: same page as Role Detail, or separate?
 3. **Local leaderboard** alongside the streak, or streak only?
-4. **Jobs-data diversity** — still open (need richer/more varied data).
