@@ -28,7 +28,6 @@ function Chip({ text, kind }: { text: string; kind: "have" | "missing" }) {
         fontSize: 14,
       }}
     >
-      <span style={{ fontWeight: 700 }}>{have ? "✓" : "+"}</span>
       {text}
     </li>
   );
@@ -63,7 +62,7 @@ export default function SkillColumns({
         </h4>
         {missingSkills.length === 0 ? (
           <p style={{ color: li.green, fontSize: 14, fontWeight: 600 }}>
-            You have everything this role needs. 🎉
+            You have everything this role needs.
           </p>
         ) : (
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>

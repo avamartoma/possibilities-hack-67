@@ -92,7 +92,7 @@ export default function Home() {
               >
                 {users.map((u) => (
                   <option key={u.id} value={u.id}>
-                    {u.name} {u.hero ? "⭐" : ""}
+                    {u.name}{u.hero ? " (suggested)" : ""}
                   </option>
                 ))}
               </select>

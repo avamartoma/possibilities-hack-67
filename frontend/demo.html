@@ -68,9 +68,9 @@
   /* Comparison panel */
   .panel-cover { height: 88px; background: linear-gradient(120deg, var(--blue), #378fe9); }
   .panel-body { padding: 0 24px 24px; }
-  .role-icon { width: 72px; height: 72px; border-radius: 12px; background: var(--card-bg);
+  .role-icon { width: 72px; height: 72px; border-radius: 12px; background: var(--blue-light);
     border: 2px solid var(--card-bg); box-shadow: var(--card-shadow); display: flex; align-items: center;
-    justify-content: center; font-size: 32px; margin-top: -24px; }
+    justify-content: center; font-size: 30px; font-weight: 700; color: var(--blue); margin-top: -24px; }
   .panel h2 { margin: 12px 0 4px; font-size: 24px; font-weight: 600; }
   .role-desc { margin: 0; color: var(--text-secondary); line-height: 1.5; font-size: 15px; }
   hr.div { border: none; border-top: 1px solid var(--card-border); margin: 20px 0; }
@@ -183,7 +183,7 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 function renderUserPicker() {
   const sel = document.getElementById("user-select");
-  sel.innerHTML = USERS.map((u) => `<option value="${u.id}" ${u.id === currentUserId ? "selected" : ""}>${esc(u.name)} ${u.hero ? "⭐" : ""}</option>`).join("");
+  sel.innerHTML = USERS.map((u) => `<option value="${u.id}" ${u.id === currentUserId ? "selected" : ""}>${esc(u.name)}${u.hero ? " (suggested)" : ""}</option>`).join("");
   const u = USERS.find((x) => x.id === currentUserId);
   document.getElementById("tagline").textContent = u && u.tagline ? `“${u.tagline}”` : "";
   document.getElementById("degree").textContent = u && u.degree ? u.degree : "";
@@ -211,7 +211,7 @@ function ringSVG(percent) {
 function jobRow(p, fit) {
   // p is a REAL posting from jobs_data.json (company, location, salary, level, easyApply).
   const chip = fit.percent >= 70 ? `<div class="strong-applicant">Strong applicant</div>` : "";
-  const easy = p.easyApply ? ` · <span class="job-easy">⚡ Easy Apply</span>` : "";
+  const easy = p.easyApply ? ` · <span class="job-easy">Easy Apply</span>` : "";
   const salary = `$${Math.round(p.salaryFrom / 1000)}K–$${Math.round(p.salaryTo / 1000)}K`;
   return `
     <div class="job-row">
@@ -225,9 +225,9 @@ function jobRow(p, fit) {
     </div>`;
 }
 function skillColumns(have, missing) {
-  const chip = (s, kind) => `<li class="skill-item ${kind === "have" ? "skill-have" : "skill-missing"}"><span class="mark">${kind === "have" ? "✓" : "+"}</span>${esc(s)}</li>`;
+  const chip = (s, kind) => `<li class="skill-item ${kind === "have" ? "skill-have" : "skill-missing"}">${esc(s)}</li>`;
   const haveCol = have.length === 0 ? `<p class="empty-have">None yet — every one of these is a fresh start.</p>` : `<ul class="skill-list">${have.map((s) => chip(s, "have")).join("")}</ul>`;
-  const missingCol = missing.length === 0 ? `<p class="empty-missing">You have everything this role needs. 🎉</p>` : `<ul class="skill-list">${missing.map((s) => chip(s, "missing")).join("")}</ul>`;
+  const missingCol = missing.length === 0 ? `<p class="empty-missing">You have everything this role needs.</p>` : `<ul class="skill-list">${missing.map((s) => chip(s, "missing")).join("")}</ul>`;
   return `
     <div class="skill-cols">
       <div><h4>Skills you have <span class="count">(${have.length})</span></h4>${haveCol}</div>
@@ -242,7 +242,7 @@ function renderPanel() {
     <div class="card panel">
       <div class="panel-cover"></div>
       <div class="panel-body">
-        <div class="role-icon">💼</div>
+        <div class="role-icon">${esc(fit.role.name.charAt(0))}</div>
         <h2>${esc(fit.role.name)}</h2>
         <p class="role-desc">${esc(fit.role.description)}</p>
         <hr class="div" />

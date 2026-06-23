@@ -77,16 +77,18 @@ export default function ComparisonPanel({
               width: 72,
               height: 72,
               borderRadius: 12,
-              background: li.cardBg,
+              background: li.blueLight,
               border: `2px solid ${li.cardBg}`,
               boxShadow: li.cardShadow,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 32,
+              fontSize: 30,
+              fontWeight: 700,
+              color: li.blue,
             }}
           >
-            💼
+            {fit.role.name.charAt(0)}
           </div>
           <h2 style={{ margin: "12px 0 4px", fontSize: 24, fontWeight: 600 }}>
             {fit.role.name}
@@ -177,7 +179,7 @@ export default function ComparisonPanel({
                       {p.easyApply && (
                         <>
                           {" · "}
-                          <span style={{ color: li.blue, fontWeight: 600 }}>⚡ Easy Apply</span>
+                          <span style={{ color: li.blue, fontWeight: 600 }}>Easy Apply</span>
                         </>
                       )}
                     </div>
