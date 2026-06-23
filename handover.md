@@ -38,15 +38,25 @@ difference; path = courses that close it; mastery % = overlap).
 ## 3. Current state (snapshot)
 
 - **Phase:** ideation. No code, no app, no chosen stack.
-- **Repo:** not yet initialized as git / not yet pushed anywhere (see
-  §6 for the plan).
+- **Repo:** LIVE — public GitHub repo
+  `https://github.com/avamartoma/possibilities-hack-67`, branch `main`,
+  initial commit pushed 2026-06-23. Local git identity:
+  ava.martoma@gmail.com.
 - **Artifacts so far (all in repo root):**
+  - `README.md` — repo intro, points newcomers here.
+  - `handover.md` — this file (team boot doc).
   - `questions_for_pablo.md` — brainstorming + open questions.
-  - `handover.md` — this file.
-  - `user_data.json`, `jobs_data.json`, `course_data.json` — the sample
-    datasets we're designing against.
-- **Team:** Ava + Pablo + others (multi-person; collaborating via git —
-  setup pending, see §6).
+  - `ava_personal_notes.md` — Ava's full session notes (concept, data
+    findings, git/tooling explanations, wireframe). Most detailed
+    catch-up doc.
+  - `.gitignore`.
+  - `sample_data/` — `user_data.json`, `jobs_data.json`,
+    `course_data.json` (the sample datasets).
+- **Concept + wireframe:** 3-layer concept (Explore → Compare → Close
+  the gap) defined; a 3-screen wireframe strawman drafted (in
+  `ava_personal_notes.md` §7).
+- **Team:** Ava + Pablo + others. Collaborate via the GitHub repo
+  (add collaborators in repo Settings; branch + PR flow).
 
 ---
 
@@ -71,6 +81,8 @@ These are the things to settle before building. Full detail in
 
 ## 5. Data reference (sample datasets)
 
+The three datasets live in `sample_data/`.
+
 | File | Records | Key fields |
 |---|---|---|
 | `user_data.json` | 2,000 | `school_history` (degree, grad_year), `job_history` (→ job IDs), `current_location`, `posts_activity` (free text), `skills`, `courses` (→ course IDs) |
@@ -86,17 +98,30 @@ Known data facts (measured 2026-06-23):
 
 ---
 
-## 6. Git / collaboration setup (PLAN — not done yet)
+## 6. Git / collaboration setup (DONE — repo live)
 
-See the separate explanation Ava is getting; short version: this is a
-**public GitHub repo** (this is a personal/external project, NOT Amazon
-internal Brazil/CRUX). Once created:
+This is a **public GitHub repo** (personal/external project, NOT Amazon
+internal Brazil/CRUX): `https://github.com/avamartoma/possibilities-hack-67`.
+- Git initialized locally, first commit pushed to `main` (2026-06-23).
 - `main` is the shared branch; work on feature branches; open Pull
   Requests for review before merging.
-- Don't commit secrets. The sample JSON datasets are fine to commit
-  (they're synthetic).
-- Keep this `handover.md` + `questions_for_pablo.md` updated as the
-  source of truth so any new collaborator (or AI session) can catch up.
+- Auth over HTTPS uses a Personal Access Token (PAT) — a credential
+  helper on Ava's machine already has one cached. New teammates create
+  their own PAT (GitHub → Settings → Developer settings → Tokens) or use
+  SSH keys. Details in `ava_personal_notes.md` §5.
+- **Still TODO:** add teammates as collaborators (repo Settings →
+  Collaborators).
+- Don't commit secrets. The sample JSON datasets are fine (synthetic).
+- Keep `handover.md` + `questions_for_pablo.md` updated as the source of
+  truth so any new collaborator (or AI session) can catch up.
+
+Daily workflow:
+```bash
+git pull origin main
+git checkout -b my-feature
+git add -A && git commit -m "..."
+git push -u origin my-feature   # then open a PR into main
+```
 
 ---
 
@@ -118,5 +143,27 @@ internal Brazil/CRUX). Once created:
 
 - **Brainstorming / open decisions:** `questions_for_pablo.md`
 - **This handover:** `handover.md`
-- **Sample data:** `user_data.json`, `jobs_data.json`, `course_data.json`
+- **Ava's full session notes (most detailed catch-up):**
+  `ava_personal_notes.md` — concept, data findings, git/tooling
+  explanations, the wireframe, and a dated session log.
+- **Sample data:** `sample_data/` (`user_data.json`, `jobs_data.json`,
+  `course_data.json`)
 - **Code:** none yet.
+
+---
+
+## 9. Session log
+
+### 2026-06-23 — project kickoff
+- Defined the 3-layer concept (Explore → Compare → Close the gap) and the
+  "skills as connective tissue" core insight.
+- Inspected the 3 sample datasets; surfaced the key caveat (only 10
+  generic job titles / 5 industries, no job skills field) → likely need
+  richer/varied data or reframe the explorable unit to fields/skill
+  clusters.
+- Created the shared docs (`questions_for_pablo.md`, `handover.md`,
+  `README.md`, `ava_personal_notes.md`).
+- Stood up the public GitHub repo + pushed the initial commit to `main`.
+- Drafted a 3-screen wireframe strawman (in `ava_personal_notes.md` §7).
+- No app code; no stack chosen. Next: react with Pablo, decide the data
+  direction, pick the first artifact.

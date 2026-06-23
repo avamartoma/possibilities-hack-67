@@ -21,3 +21,6 @@ build/
 .idea/
 .vscode/
 *.swp
+
+# Personal notes — local only, keep out of the public repo
+ava_personal_notes.md

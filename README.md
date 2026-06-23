@@ -17,9 +17,10 @@ and % mastery).
 
 ## Sample data
 
-We're designing against three synthetic LinkedIn-style datasets in the
-repo root: `user_data.json` (2,000 users), `jobs_data.json` (1,000 jobs),
-`course_data.json` (600 courses). See `handover.md` §5 for the schema.
+We're designing against three synthetic LinkedIn-style datasets in
+`sample_data/`: `user_data.json` (2,000 users), `jobs_data.json` (1,000
+jobs), `course_data.json` (600 courses). See `handover.md` §5 for the
+schema.
 
 ## Contributing
 
