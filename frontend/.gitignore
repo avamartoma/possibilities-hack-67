@@ -8,3 +8,6 @@
 # typescript
 next-env.d.ts
 *.tsbuildinfo
+
+# test coverage
+/coverage

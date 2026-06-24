@@ -18,6 +18,18 @@ const TRACK_A_SURFACE = [
   "app/explore/page.tsx",
 ];
 
+// Track B surface (Compare → Your Path). Appended per the note above so the 100%
+// gate covers the v2-migrated Comparison/Path files this track owns.
+const TRACK_B_SURFACE = [
+  "components/ComparisonPanel/ComparisonPanel.tsx",
+  "components/ComparisonPanel/FitRing.tsx",
+  "components/ComparisonPanel/SkillColumns.tsx",
+  "components/Milestone/MilestoneView.tsx",
+  "app/comparison-demo/page.tsx",
+  "app/milestones/page.tsx",
+  "app/milestones/selection.ts",
+];
+
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -27,7 +39,7 @@ export default defineConfig({
     include: ["**/*.test.{ts,tsx}"],
     coverage: {
       provider: "v8",
-      include: TRACK_A_SURFACE,
+      include: [...TRACK_A_SURFACE, ...TRACK_B_SURFACE],
       thresholds: { lines: 100, functions: 100, branches: 100, statements: 100 },
       reporter: ["text", "text-summary"],
     },
