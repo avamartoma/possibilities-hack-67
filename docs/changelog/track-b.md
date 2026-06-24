@@ -3,12 +3,19 @@
 Owner: Friend. Format: [Keep a Changelog](https://keepachangelog.com).
 Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/Tested. Reference the covering test.
 
+> v2 Track B entries are released in root `CHANGELOG.md [2.0.0]`. Below is v3 (catalog/readiness/jobs) backend work.
+
 ## [Unreleased]
 
+### Added
+- **W1** — `backend/precompute.py` rebuilt as importable building blocks (`slugify`, `INDUSTRY_SKILLS` for all 21 industries, `KEYWORD_SKILLS`, `role_skills_for`, `build_catalog`, `build_demo_users`, `build_courses`, `main(out_dir)`); emits `backend/data/rolesCatalog.json` — 207 roles from `jobs_data.json` with real postings/companies/salary/levels/industries/jobCount/easyApplyPct and deterministic core (industry) + supporting (keyword) skills. (test_catalog.py)
+- **W1** — `coreSkills`/`supportingSkills` exposed on `normalize_role` output (falls back to all-core for untagged legacy roles). (test_catalog.NormalizeRoleCoreSupportingTests)
+
 ### Changed
-- ComparisonPanel: migrated `getFit()`/`FitResult` → `compareRole()`/`RoleComparison`. Fit ring ← `readinessScore`; skill columns ← `strengths` + missing `skillGaps`; postings/aggregate ← backend; Build Path passes `{userId, roleId, missingSkills}` (IDs + backend gaps, no local fit math). Explicit loading/error/retry. No `getFit` import. (ComparisonPanel.test.tsx)
-- MilestoneView: migrated `getMilestonePlan()`/`MilestonePlan` → `generatePath()`/`PersonalizedPath`. Progress bar ← `readinessScore`; per-milestone course object; project/networking/checkpoint as distinct action rows; checkbox is component-local UI state only; loading/error/retry. No `getMilestonePlan` import. (MilestoneView.test.tsx)
-- milestones page: replaced local fit math + bundled `roleSkills.json`/`flowUsers.json` (quarters/opportunities/leaderboard) with `<MilestoneView>` driven by the v2 backend; URL `?user=&role=` params resolved via pure `resolveSelection` (selection.ts), defaulting to canonical `user_2340`/`data_scientist`. (milestones/page.test.tsx)
+- **W1** — `main.ROLES` now loads the full 207-role `rolesCatalog.json`; canonical ids preserved so `/api/fit` + `/api/milestones` + v2 tests keep resolving. Search paginates over the larger catalog. (test_api.CatalogApiTests)
+
+### Tested
+- W1: slugger deterministic + collision-free over 207 names; INDUSTRY_SKILLS covers all 21 industries; catalog ≥200 roles with full shape; canonical ids present + skilled; known position (Environmental Scientist) resolves with real postings + industry skills; precompute builders + `main()` writer (temp dir) at 100% (test_catalog.py)
 
 ### Added
 - `app/milestones/selection.ts`: pure `resolveSelection(search)` so browser + SSR (null) param paths are directly testable.

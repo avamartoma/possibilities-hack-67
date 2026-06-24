@@ -20,9 +20,10 @@ class CareerApiTests(unittest.TestCase):
         self.assertEqual(error.exception.status_code, 404)
 
     def test_empty_search_returns_catalog_and_data_search_finds_data_scientist(self):
-        all_roles = post_role_search(RoleSearchRequest()).get("roles")
-        data_roles = post_role_search(RoleSearchRequest(query="data"))["roles"]
-        self.assertEqual(len(all_roles), 10)
+        # v3: search paginates over the full 207-role catalog (capped by limit).
+        first_page = post_role_search(RoleSearchRequest(limit=50)).get("roles")
+        data_roles = post_role_search(RoleSearchRequest(query="data", limit=50))["roles"]
+        self.assertEqual(len(first_page), 50)
         self.assertIn("data_scientist", [role["id"] for role in data_roles])
 
     def test_role_detail_and_explanation_are_complete_without_an_llm(self):
@@ -101,6 +102,27 @@ class CareerApiTests(unittest.TestCase):
             self.assertIsInstance(item["readinessScore"], int)
             self.assertGreaterEqual(item["readinessScore"], 0)
             self.assertLessEqual(item["readinessScore"], 100)
+
+
+class CatalogApiTests(unittest.TestCase):
+    """W1 (v3): the API serves the full 207-role catalog with legacy ids intact."""
+
+    def test_get_roles_exposes_full_catalog(self):
+        roles = get_roles()
+        self.assertGreaterEqual(len(roles), 200)
+        ids = {role["id"] for role in roles}
+        self.assertIn("data_scientist", ids)
+        self.assertIn("environmental_scientist", ids)
+
+    def test_derived_role_detail_carries_core_and_supporting_skills(self):
+        detail = get_role_detail("environmental_scientist")
+        self.assertEqual(detail["name"], "Environmental Scientist")
+        self.assertTrue(detail["requiredSkills"])
+        self.assertIn("postings", detail)
+
+    def test_legacy_fit_and_milestones_still_resolve_canonical_ids(self):
+        self.assertIn("percent", get_fit("user_5329", "data_scientist"))
+        self.assertIn("milestones", get_milestones("user_5329", "data_scientist"))
 
 
 class CompareAndPathHandlerTests(unittest.TestCase):

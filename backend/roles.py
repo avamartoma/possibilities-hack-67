@@ -37,7 +37,10 @@ def normalize_role(role: dict) -> dict:
     return {
         "id": role["id"], "name": role["name"], "category": role.get("category", "Other"),
         "summary": role.get("description", ""), "description": role.get("description", ""),
-        "requiredSkills": list(role.get("skills", [])), "relatedRoleIds": RELATED.get(role["id"], []),
+        "requiredSkills": list(role.get("skills", [])),
+        "coreSkills": list(role.get("coreSkills", role.get("skills", []))),
+        "supportingSkills": list(role.get("supportingSkills", [])),
+        "relatedRoleIds": RELATED.get(role["id"], []),
         "dayToDay": day_to_day, "commonPaths": paths,
         "salaryRange": {"min": role.get("salaryFrom"), "max": role.get("salaryTo"), "currency": "USD", "isDemoGuidance": True},
         "companies": list(role.get("companies", [])), "postings": deepcopy(role.get("postings", [])),

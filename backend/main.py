@@ -21,7 +21,10 @@ from .roles import explain_role, normalize_role, search_roles
 from .schemas import CompareRequest, ExplainRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest
 
 DATA_DIR = Path(__file__).parent / "data"
-ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
+# v3: the full 207-role catalog (built from jobs_data.json by precompute) backs
+# Discover/search. Canonical ids are preserved within it, so legacy /api/fit and
+# /api/milestones keep resolving.
+ROLES: dict = json.loads((DATA_DIR / "rolesCatalog.json").read_text())
 USERS: list = json.loads((DATA_DIR / "users.json").read_text())
 COURSES: dict = json.loads((DATA_DIR / "courses.json").read_text())
 USERS_BY_ID = {user["id"]: user for user in USERS}

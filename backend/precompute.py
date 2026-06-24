@@ -1,21 +1,27 @@
-"""Precompute the Comparison Page's app data FROM the real sample datasets.
+"""Precompute the Career Map app data FROM the real sample datasets.
 
 Reads the three real files in sample_data/ and emits backend/data/*.json:
-  - roleSkills.json : one entry per real job position, enriched with REAL
-      companies, industries, salary range, levels, easy-apply %, a real sample
-      description, and a few real job postings (id/company/location/salary/easy).
-      The `skills` list is the ONLY hand-authored part — jobs_data.json has no
-      skills field, and aggregating skills of users who hold each role is noise
-      (verified: the data is randomly generated), so role->skills is curated.
-  - users.json : REAL users sampled from user_data.json (id, name, degree from
-      school_history, real skills), with one flagged as the demo "hero".
-  - courses.json : skill -> [real courses] from course_data.json, so the gap /
-      Milestone page can recommend real courses for missing skills.
+  - rolesCatalog.json : one entry per real job position (207 of them), enriched
+      with REAL companies, industries, salary range, levels, easy-apply %, a real
+      sample description, and real job postings. Skills are assigned
+      deterministically from `INDUSTRY_SKILLS` (core) ∪ `KEYWORD_SKILLS`
+      (supporting) — jobs_data.json has no skills field, so this hand-authored
+      table is the single, testable source of truth for fit. The 10 canonical
+      skilled roles keep their curated skill sets and ids.
+  - roleSkills.json : the canonical-10 subset (kept for v2 compatibility / legacy
+      /api/fit + /api/milestones).
+  - users.json : REAL users sampled from user_data.json.
+  - courses.json : skill -> [real courses] from course_data.json.
 
-Run from repo root:  python3 backend/precompute.py
+The module exposes importable, unit-tested building blocks (`slugify`,
+`INDUSTRY_SKILLS`, `KEYWORD_SKILLS`, `role_skills_for`, `build_catalog`); the
+file-writing entry point only runs under `python3 -m backend.precompute`.
+
+Run from repo root:  python3 -m backend.precompute
 """
 
 import json
+import re
 from collections import defaultdict
 from pathlib import Path
 
@@ -23,19 +29,11 @@ ROOT = Path(__file__).resolve().parent.parent
 SAMPLE = ROOT / "sample_data"
 OUT = Path(__file__).parent / "data"
 
-users_raw = json.loads((SAMPLE / "user_data.json").read_text())
-jobs_raw = json.loads((SAMPLE / "jobs_data.json").read_text())
-courses_raw = json.loads((SAMPLE / "course_data.json").read_text())
-
 # ---------------------------------------------------------------------------
-# 1. Curated role -> skills. The ONLY hand-authored data (see module docstring).
-#    Skills are chosen to intersect the real user + course skill vocabularies so
-#    real users get sensible fits and missing skills map to real courses.
+# Curated canonical roles. These 10 skilled roles keep their hand-tuned skill
+# sets (drawn from the 30-skill user universe) and stable ids, so real users get
+# meaningful fits and legacy routes/tests keep resolving.
 # ---------------------------------------------------------------------------
-#    Every skill below is drawn from the 30 skills that actually appear in
-#    user_data.json, so real users can reach meaningful (non-zero) fit on every
-#    role. (The dataset has no soft skills like "Communication"/"Scrum", so we
-#    use the closest real domain skills instead.)
 ROLE_SKILLS = {
     "Software Engineer": ["Python", "AWS", "DevOps", "Software", "Engineering", "Computer"],
     "DevOps Engineer": ["AWS", "DevOps", "Blockchain", "Network Security", "Python", "Information Security"],
@@ -56,102 +54,216 @@ CATEGORY = {
     "Sales Representative": "Business", "Customer Service Manager": "Business",
 }
 
+# ---------------------------------------------------------------------------
+# INDUSTRY_SKILLS — every one of the 21 industries in jobs_data.json maps to its
+# core skills, drawn from the 30-skill user universe (so real users can reach a
+# meaningful, non-zero fit). This is the deterministic source of truth for fit.
+# ---------------------------------------------------------------------------
+INDUSTRY_SKILLS = {
+    "Technology": ["Software", "Computer", "Technology", "AWS", "DevOps"],
+    "Engineering": ["Engineering", "Computer", "Technology", "Science"],
+    "Aerospace": ["Engineering", "Science", "Technology", "Computer"],
+    "Finance": ["Corporate Finance", "Financial Modeling", "Investing", "Economics", "Accounting"],
+    "Product Management": ["Business", "Administration", "Data Analysis", "Technology"],
+    "Sales & Marketing": ["Marketing", "Business", "Economics", "Administration"],
+    "Healthcare": ["Healthcare", "Medicine", "Nursing", "Science"],
+    "Biotech & Pharma": ["Science", "Medicine", "Healthcare", "Data Analysis"],
+    "Science & Research": ["Science", "Data Analysis", "Machine Learning", "Information"],
+    "Education": ["Education", "Teaching", "Psychology", "Administration"],
+    "Human Resources": ["Administration", "Business", "Psychology", "Education"],
+    "Legal": ["Business", "Administration", "Economics", "Finance"],
+    "Design": ["Software", "Computer", "Technology", "Psychology"],
+    "Media & Entertainment": ["Marketing", "Technology", "Business", "Information"],
+    "Operations & Logistics": ["Business", "Administration", "Data Analysis", "Technology"],
+    "Retail & E-commerce": ["Business", "Marketing", "Administration", "Economics"],
+    "Customer Success": ["Business", "Administration", "Psychology", "Technology"],
+    "Hospitality & Culinary": ["Business", "Administration", "Healthcare", "Education"],
+    "Architecture & Construction": ["Engineering", "Technology", "Computer", "Business"],
+    "Manufacturing": ["Engineering", "Technology", "Business", "Administration"],
+    "Energy & Environment": ["Science", "Engineering", "Technology", "Data Analysis"],
+}
 
-def role_id(position: str) -> str:
-    return position.lower().replace(" ", "_")
-
+ALL_INDUSTRIES = set(INDUSTRY_SKILLS)
 
 # ---------------------------------------------------------------------------
-# 2. Roles enriched from REAL jobs_data.json.
+# KEYWORD_SKILLS — position-title keyword → supporting skill. Supplements the
+# industry core with title-specific signal (drawn from the same skill universe).
 # ---------------------------------------------------------------------------
-by_pos = defaultdict(list)
-for j in jobs_raw:
-    by_pos[j["position"]].append(j)
+KEYWORD_SKILLS = {
+    "engineer": "Engineering",
+    "developer": "Software",
+    "software": "Software",
+    "data": "Data Analysis",
+    "analyst": "Data Analysis",
+    "scientist": "Science",
+    "machine learning": "Machine Learning",
+    "ml": "Machine Learning",
+    "ai": "Machine Learning",
+    "devops": "DevOps",
+    "cloud": "AWS",
+    "security": "Information Security",
+    "blockchain": "Blockchain",
+    "finance": "Corporate Finance",
+    "financial": "Financial Modeling",
+    "investment": "Investing",
+    "account": "Accounting",
+    "market": "Marketing",
+    "sales": "Business",
+    "nurse": "Nursing",
+    "clinical": "Nursing",
+    "medical": "Medicine",
+    "physician": "Medicine",
+    "health": "Healthcare",
+    "research": "Science",
+    "teacher": "Teaching",
+    "professor": "Teaching",
+    "academic": "Education",
+    "hr": "Administration",
+    "recruit": "Administration",
+    "psycholog": "Psychology",
+    "product": "Business",
+    "manager": "Administration",
+    "designer": "Computer",
+    "technolog": "Technology",
+}
 
-roles = {}
-for position, jobs in by_pos.items():
-    companies = sorted({j["company"] for j in jobs})
-    industries = sorted({j["industry"] for j in jobs})
-    levels = sorted({j["level"] for j in jobs})
-    sal_lo = min(int(j["salary_range"]["from"]) for j in jobs)
-    sal_hi = max(int(j["salary_range"]["to"]) for j in jobs)
-    easy_n = sum(1 for j in jobs if j.get("easy_apply"))
-    # a few REAL postings to show as job cards
-    postings = [
-        {
-            "id": j["id"],
-            "company": j["company"],
-            "location": j["location"],
-            "level": j["level"],
-            "salaryFrom": int(j["salary_range"]["from"]),
-            "salaryTo": int(j["salary_range"]["to"]),
-            "easyApply": bool(j.get("easy_apply")),
-        }
-        for j in jobs[:5]
-    ]
-    rid = role_id(position)
-    roles[rid] = {
-        "id": rid,
-        "name": position,
-        "category": CATEGORY.get(position, "Other"),
-        "description": jobs[0]["description"],  # REAL templated description
-        "skills": ROLE_SKILLS.get(position, []),  # curated (see docstring)
-        "companies": companies,                   # REAL
-        "industries": industries,                 # REAL
-        "levels": levels,                          # REAL
-        "salaryFrom": sal_lo,                      # REAL
-        "salaryTo": sal_hi,                        # REAL
-        "easyApplyPct": round(100 * easy_n / len(jobs)),  # REAL
-        "jobCount": len(jobs),                     # REAL
-        "postings": postings,                      # REAL job rows
+
+def slugify(name: str) -> str:
+    """Deterministic, collision-free slug for a position name."""
+    return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+
+
+def role_skills_for(position: str, industry: str) -> tuple[list[str], list[str]]:
+    """Return (core, supporting) skills for a derived role.
+
+    Core = the industry's skills. Supporting = title-keyword skills not already
+    covered by core. Deterministic and order-stable.
+    """
+    core = list(INDUSTRY_SKILLS.get(industry, []))
+    core_set = {skill.casefold() for skill in core}
+    supporting: list[str] = []
+    name = position.casefold()
+    for keyword, skill in KEYWORD_SKILLS.items():
+        if keyword in name and skill.casefold() not in core_set and skill not in supporting:
+            supporting.append(skill)
+    return core, supporting
+
+
+def _posting(job: dict) -> dict:
+    return {
+        "id": job["id"],
+        "company": job["company"],
+        "location": job["location"],
+        "level": job["level"],
+        "salaryFrom": int(job["salary_range"]["from"]),
+        "salaryTo": int(job["salary_range"]["to"]),
+        "easyApply": bool(job.get("easy_apply")),
     }
 
-# ---------------------------------------------------------------------------
-# 3. Demo users sampled from REAL user_data.json.
-#    Pick users with >=3 real skills so fits aren't trivially 0; flag a hero
-#    whose skills tell a "closer than you think" story.
-# ---------------------------------------------------------------------------
-HERO_ID = "user_5329"  # Economics grad whose security skills transfer to DevOps
-WANT = [HERO_ID, "user_5377", "user_8705", "user_9138", "user_4579"]
-users_by_id = {u["id"]: u for u in users_raw}
 
-demo_users = []
-for uid in WANT:
-    u = users_by_id.get(uid)
-    if not u:
-        continue
-    degree = u["school_history"][0]["degree"] if u.get("school_history") else None
-    demo_users.append({
-        "id": u["id"],
-        "name": u["name"],          # REAL
-        "degree": degree,            # REAL (from school_history)
-        "skills": u["skills"],       # REAL
-        "hero": uid == HERO_ID,
-    })
+def build_catalog(jobs: list[dict]) -> dict:
+    """Build the full role catalog (one entry per distinct position).
 
-# ---------------------------------------------------------------------------
-# 4. Skill -> real courses, from REAL course_data.json (for gap / Milestone).
-# ---------------------------------------------------------------------------
-skill_to_courses = defaultdict(list)
-for c in courses_raw:
-    for skill in c.get("skills", []):
-        skill_to_courses[skill].append({
-            "id": c["id"],
-            "name": c["name"],
-            "length": c.get("length"),
-            "level": c.get("level"),
-        })
-# keep at most 3 courses per skill for a tidy payload
-courses_by_skill = {s: lst[:3] for s, lst in sorted(skill_to_courses.items())}
+    Aggregates real postings per position, assigns deterministic core/supporting
+    skills, and overlays the curated canonical roles (preserving their skills and
+    category) so the 10 skilled roles keep their hand-tuned fit story.
+    """
+    by_pos: dict[str, list[dict]] = defaultdict(list)
+    for job in jobs:
+        by_pos[job["position"]].append(job)
 
-# ---------------------------------------------------------------------------
-# Write outputs.
-# ---------------------------------------------------------------------------
-OUT.mkdir(exist_ok=True)
-(OUT / "roleSkills.json").write_text(json.dumps(roles, indent=2) + "\n")
-(OUT / "users.json").write_text(json.dumps(demo_users, indent=2) + "\n")
-(OUT / "courses.json").write_text(json.dumps(courses_by_skill, indent=2) + "\n")
+    catalog: dict[str, dict] = {}
+    for position, group in sorted(by_pos.items()):
+        industries = sorted({job["industry"] for job in group})
+        primary_industry = industries[0]
+        core, supporting = role_skills_for(position, primary_industry)
+        # Canonical roles keep their curated skills (all core) + category.
+        if position in ROLE_SKILLS:
+            core, supporting = list(ROLE_SKILLS[position]), []
+        rid = slugify(position)
+        easy_n = sum(1 for job in group if job.get("easy_apply"))
+        catalog[rid] = {
+            "id": rid,
+            "name": position,
+            "category": CATEGORY.get(position, primary_industry),
+            "description": group[0]["description"],
+            "coreSkills": core,
+            "supportingSkills": supporting,
+            "skills": core + supporting,
+            "companies": sorted({job["company"] for job in group}),
+            "industries": industries,
+            "levels": sorted({job["level"] for job in group}),
+            "salaryFrom": min(int(job["salary_range"]["from"]) for job in group),
+            "salaryTo": max(int(job["salary_range"]["to"]) for job in group),
+            "easyApplyPct": round(100 * easy_n / len(group)),
+            "jobCount": len(group),
+            "postings": [_posting(job) for job in group[:5]],
+        }
+    return catalog
 
-print(f"roleSkills.json: {len(roles)} roles enriched from {len(jobs_raw)} real jobs")
-print(f"users.json:      {len(demo_users)} real users (hero={HERO_ID})")
-print(f"courses.json:    {len(courses_by_skill)} skills -> real courses from {len(courses_raw)} courses")
+
+def load_users(raw_text: str) -> list[dict]:
+    """Load user_data.json, tolerating the legacy missing-opening-bracket form."""
+    raw = raw_text.strip()
+    return json.loads(raw if raw.startswith("[") else f"[{raw}")
+
+
+HERO_ID = "user_5329"
+DEMO_USER_IDS = [HERO_ID, "user_5377", "user_8705", "user_9138", "user_4579"]
+
+
+def canonical_subset(catalog: dict) -> dict:
+    """The 10 curated skilled roles, kept for v2 / legacy-route compatibility."""
+    return {rid: role for rid, role in catalog.items() if role["name"] in ROLE_SKILLS}
+
+
+def build_demo_users(users_raw: list[dict]) -> list[dict]:
+    """Sample the demo users (real skills, one flagged hero) from user_data.json."""
+    users_by_id = {u["id"]: u for u in users_raw}
+    demo_users = []
+    for uid in DEMO_USER_IDS:
+        u = users_by_id.get(uid)
+        if not u:
+            continue
+        degree = u["school_history"][0]["degree"] if u.get("school_history") else None
+        demo_users.append({"id": u["id"], "name": u["name"], "degree": degree, "skills": u["skills"], "hero": uid == HERO_ID})
+    return demo_users
+
+
+def build_courses(courses_raw: list[dict]) -> dict:
+    """Skill -> up to 3 real courses, from course_data.json."""
+    skill_to_courses = defaultdict(list)
+    for c in courses_raw:
+        for skill in c.get("skills", []):
+            skill_to_courses[skill].append({"id": c["id"], "name": c["name"], "length": c.get("length"), "level": c.get("level")})
+    return {s: lst[:3] for s, lst in sorted(skill_to_courses.items())}
+
+
+def build_all(jobs_raw: list[dict], users_raw: list[dict], courses_raw: list[dict]) -> dict:
+    """Assemble every output payload from the raw sample data (pure, no I/O)."""
+    catalog = build_catalog(jobs_raw)
+    return {
+        "rolesCatalog.json": catalog,
+        "roleSkills.json": canonical_subset(catalog),
+        "users.json": build_demo_users(users_raw),
+        "courses.json": build_courses(courses_raw),
+    }
+
+
+def main(out_dir: Path = OUT, sample_dir: Path = SAMPLE) -> dict:
+    """Build every payload from the real sample data and write it to ``out_dir``."""
+    jobs_raw = json.loads((sample_dir / "jobs_data.json").read_text())
+    users_raw = load_users((sample_dir / "user_data.json").read_text())
+    courses_raw = json.loads((sample_dir / "course_data.json").read_text())
+
+    payloads = build_all(jobs_raw, users_raw, courses_raw)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for filename, payload in payloads.items():
+        (out_dir / filename).write_text(json.dumps(payload, indent=2) + "\n")
+    return payloads
+
+
+if __name__ == "__main__":  # pragma: no cover - CLI entry point
+    written = main()
+    for filename, payload in written.items():
+        print(f"{filename}: {len(payload)} entries")
