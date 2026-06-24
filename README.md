@@ -24,6 +24,31 @@ We're designing against three synthetic LinkedIn-style datasets in
 jobs), `course_data.json` (600 courses). See `handover.md` §5 for the
 schema.
 
+## Run the prototype
+
+The repository has one application stack:
+
+- `frontend/` — Next.js product flow: Lock In → Explore / Explain →
+  Comparison → Milestones.
+- `backend/` — FastAPI role-fit, course, and milestone-plan API.
+
+In separate terminals from the repository root:
+
+```bash
+python3 -m pip install -r backend/requirements.txt
+uvicorn backend.main:app --reload
+```
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Open `http://localhost:3000`. The frontend falls back to bundled data when
+the API is not running, but the FastAPI service enables the shared fit and
+milestone endpoints.
+
 ## Contributing
 
 Work on a feature branch and open a Pull Request into `main` for review.

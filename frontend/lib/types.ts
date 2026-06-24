@@ -67,3 +67,20 @@ export interface FitResult {
   haveSkills: string[];
   missingSkills: string[];
 }
+
+export interface MilestoneStep {
+  step: number;
+  skill: string;
+  title: string;
+  course: string | null;
+  courseLength: { value: number; unit: string } | null;
+  actions: string[];
+}
+
+export interface MilestonePlan {
+  role: FitResult["role"];
+  readiness: number;
+  haveSkills: string[];
+  missingSkills: string[];
+  milestones: MilestoneStep[];
+}

@@ -14,6 +14,7 @@ import LinkedInNav from "../LinkedInNav";
 import ExploreView from "../Explore/ExploreView";
 import ExplainView from "../Explain/ExplainView";
 import ComparisonPanel from "../ComparisonPanel/ComparisonPanel";
+import MilestoneView from "../Milestone/MilestoneView";
 import type { UserProfile } from "../../lib/explore/types";
 import flowUsersData from "../../data/flowUsers.json";
 
@@ -105,6 +106,7 @@ export default function AppFlow() {
         <Milestone
           roleTitle={roleTitle}
           roleId={roleId}
+          userId={userId}
           missingSkills={missingSkills}
           onBack={() => setStep("comparison")}
         />
@@ -221,13 +223,8 @@ function NoFitNotice({ title, onBack }: { title: string; onBack: () => void }) {
 }
 
 function Milestone({
-  roleTitle, roleId, missingSkills, onBack,
-}: { roleTitle: string; roleId: string | null; missingSkills: string[]; onBack: () => void }) {
-  const params = new URLSearchParams();
-  if (roleId) params.set("role", roleId);
-  if (roleTitle) params.set("title", roleTitle);
-  if (missingSkills.length) params.set("missing", missingSkills.join(","));
-  const src = `/milestones-demo.html${params.toString() ? `?${params.toString()}` : ""}`;
+  roleTitle, roleId, userId, missingSkills, onBack,
+}: { roleTitle: string; roleId: string | null; userId: string; missingSkills: string[]; onBack: () => void }) {
 
   return (
     <div style={wrap}>
@@ -244,11 +241,7 @@ function Milestone({
             : "A personalized milestone plan to get you there."}
         </p>
       </div>
-      <iframe
-        title="Milestone plan"
-        src={src}
-        style={{ width: "100%", height: 720, border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, background: "#fff" }}
-      />
+      {roleId && <MilestoneView userId={userId} roleId={roleId} />}
     </div>
   );
 }

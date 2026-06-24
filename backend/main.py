@@ -16,6 +16,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .fit import compute_fit
+from .milestones import build_milestone_plan
 
 DATA_DIR = Path(__file__).parent / "data"
 ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
@@ -62,3 +63,15 @@ def get_fit(userId: str, roleId: str) -> dict:
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
     return compute_fit(user["skills"], role)
+
+
+@app.get("/api/milestones")
+def get_milestones(userId: str, roleId: str) -> dict:
+    """Return the next high-impact, course-backed actions for one role."""
+    user = USERS_BY_ID.get(userId)
+    if user is None:
+        raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
+    role = ROLES.get(roleId)
+    if role is None:
+        raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
+    return build_milestone_plan(user, role, COURSES)
