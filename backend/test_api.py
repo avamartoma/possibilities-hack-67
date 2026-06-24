@@ -147,7 +147,7 @@ class CompareAndPathHandlerTests(unittest.TestCase):
         path = post_path_generate(PathGenerateRequest(userId="user_5329", roleId="data_scientist", maxMilestones=3))
         self.assertEqual(
             set(path),
-            {"profileId", "role", "readinessScore", "startingStrengths", "skillGaps", "milestones", "generatedAt", "disclaimer"},
+            {"profileId", "role", "readinessScore", "readinessBreakdown", "startingStrengths", "skillGaps", "milestones", "generatedAt", "disclaimer"},
         )
         self.assertLessEqual(len(path["milestones"]), 3)
 

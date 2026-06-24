@@ -63,3 +63,57 @@ def compute_readiness(profile_skills, role: dict) -> int:
 
     readiness = 100 * (weight_core * core_hit + weight_sup * sup_hit) / total_weight
     return max(0, min(100, round(readiness)))
+
+
+def _evidence_skills(profile: dict, matched_required: dict[str, str]) -> set[str]:
+    """Return canonical matched skills backed by structured profile history."""
+    evidence = set()
+    for item in profile.get("experience", []):
+        listed = _fold_set(item.get("skills", []))
+        text = " ".join(str(item.get(key, "")) for key in ("title", "description")).casefold()
+        for folded, original in matched_required.items():
+            if folded in listed or original.casefold() in text:
+                evidence.add(folded)
+    for item in profile.get("education", []):
+        text = " ".join(str(item.get(key, "")) for key in ("degree", "field")).casefold()
+        for folded, original in matched_required.items():
+            if original.casefold() in text:
+                evidence.add(folded)
+    return evidence
+
+
+def compute_profile_readiness(profile: dict, role: dict) -> tuple[int, dict]:
+    """Return the explainable 100-point readiness score and its contributions.
+
+    A profile receives 65 points for core-role skill coverage, 20 for supporting
+    skill coverage, and 15 for showing matched skills in experience or education.
+    Roles without supporting skills use an 81/19 core/evidence split instead.
+    """
+    core = list(role.get("coreSkills", role.get("skills", [])))
+    supporting = list(role.get("supportingSkills", []))
+    core_set, sup_set = _fold_set(core), _fold_set(supporting)
+    required = core_set | sup_set
+    if not required:
+        empty = {"core": {"matched": 0, "total": 0, "points": 0}, "supporting": {"matched": 0, "total": 0, "points": 0}, "evidence": {"matched": 0, "total": 0, "points": 0}}
+        return 0, empty
+
+    user = _fold_set(profile.get("skills", []))
+    matched_core, matched_supporting = core_set & user, sup_set & user
+    matched_required = {folded: skill for skill in [*core, *supporting] for folded in [_fold(skill)] if folded in user}
+    evidenced = _evidence_skills(profile, matched_required)
+    if sup_set:
+        core_weight, supporting_weight, evidence_weight = 65, 20, 15
+    elif core_set:
+        core_weight, supporting_weight, evidence_weight = 81, 0, 19
+    else:
+        core_weight, supporting_weight, evidence_weight = 0, 81, 19
+    core_points = round(core_weight * len(matched_core) / len(core_set)) if core_set else 0
+    supporting_points = round(supporting_weight * len(matched_supporting) / len(sup_set)) if sup_set else 0
+    evidence_points = round(evidence_weight * len(evidenced) / len(required))
+    score = max(0, min(100, core_points + supporting_points + evidence_points))
+    breakdown = {
+        "core": {"matched": len(matched_core), "total": len(core_set), "points": core_points},
+        "supporting": {"matched": len(matched_supporting), "total": len(sup_set), "points": supporting_points},
+        "evidence": {"matched": len(evidenced), "total": len(required), "points": evidence_points},
+    }
+    return score, breakdown

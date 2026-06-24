@@ -143,6 +143,11 @@ export interface RoleComparison {
   profile: UserProfile;
   role: CareerRole;
   readinessScore: number;
+  readinessBreakdown: {
+    core: { matched: number; total: number; points: number };
+    supporting: { matched: number; total: number; points: number };
+    evidence: { matched: number; total: number; points: number };
+  };
   strengths: string[];
   skillGaps: Array<{ skill: string; status: "strength" | "missing" | "adjacent"; importance: "core" | "supporting"; evidence: string[]; recommendedCourse: Course | null; suggestedProject: string | null }>;
   suggestedNextSteps: string[];
@@ -165,6 +170,7 @@ export interface PersonalizedPath {
   profileId: string;
   role: CareerRole;
   readinessScore: number;
+  readinessBreakdown?: RoleComparison["readinessBreakdown"];
   startingStrengths: string[];
   skillGaps: RoleComparison["skillGaps"];
   milestones: Array<{ order: number; title: string; targetSkill: string; reason: string; course: Course | null; project: string; networkingAction: string; profileCheckpoint: string; completionState: "not_started" }>;

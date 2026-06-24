@@ -1,7 +1,7 @@
 """Deterministic recommendation and comparison services."""
 
 from .analysis import aggregate_role_analysis
-from .readiness import compute_readiness
+from .readiness import _fold, compute_profile_readiness, compute_readiness
 from .roles import RELATED, normalize_role
 
 
@@ -11,14 +11,14 @@ def _casefold(values):
 
 def compare_profile_to_role(profile: dict, role: dict) -> dict:
     normalized_role = normalize_role(role)
-    user_skills = _casefold(profile["skills"])
+    user_skills = {_fold(skill) for skill in profile["skills"]}
     required = normalized_role["requiredSkills"]
-    strengths = [skill for skill in required if skill.casefold() in user_skills]
-    missing = [skill for skill in required if skill.casefold() not in user_skills]
-    readiness = compute_readiness(profile["skills"], normalized_role)
+    strengths = [skill for skill in required if _fold(skill) in user_skills]
+    missing = [skill for skill in required if _fold(skill) not in user_skills]
+    readiness, readiness_breakdown = compute_profile_readiness(profile, normalized_role)
     gaps = [{"skill": skill, "status": "missing", "importance": "core", "evidence": [], "recommendedCourse": None, "suggestedProject": f"Create a small portfolio project that uses {skill}."} for skill in missing]
     gaps.extend({"skill": skill, "status": "strength", "importance": "core", "evidence": ["Listed in your profile"], "recommendedCourse": None, "suggestedProject": None} for skill in strengths)
-    return {"profile": profile, "role": normalized_role, "readinessScore": readiness, "strengths": strengths, "skillGaps": gaps, "suggestedNextSteps": [f"Build evidence in {skill}" for skill in missing[:3]] or ["Turn your current strengths into a portfolio story."], "aggregateAnalysis": aggregate_role_analysis(role["name"], profile["skills"])}
+    return {"profile": profile, "role": normalized_role, "readinessScore": readiness, "readinessBreakdown": readiness_breakdown, "strengths": strengths, "skillGaps": gaps, "suggestedNextSteps": [f"Build evidence in {skill}" for skill in missing[:3]] or ["Turn your current strengths into a portfolio story."], "aggregateAnalysis": aggregate_role_analysis(role["name"], profile["skills"])}
 
 
 def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str, limit: int) -> list[dict]:

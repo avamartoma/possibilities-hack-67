@@ -76,11 +76,31 @@ class ReadinessWiringTests(unittest.TestCase):
 
     def test_compare_uses_weighted_readiness(self):
         from .comparison import compare_profile_to_role
-        from .readiness import compute_readiness
+        from .readiness import compute_profile_readiness
         role = self._role()
         profile = {"id": "u", "name": "U", "skills": ["Python"], "interests": []}
         result = compare_profile_to_role(profile, role)
-        self.assertEqual(result["readinessScore"], compute_readiness(profile["skills"], role))
+        expected, breakdown = compute_profile_readiness(profile, role)
+        self.assertEqual(result["readinessScore"], expected)
+        self.assertEqual(result["readinessBreakdown"], breakdown)
+
+    def test_evidence_adds_points_only_for_listed_matched_skills(self):
+        from .readiness import compute_profile_readiness
+        role = self._role()
+        profile = {"skills": ["Python", "AWS"], "experience": [{"skills": ["Python"], "title": "", "description": ""}], "education": []}
+        score, breakdown = compute_profile_readiness(profile, role)
+        self.assertEqual(breakdown["core"], {"matched": 1, "total": 2, "points": 32})
+        self.assertEqual(breakdown["supporting"], {"matched": 1, "total": 1, "points": 20})
+        self.assertEqual(breakdown["evidence"], {"matched": 1, "total": 3, "points": 5})
+        self.assertEqual(score, 57)
+
+    def test_no_supporting_skills_redistributes_to_core_and_evidence(self):
+        from .readiness import compute_profile_readiness
+        profile = {"skills": ["Python"], "experience": [{"skills": ["Python"]}], "education": []}
+        score, breakdown = compute_profile_readiness(profile, role(["Python", "AWS"], []))
+        self.assertEqual(breakdown["core"]["points"], 40)
+        self.assertEqual(breakdown["evidence"]["points"], 10)
+        self.assertEqual(score, 50)
 
     def test_compare_readiness_is_monotonic(self):
         from .comparison import compare_profile_to_role

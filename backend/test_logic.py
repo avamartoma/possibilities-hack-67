@@ -154,7 +154,8 @@ class CompareServiceTests(unittest.TestCase):
         missing = {gap["skill"] for gap in result["skillGaps"] if gap["status"] == "missing"}
         self.assertEqual(set(result["strengths"]) | missing, required)
         self.assertIsInstance(result["readinessScore"], int)
-        self.assertEqual(result["readinessScore"], round(100 * 2 / len(self.ROLE["skills"])))
+        self.assertEqual(result["readinessScore"], 27)
+        self.assertEqual(result["readinessBreakdown"]["core"], {"matched": 2, "total": 6, "points": 27})
 
     def test_compare_is_case_insensitive(self):
         lower = compare_profile_to_role(_profile(["python", "machine learning"]), self.ROLE)
