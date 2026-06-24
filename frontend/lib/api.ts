@@ -2,14 +2,16 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course } from "./types";
+import type { Role, User, FitResult, Course, MatchedPerson } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
-import usersData from "../data/users.json";
+import meData from "../data/me.json";
+import matchesData from "../data/matches.json";
 import coursesData from "../data/courses.json";
 
 const ROLES = rolesData as Record<string, Role>;
-const USERS = usersData as User[];
+const ME = meData as User;
+const MATCHES = matchesData as Record<string, MatchedPerson[]>;
 const COURSES = coursesData as Record<string, Course[]>;
 
 async function tryFetch<T>(url: string): Promise<T | null> {
@@ -27,9 +29,10 @@ export async function getRoles(): Promise<Role[]> {
   return live ?? Object.values(ROLES);
 }
 
-export async function getUsers(): Promise<User[]> {
-  const live = await tryFetch<User[]>("/api/users");
-  return live ?? USERS;
+// The single logged-in profile ("you").
+export async function getMe(): Promise<User> {
+  const live = await tryFetch<User>("/api/me");
+  return live ?? ME;
 }
 
 // Skill -> real courses (from course_data.json), for the Milestone page.
@@ -38,17 +41,15 @@ export async function getCourses(): Promise<Record<string, Course[]>> {
   return live ?? COURSES;
 }
 
-export async function getFit(userId: string, roleId: string): Promise<FitResult> {
+// Your fit vs a role + the real people who landed it and best match you.
+export async function getFit(roleId: string): Promise<FitResult> {
   const live = await tryFetch<FitResult>(
-    `/api/fit?userId=${encodeURIComponent(userId)}&roleId=${encodeURIComponent(roleId)}`
+    `/api/fit?roleId=${encodeURIComponent(roleId)}`
   );
   if (live) return live;
 
   // Fallback: compute locally from bundled data.
-  const user = USERS.find((u) => u.id === userId);
   const role = ROLES[roleId];
-  if (!user || !role) {
-    throw new Error(`Unknown user (${userId}) or role (${roleId})`);
-  }
-  return computeFit(user.skills, role);
+  if (!role) throw new Error(`Unknown role (${roleId})`);
+  return computeFit(ME.skills, role, MATCHES[roleId] ?? []);
 }

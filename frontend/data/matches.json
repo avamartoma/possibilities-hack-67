@@ -1,0 +1,803 @@
+{
+  "devops_engineer": [
+    {
+      "id": "user_6837",
+      "name": "Diana Prince",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_8176",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_2499",
+      "name": "Diana Prince",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_7566",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6967",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6391",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "hr_coordinator": [
+    {
+      "id": "user_1468",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_1749",
+      "name": "Charlie Brown",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_4128",
+      "name": "Edward Norton",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3855",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_7566",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6967",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "sales_representative": [
+    {
+      "id": "user_7897",
+      "name": "Diana Prince",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_1018",
+      "name": "Bob Smith",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3241",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_8952",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_1519",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_2052",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "customer_service_manager": [
+    {
+      "id": "user_8176",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_5448",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3241",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_8151",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6967",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_3375",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "data_scientist": [
+    {
+      "id": "user_7158",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_1468",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3241",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_7243",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_4128",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_2586",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "product_manager": [
+    {
+      "id": "user_3728",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_6967",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_5385",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_4128",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_2586",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_9970",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "software_engineer": [
+    {
+      "id": "user_3091",
+      "name": "Edward Norton",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_6176",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_8707",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_5481",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_5556",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_1709",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "ux_designer": [
+    {
+      "id": "user_1468",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_8176",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_5448",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_9138",
+      "name": "Edward Norton",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_6176",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_2052",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "marketing_specialist": [
+    {
+      "id": "user_1468",
+      "name": "Bob Smith",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_4500",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_1018",
+      "name": "Bob Smith",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_9701",
+      "name": "Alice Johnson",
+      "degree": "Accounting",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6176",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_8707",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ],
+  "financial_analyst": [
+    {
+      "id": "user_8176",
+      "name": "Edward Norton",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3091",
+      "name": "Edward Norton",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Ethical Hacking",
+        "Financial Modeling",
+        "Information Security",
+        "Investing",
+        "Network Security"
+      ],
+      "matchLabel": "Strong match"
+    },
+    {
+      "id": "user_3855",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_3241",
+      "name": "Alice Johnson",
+      "degree": "Finance",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_6176",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    },
+    {
+      "id": "user_4128",
+      "name": "Alice Johnson",
+      "degree": "Economics",
+      "sharedSkills": [
+        "Corporate Finance",
+        "Economics",
+        "Financial Modeling",
+        "Investing"
+      ],
+      "matchLabel": "Good match"
+    }
+  ]
+}

@@ -2,9 +2,13 @@
 // Flat skill-overlap: percent = |userSkills ∩ roleSkills| / |roleSkills|.
 // Used as a fallback so the Comparison Page renders even if the backend is down.
 
-import type { Role, FitResult } from "./types";
+import type { Role, FitResult, MatchedPerson } from "./types";
 
-export function computeFit(userSkills: string[], role: Role): FitResult {
+export function computeFit(
+  userSkills: string[],
+  role: Role,
+  matches: MatchedPerson[] = []
+): FitResult {
   const userSet = new Set(userSkills.map((s) => s.toLowerCase()));
 
   const have = role.skills
@@ -35,5 +39,6 @@ export function computeFit(userSkills: string[], role: Role): FitResult {
     percent,
     haveSkills: have,
     missingSkills: missing,
+    matches,
   };
 }

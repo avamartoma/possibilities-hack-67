@@ -12,13 +12,11 @@ import FitRing from "./FitRing";
 import SkillColumns from "./SkillColumns";
 
 interface ComparisonPanelProps {
-  userId: string;
   roleId: string;
   onBuildPath?: (payload: { roleId: string; missingSkills: string[] }) => void;
 }
 
 export default function ComparisonPanel({
-  userId,
   roleId,
   onBuildPath,
 }: ComparisonPanelProps) {
@@ -28,13 +26,13 @@ export default function ComparisonPanel({
   useEffect(() => {
     let active = true;
     setLoading(true);
-    getFit(userId, roleId)
+    getFit(roleId)
       .then((f) => active && setFit(f))
       .finally(() => active && setLoading(false));
     return () => {
       active = false;
     };
-  }, [userId, roleId]);
+  }, [roleId]);
 
   const card: React.CSSProperties = {
     background: li.cardBg,
@@ -197,6 +195,73 @@ export default function ComparisonPanel({
           haveSkills={fit.haveSkills}
           missingSkills={fit.missingSkills}
         />
+
+        {/* People like you who landed this role. The person-to-person comparison
+            is computed internally; we surface who matched + the shared skills. */}
+        {fit.matches.length > 0 && (
+          <>
+            <hr style={{ border: "none", borderTop: `1px solid ${li.cardBorder}`, margin: "20px 0" }} />
+            <h4 style={{ margin: "0 0 4px", fontSize: 16 }}>People like you who landed this role</h4>
+            <p style={{ margin: "0 0 12px", color: li.textSecondary, fontSize: 13 }}>
+              Based on the skills you share with people already in this role.
+            </p>
+            <div>
+              {fit.matches.map((p) => (
+                <div
+                  key={p.id}
+                  style={{
+                    display: "flex",
+                    gap: 12,
+                    padding: "10px 0",
+                    borderBottom: `1px solid ${li.cardBorder}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      background: li.blue,
+                      color: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 16,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {p.name.charAt(0)}
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, fontSize: 15 }}>
+                      {p.name}
+                      <span
+                        style={{
+                          marginLeft: 8,
+                          background: li.greenBg,
+                          color: li.green,
+                          borderRadius: 4,
+                          padding: "1px 8px",
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {p.matchLabel}
+                      </span>
+                    </div>
+                    {p.degree && (
+                      <div style={{ color: li.textSecondary, fontSize: 14 }}>{p.degree}</div>
+                    )}
+                    <div style={{ color: li.textHint, fontSize: 12, marginTop: 2 }}>
+                      Skills you share: {p.sharedSkills.join(", ")}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Handoff to Milestone page */}
         <button

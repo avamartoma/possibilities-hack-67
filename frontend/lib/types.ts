@@ -30,13 +30,23 @@ export interface Role {
   postings?: Posting[];
 }
 
+// The single logged-in profile ("you").
 export interface User {
   id: string;
   name: string;
   degree?: string;
   skills: string[];
-  hero?: boolean;
-  tagline?: string;
+}
+
+// A real person from the database who landed a role and matches your profile.
+// The numeric person-to-person overlap stays internal; we expose a label +
+// the skills you share with them.
+export interface MatchedPerson {
+  id: string;
+  name: string;
+  degree?: string;
+  sharedSkills: string[];
+  matchLabel: string; // "Strong match" | "Good match" | "Some overlap"
 }
 
 // A real course pulled from course_data.json (for the gap / Milestone page).
@@ -66,4 +76,6 @@ export interface FitResult {
   percent: number; // 0-100
   haveSkills: string[];
   missingSkills: string[];
+  // Real people who landed this role and best match your profile.
+  matches: MatchedPerson[];
 }

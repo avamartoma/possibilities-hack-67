@@ -1,9 +1,11 @@
 """FastAPI backend for the Career Map Comparison Page.
 
 Endpoints:
-  GET /api/roles            -> all roles (Person A's map can consume this too)
-  GET /api/users            -> demo users (shared avatar/user picker)
-  GET /api/fit?userId&roleId -> FitResult for a user against a role
+  GET /api/roles             -> role catalog (map / role search consume this)
+  GET /api/me                -> the logged-in profile ("you")
+  GET /api/courses           -> skill -> real courses (Milestone page)
+  GET /api/fit?roleId=...     -> your fit vs a role + the real people who landed
+                                it and best match your profile
 
 Run: uvicorn backend.main:app --reload  (from the repo root)
 """
@@ -18,8 +20,7 @@ from .build_data import build_all
 
 # Build app data directly from the real sample_data/ files at startup
 # (no pre-generated files in backend/).
-ROLES, USERS, COURSES = build_all()
-USERS_BY_ID = {u["id"]: u for u in USERS}
+ROLES, CURRENT_USER, MATCHES, COURSES = build_all()
 
 app = FastAPI(title="Career Map — Comparison API")
 
@@ -34,14 +35,14 @@ app.add_middleware(
 
 @app.get("/api/roles")
 def get_roles() -> List[dict]:
-    """All roles, as a list (map + role pickers consume this)."""
+    """All roles, as a list (map + role search consume this)."""
     return list(ROLES.values())
 
 
-@app.get("/api/users")
-def get_users() -> List[dict]:
-    """Demo users for the avatar / user picker."""
-    return USERS
+@app.get("/api/me")
+def get_me() -> dict:
+    """The single logged-in profile ('you')."""
+    return CURRENT_USER
 
 
 @app.get("/api/courses")
@@ -51,12 +52,15 @@ def get_courses() -> dict:
 
 
 @app.get("/api/fit")
-def get_fit(userId: str, roleId: str) -> dict:
-    """Compute a user's fit against a role."""
-    user = USERS_BY_ID.get(userId)
-    if user is None:
-        raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
+def get_fit(roleId: str) -> dict:
+    """Your fit vs a role, plus the real people who landed it and best match you.
+
+    The person-to-person comparison is computed internally; the response exposes
+    your fit-vs-role (ring + skills) and a ranked list of matching people.
+    """
     role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
-    return compute_fit(user["skills"], role)
+    result = compute_fit(CURRENT_USER["skills"], role)
+    result["matches"] = MATCHES.get(roleId, [])
+    return result

@@ -6,30 +6,24 @@
 
 import { useEffect, useState } from "react";
 import type { Role, User } from "../lib/types";
-import { getRoles, getUsers } from "../lib/api";
+import { getRoles, getMe } from "../lib/api";
 import { li } from "../lib/theme";
 import LinkedInNav from "../components/LinkedInNav";
 import ComparisonPanel from "../components/ComparisonPanel/ComparisonPanel";
 
 export default function Home() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [me, setMe] = useState<User | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
-  const [userId, setUserId] = useState<string>("");
   const [roleId, setRoleId] = useState<string>("");
   const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
-    getUsers().then((u) => {
-      setUsers(u);
-      setUserId(u.find((x) => x.hero)?.id ?? u[0]?.id ?? "");
-    });
+    getMe().then(setMe);
     getRoles().then((r) => {
       setRoles(r);
       setRoleId(r[0]?.id ?? "");
     });
   }, []);
-
-  const activeUser = users.find((u) => u.id === userId);
 
   // Filter roles by name / category / skills as the user types.
   const q = query.trim().toLowerCase();
@@ -52,7 +46,7 @@ export default function Home() {
 
   return (
     <div style={{ background: li.pageBg, minHeight: "100vh", fontFamily: li.font }}>
-      <LinkedInNav userName={activeUser?.name} />
+      <LinkedInNav userName={me?.name} />
 
       <main
         style={{
@@ -86,36 +80,16 @@ export default function Home() {
                   border: `2px solid ${li.cardBg}`,
                 }}
               >
-                {(activeUser?.name ?? "Y").charAt(0)}
+                {(me?.name ?? "Y").charAt(0)}
               </div>
-              <select
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  marginTop: 10,
-                  padding: "6px 8px",
-                  borderRadius: 6,
-                  border: `1px solid ${li.cardBorder}`,
-                  fontSize: 14,
-                  fontFamily: li.font,
-                }}
-              >
-                {users.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}{u.hero ? " (suggested)" : ""}
-                  </option>
-                ))}
-              </select>
-              {activeUser?.tagline && (
-                <p style={{ margin: "8px 0 0", color: li.textSecondary, fontSize: 13, fontStyle: "italic" }}>
-                  “{activeUser.tagline}”
+              {me && (
+                <p style={{ margin: "8px 0 0", fontWeight: 600, fontSize: 15 }}>
+                  {me.name}
                 </p>
               )}
-              {activeUser?.degree && (
-                <p style={{ margin: "4px 0 0", color: li.textHint, fontSize: 12 }}>
-                  {activeUser.degree}
+              {me?.degree && (
+                <p style={{ margin: "2px 0 0", color: li.textHint, fontSize: 12 }}>
+                  {me.degree}
                 </p>
               )}
             </div>
@@ -184,9 +158,7 @@ export default function Home() {
         </div>
 
         {/* Main column: the Comparison Page */}
-        <div>
-          {userId && roleId && <ComparisonPanel userId={userId} roleId={roleId} />}
-        </div>
+        <div>{roleId && <ComparisonPanel roleId={roleId} />}</div>
       </main>
     </div>
   );
