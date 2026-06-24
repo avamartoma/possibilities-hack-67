@@ -50,8 +50,8 @@ export default function AppFlow() {
     saveSession(value); setSaved(value);
   }
 
-  function selectRole(rid: string, from: Origin) {
-    go("milestone", rid, from);
+  function selectRole(rid: string, _from: Origin) {
+    window.location.href = `/comparison?user=${encodeURIComponent(userId)}&role=${encodeURIComponent(rid)}`;
   }
 
   return (

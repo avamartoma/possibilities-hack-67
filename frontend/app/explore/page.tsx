@@ -19,7 +19,7 @@ export default function ExplorePage() {
           userId={DEFAULT_USER_ID}
           initialQuery={search}
           onSelectRole={(roleId) => {
-            window.location.href = `/milestones?role=${encodeURIComponent(roleId)}&user=${DEFAULT_USER_ID}`;
+            window.location.href = `/comparison?role=${encodeURIComponent(roleId)}&user=${DEFAULT_USER_ID}`;
           }}
           onOpenGuide={() => { window.location.href = "/"; }}
         />
