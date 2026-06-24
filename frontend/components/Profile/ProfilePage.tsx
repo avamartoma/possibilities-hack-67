@@ -92,13 +92,6 @@ export default function ProfilePage({ profile, onLockIn }: { profile: UserProfil
           <ChipRow items={profile.interests} />
         </SectionCard>
       )}
-      {profile.savedGoals.length > 0 && (
-        <SectionCard title="Saved goals">
-          <ul style={{ margin: 0, paddingLeft: 18, color: li.textPrimary, fontSize: 15, lineHeight: 1.6 }}>
-            {profile.savedGoals.map((g) => <li key={g}>{g}</li>)}
-          </ul>
-        </SectionCard>
-      )}
       <p style={{ textAlign: "center", color: li.textHint, fontSize: 13, margin: "16px 0 8px" }}>
         Career discovery, built around your profile.
       </p>
