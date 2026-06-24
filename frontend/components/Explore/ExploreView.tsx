@@ -18,7 +18,7 @@ interface ExploreViewProps {
   initialQuery?: string;
 }
 
-export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide, initialQuery = "" }: ExploreViewProps) {
+export default function ExploreView({ userId, onSelectRole, onOpenGuide, initialQuery = "" }: ExploreViewProps) {
   const [query, setQuery] = useState("");
   const [roles, setRoles] = useState<CareerRole[] | null>(null);
   const [error, setError] = useState(false);
