@@ -3,6 +3,49 @@
 Format: [Keep a Changelog](https://keepachangelog.com). Per-track working logs live in
 `docs/changelog/{shared,track-a,track-b}.md`; this file folds them into dated releases.
 
+## [3.0.0] — 2026-06-24
+
+Catalog depth + FIFA cards + honest readiness. Discover now serves a 207-role catalog built from
+`jobs_data.json`; roles and jobs open in a centered **FIFA-card modal**; the Career Guide surfaces
+top-applicant jobs; readiness is a weighted, explainable model. Backend 85 tests / 100% coverage;
+frontend 101 tests / 100% coverage; `next build` green. Legacy `/api/fit` + `/api/milestones` intact.
+
+### Added
+- **W1** — 207-role catalog from `jobs_data.json` (`backend/data/rolesCatalog.json` via rebuilt
+  `precompute.py`: `slugify`, `INDUSTRY_SKILLS` (21 industries), `KEYWORD_SKILLS`, `build_catalog`).
+  Real postings/companies/salary/levels/jobCount + deterministic core (industry) + supporting (keyword)
+  skills. `normalize_role` exposes `coreSkills`/`supportingSkills`.
+- **W2** — `backend/readiness.py::compute_readiness`: weighted (core 0.7 / supporting 0.3),
+  case/whitespace/synonym-folded, clamped 0–100, monotonic; supporting weight drops when a role has none.
+- **W3** — `POST /api/jobs/top-applicant` (`backend/jobs.py::rank_top_applicant_jobs`): ranks real
+  postings by readiness + level/industry alignment; `{jobs: Posting+roleId+score+topApplicant, total}`,
+  `topApplicant` when score ≥ 70, default limit 25.
+- **W4** — `components/RoleCard/RoleFifaCard.tsx`: shared centered modal (readiness ring, owned vs
+  missing skills, salary, companies, scrollable real postings; X/Esc/backdrop close; `role="dialog"`).
+- Contract: `CareerRole.coreSkills?`/`supportingSkills?`, `TopApplicantJob(s)`, `getTopApplicantJobs`.
+
+### Changed
+- **W1** — `main.ROLES` loads the full 207-role catalog; canonical ids preserved (legacy routes intact).
+- **W2** — `compare_profile_to_role` + `recommend_roles` derive `readinessScore` from `compute_readiness`.
+- **W5** — Discover (ExploreView): large catalog + "Load more"; search genuinely filters; card click
+  opens the FIFA modal (no navigation); modal CTA → Compare; "Open the Career Guide" link.
+- **W6** — Career Guide (ExplainView): "Explore this role" opens the FIFA modal (replaced the inline
+  scroll-down explanation); added a top-applicant jobs scroller; prompt → ranked recommendations.
+- **W7** — Compare CTA renamed "Compare your profile to this role" (ExplainView + RoleFifaCard).
+- AppFlow: Compare reachable from both Discover and the Career Guide via the modal; origin-aware Back.
+
+### Tested
+- Backend (85, 100%): catalog shape/slugger/industry coverage, weighted-readiness invariants
+  (monotonic, synonym/case, weighting, empty-set), top-applicant ranking + 404 + override isolation.
+- Frontend (101, 100%): RoleFifaCard (all close paths, states, CTA); Discover (catalog, load-more,
+  modal, badges, search, guide link); Career Guide (top-applicant scroller, modal, recommend);
+  AppFlow origin-aware flow.
+
+### Known follow-up
+- ComparisonPanel single-role-focus regression test (W7) left for Track B (their owned file).
+- Full 207-role pagination is client "load more" over the search cap (100); true offset paging
+  would need a backend `offset` param.
+
 ## [2.0.0] — 2026-06-24
 
 Career Map v2: the full Profile → Explore → Explain → Compare → Your Path flow now runs on the
