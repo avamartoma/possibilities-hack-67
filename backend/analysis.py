@@ -6,7 +6,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SAMPLE_DIR = ROOT / "sample_data"
-SAMPLE_USERS = json.loads((SAMPLE_DIR / "user_data.json").read_text())
+
+
+def _load_users() -> list[dict]:
+    """Load the demo user export, including the legacy missing-opening-bracket form."""
+    raw = (SAMPLE_DIR / "user_data.json").read_text().strip()
+    return json.loads(raw if raw.startswith("[") else f"[{raw}")
+
+
+SAMPLE_USERS = _load_users()
 SAMPLE_JOBS = json.loads((SAMPLE_DIR / "jobs_data.json").read_text())
 JOB_POSITIONS = {job["id"]: job["position"] for job in SAMPLE_JOBS}
 

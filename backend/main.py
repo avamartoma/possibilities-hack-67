@@ -1,77 +1,75 @@
-"""FastAPI backend for the Career Map Comparison Page.
+"""FastAPI API for the Career Map demo.
 
-Endpoints:
-  GET /api/roles            -> all roles (Person A's map can consume this too)
-  GET /api/users            -> demo users (shared avatar/user picker)
-  GET /api/fit?userId&roleId -> FitResult for a user against a role
-
-Run: uvicorn backend.main:app --reload  (from the repo root)
+The original GET endpoints remain available for the existing frontend.  The
+v2 endpoints provide normalized, frontend-ready data for the redesigned flow.
 """
 
 import json
 from pathlib import Path
-from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from .analysis import aggregate_role_analysis
+from .comparison import compare_profile_to_role, recommend_roles
 from .fit import compute_fit
 from .milestones import build_milestone_plan
-from .analysis import aggregate_role_analysis
+from .pathing import generate_path
+from .profiles import apply_override, normalize_profile
+from .roles import explain_role, normalize_role, search_roles
+from .schemas import CompareRequest, ExplainRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest
 
 DATA_DIR = Path(__file__).parent / "data"
 ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
 USERS: list = json.loads((DATA_DIR / "users.json").read_text())
 COURSES: dict = json.loads((DATA_DIR / "courses.json").read_text())
-USERS_BY_ID = {u["id"]: u for u in USERS}
+USERS_BY_ID = {user["id"]: user for user in USERS}
 
-app = FastAPI(title="Career Map — Comparison API")
+app = FastAPI(title="Career Map API", version="2.0.0")
+app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allow_methods=["*"], allow_headers=["*"])
 
-# Frontend dev server backstop (Next.js rewrites are the primary path, see README).
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+def seeded_profile(user_id: str) -> dict:
+    user = USERS_BY_ID.get(user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail=f"Unknown userId: {user_id}")
+    return normalize_profile(user)
+
+
+def seeded_role(role_id: str) -> dict:
+    role = ROLES.get(role_id)
+    if role is None:
+        raise HTTPException(status_code=404, detail=f"Unknown roleId: {role_id}")
+    return role
 
 
 @app.get("/api/health")
 def health() -> dict:
-    """Lightweight readiness signal for local and deployed environments."""
-    return {
-        "status": "ok",
-        "roles": len(ROLES),
-        "users": len(USERS),
-        "courseSkills": len(COURSES),
-    }
+    return {"status": "ok", "roles": len(ROLES), "users": len(USERS), "courseSkills": len(COURSES)}
 
 
+# Compatibility routes used by the current frontend.
 @app.get("/api/roles")
-def get_roles() -> List[dict]:
-    """All roles, as a list (map + role pickers consume this)."""
+def get_roles() -> list[dict]:
     return list(ROLES.values())
 
 
 @app.get("/api/users")
-def get_users() -> List[dict]:
-    """Demo users for the avatar / user picker."""
+def get_users() -> list[dict]:
     return USERS
 
 
 @app.get("/api/courses")
 def get_courses() -> dict:
-    """Skill -> real courses (from course_data.json) for the Milestone page."""
     return COURSES
 
 
 @app.get("/api/fit")
 def get_fit(userId: str, roleId: str) -> dict:
-    """Compute a user's fit against a role."""
     user = USERS_BY_ID.get(userId)
+    role = ROLES.get(roleId)
     if user is None:
         raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
-    role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
     result = compute_fit(user["skills"], role)
@@ -81,11 +79,50 @@ def get_fit(userId: str, roleId: str) -> dict:
 
 @app.get("/api/milestones")
 def get_milestones(userId: str, roleId: str) -> dict:
-    """Return the next high-impact, course-backed actions for one role."""
     user = USERS_BY_ID.get(userId)
+    role = ROLES.get(roleId)
     if user is None:
         raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
-    role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
     return build_milestone_plan(user, role, COURSES)
+
+
+@app.get("/api/profile/{userId}")
+def get_profile(userId: str) -> dict:
+    return seeded_profile(userId)
+
+
+@app.post("/api/roles/search")
+def post_role_search(request: RoleSearchRequest) -> dict:
+    return {"roles": search_roles(ROLES, request.query, request.categories, request.skills, request.limit)}
+
+
+@app.get("/api/roles/{roleId}")
+def get_role_detail(roleId: str) -> dict:
+    return normalize_role(seeded_role(roleId))
+
+
+@app.post("/api/roles/recommend")
+def post_recommend(request: RecommendRequest) -> dict:
+    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
+    return {"profileId": profile["id"], "recommendations": recommend_roles(profile, ROLES, request.interests, request.query, request.limit)}
+
+
+@app.post("/api/roles/explain")
+def post_explain(request: ExplainRequest) -> dict:
+    profile = seeded_profile(request.userId) if request.userId else None
+    return explain_role(seeded_role(request.roleId), profile, ROLES)
+
+
+@app.post("/api/compare")
+def post_compare(request: CompareRequest) -> dict:
+    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
+    return compare_profile_to_role(profile, seeded_role(request.roleId))
+
+
+@app.post("/api/path/generate")
+def post_path_generate(request: PathGenerateRequest) -> dict:
+    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
+    comparison = compare_profile_to_role(profile, seeded_role(request.roleId))
+    return generate_path(comparison, COURSES, request.maxMilestones)
