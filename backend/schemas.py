@@ -1,6 +1,6 @@
 """Request contracts for the v2 Career Map API."""
 
-from typing import Any, Literal
+from typing import Any, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -65,5 +65,5 @@ class CareerGuideMessage(BaseModel):
 
 class CareerGuideRequest(BaseModel):
     userId: str = Field(min_length=1, max_length=120)
-    messages: list[CareerGuideMessage] = Field(min_length=1, max_length=8)
-    profileOverride: ProfileOverride | None = None
+    messages: List[CareerGuideMessage] = Field(min_length=1, max_length=8)
+    profileOverride: Optional[ProfileOverride] = None
