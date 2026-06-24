@@ -6,6 +6,15 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 ## [Unreleased]
 
 ### Added (v3)
+- W5 Discover overhaul (ExploreView): loads the large v3 catalog (search limit 100) with client
+  "Load more" pagination (30/page); search genuinely filters; clicking a card opens the shared
+  RoleFifaCard modal (no navigation); modal CTA → AppFlow Compare; "Open the Career Guide" link;
+  readiness badges from /api/roles/recommend. 100% coverage (ExploreView.test.tsx).
+- W6 Career Guide overhaul (ExplainView): replaced the inline scroll-down explanation with the
+  RoleFifaCard modal ("Explore this role" → modal); added a Top-applicant jobs scroller
+  (POST /api/jobs/top-applicant); prompt → recommend cards still rank roles. 100% (ExplainView.test.tsx).
+- AppFlow: Compare is reachable from both Discover and the Career Guide via the modal CTA; Back from
+  Compare is origin-aware (returns to Explore or Career Guide). 100% (AppFlow.test.tsx).
 - `components/RoleCard/RoleFifaCard.tsx` (W4): shared centered modal "FIFA card" for a role —
   backed by one `compareRole()` call (readiness ring, owned vs missing skills, salary, top companies,
   scrollable real postings); CTA "Compare your profile to this role" → `onCompare(roleId)`. Closes via

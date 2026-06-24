@@ -1,10 +1,9 @@
 "use client";
 
-// Integrated flow coordinator. Owns the canonical selected userId and roleId and
-// drives the linear journey:
-//   landing → explore → explain → comparison → milestone
-// The normalized profile is fetched once on entry (GET /api/profile/:id) and passed
-// down; child views never independently choose a user or role.
+// Integrated flow coordinator. Owns the canonical userId + roleId and the normalized
+// profile (fetched once on entry). v3: both Discover (Explore) and the Career Guide
+// (Explain) open the shared RoleFifaCard modal, whose CTA jumps straight to Compare.
+// Back from Compare returns to wherever you opened it (origin-aware), then Path.
 
 import { useCallback, useEffect, useState } from "react";
 import { li } from "../../lib/theme";
@@ -20,6 +19,7 @@ import MilestoneView from "../Milestone/MilestoneView";
 export const DEFAULT_USER_ID = "user_2340";
 
 type Step = "landing" | "explore" | "explain" | "comparison" | "milestone";
+type Origin = "explore" | "explain";
 type Status = "loading" | "error" | "ready";
 
 const wrap: React.CSSProperties = { maxWidth: 1128, margin: "0 auto", padding: "24px 16px" };
@@ -28,6 +28,7 @@ export default function AppFlow() {
   const [step, setStep] = useState<Step>("landing");
   const [userId] = useState(DEFAULT_USER_ID);
   const [roleId, setRoleId] = useState<string | null>(null);
+  const [origin, setOrigin] = useState<Origin>("explore");
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [status, setStatus] = useState<Status>("loading");
 
@@ -42,8 +43,11 @@ export default function AppFlow() {
 
   useEffect(() => loadProfile(), [loadProfile]);
 
-  function selectRole(rid: string) { setRoleId(rid); setStep("explain"); }
-  function startComparison(rid: string) { setRoleId(rid); setStep("comparison"); }
+  function startComparison(rid: string, from: Origin) {
+    setRoleId(rid);
+    setOrigin(from);
+    setStep("comparison");
+  }
 
   return (
     <div style={{ background: li.pageBg, minHeight: "100vh", fontFamily: li.font }}>
@@ -58,20 +62,24 @@ export default function AppFlow() {
       {step === "explore" && (
         <div style={wrap}>
           <BackBar label="Back to profile" onBack={() => setStep("landing")} />
-          <ExploreView userId={userId} onSelectRole={selectRole} />
+          <ExploreView
+            userId={userId}
+            onCompareRole={(rid) => startComparison(rid, "explore")}
+            onOpenGuide={() => setStep("explain")}
+          />
         </div>
       )}
 
       {step === "explain" && (
         <div style={wrap}>
           <BackBar label="Back to Explore" onBack={() => setStep("explore")} />
-          <ExplainView userId={userId} roleId={roleId} onCompare={startComparison} />
+          <ExplainView userId={userId} onCompare={(rid) => startComparison(rid, "explain")} />
         </div>
       )}
 
       {step === "comparison" && (
         <div style={wrap}>
-          <BackBar label="Back to Explain" onBack={() => setStep("explain")} />
+          <BackBar label={origin === "explore" ? "Back to Explore" : "Back to Career Guide"} onBack={() => setStep(origin)} />
           <ComparisonPanel userId={userId} roleId={roleId!} onBuildPath={() => setStep("milestone")} />
         </div>
       )}

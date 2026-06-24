@@ -1,15 +1,16 @@
 "use client";
 
-// Explain: deterministic, no-LLM career guidance backed by the v2 API.
-//   - a free-text prompt ranks roles via POST /api/roles/recommend
-//   - opening a role (from the prompt results, or carried in from Explore) loads a
-//     plain-language explanation via POST /api/roles/explain
-// "Compare this role" hands the canonical role id up to AppFlow.
+// Career Guide: deterministic, no-LLM guidance backed by the v3 API.
+//   - a Top-applicant jobs scroller (POST /api/jobs/top-applicant) — real postings the user fits best
+//   - a free-text prompt that ranks roles (POST /api/roles/recommend)
+//   - "Explore this role" opens the shared RoleFifaCard modal (centered) — NOT a scroll-down section
+// The modal's CTA hands the canonical role id up to AppFlow for Compare.
 
 import { useEffect, useState } from "react";
 import { li } from "../../lib/theme";
-import { explainRole, recommendRoles } from "../../lib/api";
-import type { RoleExplanation, RoleRecommendation } from "../../lib/types";
+import { getTopApplicantJobs, recommendRoles } from "../../lib/api";
+import type { RoleRecommendation, TopApplicantJob } from "../../lib/types";
+import RoleFifaCard from "../RoleCard/RoleFifaCard";
 
 const PROMPTS = [
   "I like AI but do not want to code all day",
@@ -17,37 +18,32 @@ const PROMPTS = [
   "I want a technical job that is people-facing",
 ];
 
-const chip = (bg: string, color: string): React.CSSProperties => ({
-  background: bg, color, borderRadius: 999, padding: "4px 12px", fontSize: 13, fontWeight: 600, display: "inline-block", margin: 2,
-});
+const chip = (bg: string, color: string): React.CSSProperties => ({ background: bg, color, borderRadius: 999, padding: "4px 12px", fontSize: 13, fontWeight: 600, display: "inline-block", margin: 2 });
 
 interface Props {
   userId: string;
-  roleId: string | null;
   onCompare: (roleId: string) => void;
 }
 
-export default function ExplainView({ userId, roleId, onCompare }: Props) {
+export default function ExplainView({ userId, onCompare }: Props) {
   const [prompt, setPrompt] = useState("");
   const [recommending, setRecommending] = useState(false);
   const [recommendations, setRecommendations] = useState<RoleRecommendation[] | null>(null);
   const [recError, setRecError] = useState(false);
 
-  const [roleToExplain, setRoleToExplain] = useState<string | null>(roleId);
-  const [explanation, setExplanation] = useState<RoleExplanation | null>(null);
-  const [explaining, setExplaining] = useState(false);
-  const [explainError, setExplainError] = useState(false);
-  const [explainAttempt, setExplainAttempt] = useState(0);
+  const [topJobs, setTopJobs] = useState<TopApplicantJob[] | null>(null);
+  const [topError, setTopError] = useState(false);
+  const [topAttempt, setTopAttempt] = useState(0);
+
+  const [openRoleId, setOpenRoleId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!roleToExplain) return;
-    setExplaining(true);
-    setExplainError(false);
-    explainRole({ roleId: roleToExplain, userId })
-      .then(setExplanation)
-      .catch(() => setExplainError(true))
-      .finally(() => setExplaining(false));
-  }, [roleToExplain, userId, explainAttempt]);
+    setTopJobs(null);
+    setTopError(false);
+    getTopApplicantJobs({ userId, limit: 25 })
+      .then((res) => setTopJobs(res.jobs))
+      .catch(() => setTopError(true));
+  }, [userId, topAttempt]);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -66,6 +62,34 @@ export default function ExplainView({ userId, roleId, onCompare }: Props) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: li.font }}>
       <section style={{ ...card, padding: 20 }}>
+        <h2 style={{ margin: "0 0 4px", fontSize: 18, color: li.textPrimary }}>Jobs you’d be a top applicant for</h2>
+        <p style={{ margin: "0 0 12px", color: li.textSecondary, fontSize: 13 }}>Real postings ranked by how well your profile fits.</p>
+        {topError ? (
+          <div>
+            <p style={{ color: li.amber, margin: "0 0 8px" }}>Couldn’t load jobs.</p>
+            <button onClick={() => setTopAttempt((a) => a + 1)} style={btn}>Retry</button>
+          </div>
+        ) : topJobs === null ? (
+          <p style={{ color: li.textSecondary, margin: 0 }}>Finding your best-fit jobs…</p>
+        ) : topJobs.length === 0 ? (
+          <p style={{ color: li.textHint, margin: 0 }}>No strong matches yet — build a few more skills.</p>
+        ) : (
+          <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6 }} data-testid="top-jobs-scroll">
+            {topJobs.map((job) => (
+              <article key={job.id} style={{ flex: "0 0 220px", border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, padding: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: li.textPrimary }}>{job.company}</div>
+                <div style={{ fontSize: 12, color: li.textSecondary }}>{job.location} · {job.level}</div>
+                {job.topApplicant && <span style={{ ...chip(li.greenBg, li.green), marginTop: 8 }}>Top applicant</span>}
+                <button type="button" onClick={() => setOpenRoleId(job.roleId)} style={{ ...linkBtn, marginTop: 8 }}>
+                  Explore this role →
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section style={{ ...card, padding: 20 }}>
         <p style={{ color: li.textPrimary, fontWeight: 600, margin: "0 0 4px" }}>Career Guide</p>
         <p style={{ color: li.textSecondary, marginTop: 0 }}>
           Describe what pulls you in and I’ll rank roles from this dataset — deterministic demo guidance, no AI guesswork.
@@ -80,11 +104,7 @@ export default function ExplainView({ userId, roleId, onCompare }: Props) {
               rows={2}
               style={{ flex: 1, padding: "8px 12px", borderRadius: 8, border: `1px solid ${li.cardBorder}`, fontFamily: li.font, fontSize: 14, resize: "vertical" }}
             />
-            <button
-              type="submit"
-              disabled={!prompt.trim()}
-              style={{ background: prompt.trim() ? li.blue : li.cardBorder, color: "#fff", border: "none", borderRadius: 999, padding: "8px 20px", fontWeight: 600, cursor: prompt.trim() ? "pointer" : "not-allowed", fontFamily: li.font, whiteSpace: "nowrap" }}
-            >
+            <button type="submit" disabled={!prompt.trim()} style={{ ...btn, background: prompt.trim() ? li.blue : li.cardBorder, cursor: prompt.trim() ? "pointer" : "not-allowed", whiteSpace: "nowrap" }}>
               Find my fit
             </button>
           </div>
@@ -105,33 +125,28 @@ export default function ExplainView({ userId, roleId, onCompare }: Props) {
         {recommendations && recommendations.length > 0 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 14 }}>
             {recommendations.map((rec) => (
-              <RecommendationCard key={rec.role.id} rec={rec} onOpen={() => setRoleToExplain(rec.role.id)} />
+              <RecommendationCard key={rec.role.id} rec={rec} onExplore={() => setOpenRoleId(rec.role.id)} />
             ))}
           </div>
         )}
       </section>
 
-      {roleToExplain && (
-        <section style={{ ...card, padding: 20 }}>
-          {explaining ? (
-            <p style={{ color: li.textSecondary, margin: 0 }}>Loading explanation…</p>
-          ) : explainError ? (
-            <div>
-              <p style={{ color: li.textPrimary, margin: "0 0 8px" }}>We couldn’t load this explanation.</p>
-              <button onClick={() => setExplainAttempt((a) => a + 1)} style={{ background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "8px 20px", fontWeight: 600, cursor: "pointer", fontFamily: li.font }}>
-                Retry
-              </button>
-            </div>
-          ) : explanation ? (
-            <Explanation explanation={explanation} onCompare={() => onCompare(roleToExplain)} />
-          ) : null}
-        </section>
+      {openRoleId && (
+        <RoleFifaCard
+          userId={userId}
+          roleId={openRoleId}
+          onClose={() => setOpenRoleId(null)}
+          onCompare={(rid) => { setOpenRoleId(null); onCompare(rid); }}
+        />
       )}
     </div>
   );
 }
 
-function RecommendationCard({ rec, onOpen }: { rec: RoleRecommendation; onOpen: () => void }) {
+const btn: React.CSSProperties = { background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "8px 20px", fontWeight: 600, cursor: "pointer", fontFamily: li.font };
+const linkBtn: React.CSSProperties = { background: "transparent", color: li.blue, border: "none", padding: 0, fontWeight: 600, cursor: "pointer", fontFamily: li.font, fontSize: 13 };
+
+function RecommendationCard({ rec, onExplore }: { rec: RoleRecommendation; onExplore: () => void }) {
   return (
     <article style={{ border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, padding: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
@@ -150,51 +165,7 @@ function RecommendationCard({ rec, onOpen }: { rec: RoleRecommendation; onOpen: 
           ? rec.matchedSkills.map((s) => <span key={s} style={chip(li.greenBg, li.green)}>{s}</span>)
           : <span style={chip(li.pageBg, li.textHint)}>New territory</span>}
       </div>
-      <button type="button" onClick={onOpen} style={{ background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "6px 18px", fontWeight: 600, cursor: "pointer", fontFamily: li.font }}>
-        Explore this role →
-      </button>
+      <button type="button" onClick={onExplore} style={btn}>Explore this role →</button>
     </article>
-  );
-}
-
-function Explanation({ explanation, onCompare }: { explanation: RoleExplanation; onCompare: () => void }) {
-  const { role, salaryRange } = explanation;
-  const hasSalary = salaryRange.min !== null && salaryRange.max !== null;
-  return (
-    <div>
-      <h2 style={{ margin: "0 0 6px", fontSize: 20, color: li.textPrimary }}>{role.name}</h2>
-      <p style={{ margin: "0 0 12px", color: li.textPrimary }}>{explanation.plainLanguageSummary}</p>
-
-      <h3 style={{ margin: "0 0 4px", fontSize: 14, color: li.textSecondary }}>Day to day</h3>
-      <ul style={{ margin: "0 0 12px", paddingLeft: 18, color: li.textPrimary, fontSize: 14, lineHeight: 1.6 }}>
-        {explanation.dayToDay.map((d) => <li key={d}>{d}</li>)}
-      </ul>
-
-      <h3 style={{ margin: "0 0 4px", fontSize: 14, color: li.textSecondary }}>Core skills</h3>
-      <div style={{ marginBottom: 12 }}>
-        {explanation.coreSkills.map((s) => <span key={s} style={chip(li.blueLight, li.blue)}>{s}</span>)}
-      </div>
-
-      {explanation.relatedRoles.length > 0 && (
-        <p style={{ margin: "0 0 12px", fontSize: 13, color: li.textSecondary }}>
-          Related: {explanation.relatedRoles.map((r) => r.name).join(", ")}
-        </p>
-      )}
-
-      <p style={{ margin: "0 0 12px", fontSize: 13, color: li.textSecondary }}>
-        Salary: {hasSalary ? `$${salaryRange.min!.toLocaleString()}–$${salaryRange.max!.toLocaleString()}` : "demo guidance only"}
-      </p>
-
-      <div style={{ background: li.blueLight, borderRadius: 8, padding: 12, marginBottom: 14 }}>
-        <strong style={{ color: li.blue }}>Why it may fit:</strong>{" "}
-        <span style={{ color: li.textPrimary }}>{explanation.whyItMayFit}</span>
-      </div>
-
-      <p style={{ margin: "0 0 12px", fontSize: 12, color: li.textHint }}>{explanation.disclaimer}</p>
-
-      <button type="button" onClick={onCompare} style={{ background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "8px 22px", fontWeight: 700, cursor: "pointer", fontFamily: li.font }}>
-        Compare your profile to this role
-      </button>
-    </div>
   );
 }

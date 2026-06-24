@@ -13,9 +13,10 @@ export default function ExplorePage() {
       <div style={{ maxWidth: 1128, margin: "0 auto" }}>
         <ExploreView
           userId={DEFAULT_USER_ID}
-          onSelectRole={(roleId) => {
+          onCompareRole={(roleId) => {
             window.location.href = `/comparison-demo?role=${encodeURIComponent(roleId)}&user=${DEFAULT_USER_ID}`;
           }}
+          onOpenGuide={() => { window.location.href = "/"; }}
         />
       </div>
     </main>

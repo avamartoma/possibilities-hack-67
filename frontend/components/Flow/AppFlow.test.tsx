@@ -16,18 +16,19 @@ vi.mock("../Profile/ProfilePage", () => ({
   ),
 }));
 vi.mock("../Explore/ExploreView", () => ({
-  default: ({ userId, onSelectRole }: any) => (
+  default: ({ userId, onCompareRole, onOpenGuide }: any) => (
     <div>
       <span>explore:{userId}</span>
-      <button onClick={() => onSelectRole("data_scientist")}>pick-role</button>
+      <button onClick={() => onCompareRole("data_scientist")}>explore-compare</button>
+      <button onClick={() => onOpenGuide()}>open-guide</button>
     </div>
   ),
 }));
 vi.mock("../Explain/ExplainView", () => ({
-  default: ({ userId, roleId, onCompare }: any) => (
+  default: ({ userId, onCompare }: any) => (
     <div>
-      <span>explain:{userId}:{String(roleId)}</span>
-      <button onClick={() => onCompare(roleId)}>compare</button>
+      <span>explain:{userId}</span>
+      <button onClick={() => onCompare("ux_designer")}>guide-compare</button>
     </div>
   ),
 }));
@@ -77,32 +78,44 @@ describe("AppFlow coordinator", () => {
     expect(await screen.findByText(`profile:${DEFAULT_USER_ID}`)).toBeInTheDocument();
   });
 
-  it("walks landing → explore → explain → comparison → milestone carrying the role id", async () => {
+  it("goes Discover → Compare → Path directly via the FIFA-card CTA", async () => {
     await reachProfile();
     await userEvent.click(screen.getByText("lock-in"));
     expect(screen.getByText(`explore:${DEFAULT_USER_ID}`)).toBeInTheDocument();
 
-    await userEvent.click(screen.getByText("pick-role"));
-    expect(screen.getByText(`explain:${DEFAULT_USER_ID}:data_scientist`)).toBeInTheDocument();
-
-    await userEvent.click(screen.getByText("compare"));
+    await userEvent.click(screen.getByText("explore-compare"));
     expect(screen.getByText(`comparison:${DEFAULT_USER_ID}:data_scientist`)).toBeInTheDocument();
 
     await userEvent.click(screen.getByText("build-path"));
     expect(screen.getByText(`milestone:${DEFAULT_USER_ID}:data_scientist`)).toBeInTheDocument();
   });
 
-  it("keeps Back navigation deterministic and preserves the selected role", async () => {
+  it("reaches the Career Guide from Explore and compares from there", async () => {
     await reachProfile();
     await userEvent.click(screen.getByText("lock-in"));
-    await userEvent.click(screen.getByText("pick-role")); // explain
-    await userEvent.click(screen.getByText("compare")); // comparison
-    await userEvent.click(screen.getByText("build-path")); // milestone
+    await userEvent.click(screen.getByText("open-guide"));
+    expect(screen.getByText(`explain:${DEFAULT_USER_ID}`)).toBeInTheDocument();
+    await userEvent.click(screen.getByText("guide-compare"));
+    expect(screen.getByText(`comparison:${DEFAULT_USER_ID}:ux_designer`)).toBeInTheDocument();
+  });
 
+  it("Back from Compare returns to Explore when opened from Discover", async () => {
+    await reachProfile();
+    await userEvent.click(screen.getByText("lock-in"));
+    await userEvent.click(screen.getByText("explore-compare"));
+    await userEvent.click(screen.getByText("build-path")); // milestone
     await userEvent.click(screen.getByRole("button", { name: /Back to comparison/ }));
-    expect(screen.getByText(`comparison:${DEFAULT_USER_ID}:data_scientist`)).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: /Back to Explain/ }));
-    expect(screen.getByText(`explain:${DEFAULT_USER_ID}:data_scientist`)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: /Back to Explore/ }));
+    expect(screen.getByText(`explore:${DEFAULT_USER_ID}`)).toBeInTheDocument();
+  });
+
+  it("Back from Compare returns to the Career Guide when opened from there", async () => {
+    await reachProfile();
+    await userEvent.click(screen.getByText("lock-in"));
+    await userEvent.click(screen.getByText("open-guide"));
+    await userEvent.click(screen.getByText("guide-compare"));
+    await userEvent.click(screen.getByRole("button", { name: /Back to Career Guide/ }));
+    expect(screen.getByText(`explain:${DEFAULT_USER_ID}`)).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /Back to Explore/ }));
     expect(screen.getByText(`explore:${DEFAULT_USER_ID}`)).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /Back to profile/ }));

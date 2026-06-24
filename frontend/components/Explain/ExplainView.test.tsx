@@ -1,13 +1,22 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { RoleExplanation, RoleRecommendation } from "../../lib/types";
+import type { RoleRecommendation, TopApplicantJob } from "../../lib/types";
 
-const explainRole = vi.fn();
 const recommendRoles = vi.fn();
+const getTopApplicantJobs = vi.fn();
 vi.mock("../../lib/api", () => ({
-  explainRole: (...a: unknown[]) => explainRole(...a),
   recommendRoles: (...a: unknown[]) => recommendRoles(...a),
+  getTopApplicantJobs: (...a: unknown[]) => getTopApplicantJobs(...a),
+}));
+vi.mock("../RoleCard/RoleFifaCard", () => ({
+  default: ({ roleId, onClose, onCompare }: any) => (
+    <div>
+      <span>modal:{roleId}</span>
+      <button onClick={onClose}>modal-close</button>
+      <button onClick={() => onCompare(roleId)}>modal-compare</button>
+    </div>
+  ),
 }));
 
 import ExplainView from "./ExplainView";
@@ -15,127 +24,121 @@ import ExplainView from "./ExplainView";
 function careerRole(id: string, name: string): any {
   return { id, name, category: "Tech", summary: "", requiredSkills: [], salaryRange: { min: null, max: null, currency: "USD", isDemoGuidance: true }, companies: [], jobCount: 0, industries: [], levels: [] };
 }
+function job(id: string, company: string, roleId: string, topApplicant: boolean): TopApplicantJob {
+  return { id, company, location: "Austin, TX", level: "Senior", salaryFrom: 100000, salaryTo: 150000, easyApply: true, roleId, score: topApplicant ? 90 : 30, topApplicant };
+}
 
-const richExplanation: RoleExplanation = {
-  role: careerRole("data_scientist", "Data Scientist"),
-  plainLanguageSummary: "Turn data into decisions.",
-  dayToDay: ["Clean data", "Build models"],
-  coreSkills: ["Python", "Statistics"],
-  commonPaths: ["Analyst → DS"],
-  relatedRoles: [careerRole("ml_engineer", "ML Engineer")],
-  salaryRange: { min: 100000, max: 150000, currency: "USD", isDemoGuidance: true },
-  whyItMayFit: "You already have signal in Python.",
-  disclaimer: "Demo guidance based on seeded data.",
-};
-
-const sparseExplanation: RoleExplanation = {
-  ...richExplanation,
-  relatedRoles: [],
-  salaryRange: { min: null, max: null, currency: "USD", isDemoGuidance: true },
-};
-
-const recommendations: RoleRecommendation[] = [
+const TOP_JOBS = [job("job_1", "Acme", "data_scientist", true), job("job_2", "Globex", "ux_designer", false)];
+const RECS: RoleRecommendation[] = [
   { role: careerRole("data_scientist", "Data Scientist"), score: 9, readinessScore: 60, scoreReasons: ["Matches Python"], matchedSkills: ["Python"] },
   { role: careerRole("ux_designer", "UX Designer"), score: 3, readinessScore: 0, scoreReasons: ["Adjacent role to explore"], matchedSkills: [] },
 ];
 
 beforeEach(() => {
-  explainRole.mockReset();
   recommendRoles.mockReset();
-  explainRole.mockResolvedValue(richExplanation);
-  recommendRoles.mockResolvedValue({ profileId: "user_2340", recommendations });
+  getTopApplicantJobs.mockReset();
+  recommendRoles.mockResolvedValue({ profileId: "user_2340", recommendations: RECS });
+  getTopApplicantJobs.mockResolvedValue({ jobs: TOP_JOBS, total: TOP_JOBS.length });
 });
 afterEach(() => vi.clearAllMocks());
 
-describe("ExplainView", () => {
-  it("auto-explains the role carried in from Explore and hands it to Compare", async () => {
+const noop = () => {};
+
+describe("ExplainView (Career Guide)", () => {
+  it("loads the top-applicant jobs scroller on entry", async () => {
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    expect(screen.getByText(/Finding your best-fit jobs/)).toBeInTheDocument();
+    expect(await screen.findByText("Acme")).toBeInTheDocument();
+    expect(getTopApplicantJobs).toHaveBeenCalledWith({ userId: "user_2340", limit: 25 });
+    expect(screen.getByText("Top applicant")).toBeInTheDocument(); // topApplicant=true badge
+    expect(screen.getByTestId("top-jobs-scroll")).toBeInTheDocument();
+  });
+
+  it("opens the modal from a top-applicant job and compares from it", async () => {
     const onCompare = vi.fn();
-    render(<ExplainView userId="user_2340" roleId="data_scientist" onCompare={onCompare} />);
-    await waitFor(() => expect(explainRole).toHaveBeenCalledWith({ roleId: "data_scientist", userId: "user_2340" }));
-    expect(await screen.findByText("Build models")).toBeInTheDocument(); // day-to-day
-    expect(screen.getByText(/Why it may fit/)).toBeInTheDocument();
-    expect(screen.getByText(/\$100,000–\$150,000/)).toBeInTheDocument();
-    expect(screen.getByText(/Related:/)).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "Compare your profile to this role" }));
+    render(<ExplainView userId="user_2340" onCompare={onCompare} />);
+    const acme = (await screen.findByText("Acme")).closest("article")!;
+    await userEvent.click(within(acme).getByRole("button", { name: /Explore this role/ }));
+    expect(screen.getByText("modal:data_scientist")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("modal-compare"));
     expect(onCompare).toHaveBeenCalledWith("data_scientist");
+    expect(screen.queryByText("modal:data_scientist")).not.toBeInTheDocument();
   });
 
-  it("renders no explanation panel when no role is carried in", () => {
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
-    expect(explainRole).not.toHaveBeenCalled();
-    expect(screen.queryByText(/Compare your profile to this role/)).not.toBeInTheDocument();
+  it("shows empty and error+retry states for the scroller", async () => {
+    getTopApplicantJobs.mockResolvedValueOnce({ jobs: [], total: 0 });
+    const { unmount } = render(<ExplainView userId="user_2340" onCompare={noop} />);
+    expect(await screen.findByText(/No strong matches yet/)).toBeInTheDocument();
+    unmount();
+
+    getTopApplicantJobs.mockRejectedValueOnce(new Error("down")).mockResolvedValue({ jobs: TOP_JOBS, total: 2 });
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await userEvent.click(await screen.findByRole("button", { name: "Retry" }));
+    expect(await screen.findByText("Acme")).toBeInTheDocument();
   });
 
-  it("submits the prompt to recommendRoles and renders score reasons + matched skills", async () => {
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+  it("submits the prompt and renders score reasons + matched skills", async () => {
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
     await userEvent.type(screen.getByLabelText("Career prompt"), "data work");
     await userEvent.click(screen.getByRole("button", { name: "Find my fit" }));
     expect(recommendRoles).toHaveBeenCalledWith({ userId: "user_2340", query: "data work", interests: [], limit: 3 });
     expect(await screen.findByText("Matches Python")).toBeInTheDocument();
     expect(screen.getByText("Python")).toBeInTheDocument();
-    expect(screen.getByText("New territory")).toBeInTheDocument(); // empty matchedSkills branch
+    expect(screen.getByText("New territory")).toBeInTheDocument();
   });
 
   it("shows a loading state while recommendations resolve", async () => {
     let resolve: (v: unknown) => void = () => {};
     recommendRoles.mockReturnValueOnce(new Promise((r) => { resolve = r; }));
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
     await userEvent.type(screen.getByLabelText("Career prompt"), "data");
     await userEvent.click(screen.getByRole("button", { name: "Find my fit" }));
     expect(screen.getByText(/Matching skills/)).toBeInTheDocument();
-    resolve({ profileId: "user_2340", recommendations });
+    resolve({ profileId: "user_2340", recommendations: RECS });
     expect(await screen.findByText("Matches Python")).toBeInTheDocument();
   });
 
-  it("opens an explanation when a recommendation is selected", async () => {
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+  it("opens the modal from a recommendation", async () => {
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
     await userEvent.type(screen.getByLabelText("Career prompt"), "data");
     await userEvent.click(screen.getByRole("button", { name: "Find my fit" }));
-    await userEvent.click((await screen.findAllByRole("button", { name: /Explore this role/ }))[0]);
-    await waitFor(() => expect(explainRole).toHaveBeenCalledWith({ roleId: "data_scientist", userId: "user_2340" }));
-    expect(await screen.findByText("Turn data into decisions.")).toBeInTheDocument();
+    const recCard = (await screen.findByText("Data Scientist")).closest("article")!;
+    await userEvent.click(within(recCard).getByRole("button", { name: /Explore this role/ }));
+    expect(screen.getByText("modal:data_scientist")).toBeInTheDocument();
+    await userEvent.click(screen.getByText("modal-close"));
+    expect(screen.queryByText("modal:data_scientist")).not.toBeInTheDocument();
   });
 
   it("fills the prompt from a suggested chip", async () => {
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
     await userEvent.click(screen.getByRole("button", { name: /I like AI but do not want to code/ }));
     expect((screen.getByLabelText("Career prompt") as HTMLTextAreaElement).value).toMatch(/I like AI/);
   });
 
-  it("ignores an empty prompt submission", () => {
-    const { container } = render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
-    fireEvent.submit(container.querySelector("form")!);
+  it("ignores an empty prompt submission", async () => {
+    const { container } = render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
+    fireEvent.submit(container.querySelector('form[aria-label="career prompt"]')!);
     expect(recommendRoles).not.toHaveBeenCalled();
   });
 
-  it("renders the empty-recommendations state", async () => {
-    recommendRoles.mockResolvedValue({ profileId: "user_2340", recommendations: [] });
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+  it("renders empty and error recommendation states", async () => {
+    recommendRoles.mockResolvedValueOnce({ profileId: "user_2340", recommendations: [] });
+    const { unmount } = render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
     await userEvent.type(screen.getByLabelText("Career prompt"), "zzz");
     await userEvent.click(screen.getByRole("button", { name: "Find my fit" }));
     expect(await screen.findByText(/No roles matched/)).toBeInTheDocument();
-  });
+    unmount();
 
-  it("renders a recommend error", async () => {
     recommendRoles.mockRejectedValueOnce(new Error("down"));
-    render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
+    render(<ExplainView userId="user_2340" onCompare={noop} />);
+    await screen.findByText("Acme");
     await userEvent.type(screen.getByLabelText("Career prompt"), "data");
     await userEvent.click(screen.getByRole("button", { name: "Find my fit" }));
     expect(await screen.findByText(/Couldn’t fetch recommendations/)).toBeInTheDocument();
-  });
-
-  it("shows an explain error and retries", async () => {
-    explainRole.mockRejectedValueOnce(new Error("boom")).mockResolvedValue(richExplanation);
-    render(<ExplainView userId="user_2340" roleId="data_scientist" onCompare={() => {}} />);
-    const retry = await screen.findByRole("button", { name: "Retry" });
-    await userEvent.click(retry);
-    expect(await screen.findByText("Turn data into decisions.")).toBeInTheDocument();
-  });
-
-  it("renders demo-guidance salary and omits related roles when absent", async () => {
-    explainRole.mockResolvedValue(sparseExplanation);
-    render(<ExplainView userId="user_2340" roleId="data_scientist" onCompare={() => {}} />);
-    expect(await screen.findByText(/demo guidance only/)).toBeInTheDocument();
-    expect(screen.queryByText(/Related:/)).not.toBeInTheDocument();
   });
 });
