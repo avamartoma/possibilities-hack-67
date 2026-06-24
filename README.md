@@ -56,3 +56,6 @@ key and model only as encrypted environment variables; see `render.yaml` and
 
 Work on a feature branch and open a Pull Request into `main` for review.
 Don't commit secrets — this is a public repo.
+
+## Slides 
+https://docs.google.com/presentation/d/1b6U2BZWCb9Kvy0PSQAuKAmkkyUQa_ju6kaN9wYab2SA/edit?usp=sharing
