@@ -1,5 +1,23 @@
 [
   {
+    "id": "user_2340",
+    "name": "Bob Smith",
+    "degree": "Computer Science",
+    "skills": [
+      "AWS",
+      "Science",
+      "DevOps",
+      "Engineering",
+      "Corporate Finance",
+      "Software",
+      "Blockchain",
+      "Investing",
+      "Computer",
+      "Financial Modeling"
+    ],
+    "hero": false
+  },
+  {
     "id": "user_5329",
     "name": "Alice Johnson",
     "degree": "Economics",

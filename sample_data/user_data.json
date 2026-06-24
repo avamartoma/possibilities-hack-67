@@ -39189,6 +39189,130 @@
             "course_6598",
             "course_7833",
             "course_1685"
+        ],
+        "headline": "Senior Software Engineer @ Innovatech · Cloud, DevOps & Blockchain · AWS Certified",
+        "about": "Senior software engineer focused on cloud infrastructure, DevOps, and blockchain systems. I build reliable, scalable platforms on AWS and care deeply about developer experience and clean delivery pipelines. Stanford CS grad with a fintech bent — I like working where distributed systems meet financial modeling. Always exploring what's next, currently going deep on agentic AI.",
+        "open_to_work": true,
+        "open_to_roles": [
+            "Software Engineer",
+            "DevOps Engineer",
+            "Platform Engineer"
+        ],
+        "connections": 842,
+        "experience": [
+            {
+                "title": "Senior Software Engineer",
+                "company": "Innovatech",
+                "employment_type": "Full-time",
+                "start": "Aug 2022",
+                "end": "Present",
+                "location": "Austin, TX",
+                "description": "Lead the cloud platform and DevOps practice for fintech products. Own AWS infrastructure, CI/CD, and a blockchain-based settlement service handling millions in daily volume.",
+                "skills": [
+                    "AWS",
+                    "DevOps",
+                    "Blockchain",
+                    "Software"
+                ]
+            },
+            {
+                "title": "Graduate Research Assistant",
+                "company": "Stanford University",
+                "employment_type": "Part-time",
+                "start": "Sep 2020",
+                "end": "Jun 2022",
+                "location": "Stanford, CA",
+                "description": "Researched distributed systems and blockchain consensus while completing my M.S. in Computer Science. Co-authored work on fault-tolerant ledger replication.",
+                "skills": [
+                    "Blockchain",
+                    "Science",
+                    "Engineering",
+                    "Computer"
+                ]
+            },
+            {
+                "title": "Software Engineer",
+                "company": "Cobalt Labs",
+                "employment_type": "Full-time",
+                "start": "Jul 2018",
+                "end": "Aug 2020",
+                "location": "San Francisco, CA",
+                "description": "Built backend microservices on AWS and quantitative tooling for an investing platform — financial modeling pipelines, market data ingestion, and reporting.",
+                "skills": [
+                    "Software",
+                    "AWS",
+                    "Corporate Finance",
+                    "Financial Modeling",
+                    "Investing"
+                ]
+            },
+            {
+                "title": "Software Engineering Intern",
+                "company": "Polaris Systems",
+                "employment_type": "Internship",
+                "start": "Jun 2017",
+                "end": "Aug 2017",
+                "location": "Seattle, WA",
+                "description": "Built internal tooling and data pipelines during my undergrad at UC Berkeley.",
+                "skills": [
+                    "Software",
+                    "Computer"
+                ]
+            }
+        ],
+        "licenses": [
+            {
+                "name": "AWS Certified Solutions Architect – Associate",
+                "issuer": "Amazon Web Services",
+                "issued": "Mar 2023",
+                "credential_id": "AWS-PSA-2340",
+                "skills": [
+                    "AWS",
+                    "DevOps"
+                ]
+            },
+            {
+                "name": "Introduction to DevOps",
+                "issuer": "Coursera",
+                "issued": "Sep 2022",
+                "credential_id": "course_6598",
+                "skills": [
+                    "AWS",
+                    "DevOps",
+                    "Blockchain"
+                ]
+            },
+            {
+                "name": "Blockchain Basics",
+                "issuer": "Coursera",
+                "issued": "Jan 2021",
+                "credential_id": "course_7833",
+                "skills": [
+                    "Blockchain",
+                    "AWS",
+                    "DevOps"
+                ]
+            }
+        ],
+        "activity": [
+            {
+                "text": "Participated in a hackathon and won first place",
+                "posted": "2w",
+                "reactions": 248,
+                "comments": 31
+            },
+            {
+                "text": "Published a new article on LinkedIn",
+                "posted": "1mo",
+                "reactions": 134,
+                "comments": 18
+            },
+            {
+                "text": "Attended a webinar on AI advancements",
+                "posted": "2mo",
+                "reactions": 76,
+                "comments": 9
+            }
         ]
     },
     {
