@@ -13,6 +13,11 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
   Tests (RoleFifaCard.test.tsx): load/error+retry, all close paths, owned/missing/empty states, salary
   present/demo, postings present/empty/undefined, ring color bands, CTA. 100% coverage.
 
+### Changed (v3)
+- ExplainView CTA renamed "Compare this role →" → "Compare your profile to this role" (W7).
+  RoleFifaCard already uses this copy. NOTE for Track B: add a single-role-focus regression test to
+  ComparisonPanel (assert no list of other roles is rendered) — that's a Track-B-owned file.
+
 ### Changed
 - AppFlow: added explicit `explain` step (landing→explore→explain→comparison→milestone);
   owns canonical userId (default `user_2340`) and roleId; fetches the normalized profile once

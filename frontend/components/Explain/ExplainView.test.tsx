@@ -56,14 +56,14 @@ describe("ExplainView", () => {
     expect(screen.getByText(/Why it may fit/)).toBeInTheDocument();
     expect(screen.getByText(/\$100,000–\$150,000/)).toBeInTheDocument();
     expect(screen.getByText(/Related:/)).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: /Compare this role/ }));
+    await userEvent.click(screen.getByRole("button", { name: "Compare your profile to this role" }));
     expect(onCompare).toHaveBeenCalledWith("data_scientist");
   });
 
   it("renders no explanation panel when no role is carried in", () => {
     render(<ExplainView userId="user_2340" roleId={null} onCompare={() => {}} />);
     expect(explainRole).not.toHaveBeenCalled();
-    expect(screen.queryByText(/Compare this role/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Compare your profile to this role/)).not.toBeInTheDocument();
   });
 
   it("submits the prompt to recommendRoles and renders score reasons + matched skills", async () => {

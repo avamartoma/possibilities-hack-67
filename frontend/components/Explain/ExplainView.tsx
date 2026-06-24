@@ -193,7 +193,7 @@ function Explanation({ explanation, onCompare }: { explanation: RoleExplanation;
       <p style={{ margin: "0 0 12px", fontSize: 12, color: li.textHint }}>{explanation.disclaimer}</p>
 
       <button type="button" onClick={onCompare} style={{ background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "8px 22px", fontWeight: 700, cursor: "pointer", fontFamily: li.font }}>
-        Compare this role →
+        Compare your profile to this role
       </button>
     </div>
   );
