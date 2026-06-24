@@ -103,5 +103,37 @@ class CareerApiTests(unittest.TestCase):
             self.assertLessEqual(item["readinessScore"], 100)
 
 
+class CompareAndPathHandlerTests(unittest.TestCase):
+    """Track B: override fit dynamics and the Path generation contract shape."""
+
+    def test_override_adds_strengths_removes_gaps_and_raises_readiness(self):
+        baseline = post_compare(CompareRequest(userId="user_5329", roleId="data_scientist"))
+        overridden = post_compare(
+            CompareRequest(
+                userId="user_5329",
+                roleId="data_scientist",
+                profileOverride={"skills": baseline["profile"]["skills"] + ["Python", "Machine Learning", "Data Analysis"]},
+            )
+        )
+        self.assertGreater(overridden["readinessScore"], baseline["readinessScore"])
+        self.assertGreaterEqual(len(overridden["strengths"]), len(baseline["strengths"]))
+        baseline_missing = {g["skill"] for g in baseline["skillGaps"] if g["status"] == "missing"}
+        overridden_missing = {g["skill"] for g in overridden["skillGaps"] if g["status"] == "missing"}
+        self.assertTrue(overridden_missing < baseline_missing or not overridden_missing)
+
+    def test_path_generate_handler_returns_full_contract(self):
+        path = post_path_generate(PathGenerateRequest(userId="user_5329", roleId="data_scientist", maxMilestones=3))
+        self.assertEqual(
+            set(path),
+            {"profileId", "role", "readinessScore", "startingStrengths", "skillGaps", "milestones", "generatedAt", "disclaimer"},
+        )
+        self.assertLessEqual(len(path["milestones"]), 3)
+
+    def test_path_generate_unknown_role_is_404(self):
+        with self.assertRaises(HTTPException) as error:
+            post_path_generate(PathGenerateRequest(userId="user_5329", roleId="no_such_role"))
+        self.assertEqual(error.exception.status_code, 404)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -7,6 +7,8 @@ from pathlib import Path
 from .fit import compute_fit
 from .milestones import build_milestone_plan
 from .analysis import aggregate_role_analysis
+from .comparison import compare_profile_to_role
+from .pathing import generate_path
 from .profile_source import normalize_sample_user, resolve_profile
 from .roles import explain_role, search_roles
 
@@ -31,6 +33,14 @@ class CareerLogicTests(unittest.TestCase):
         self.assertTrue(plan["milestones"])
         self.assertEqual(plan["role"]["id"], "devops_engineer")
         self.assertTrue(all(step["actions"] for step in plan["milestones"]))
+
+    def test_milestone_plan_falls_back_to_portfolio_when_no_gaps(self):
+        role = ROLES["devops_engineer"]
+        fully_skilled = {**USERS[0], "skills": list(role["skills"])}
+        plan = build_milestone_plan(fully_skilled, role, COURSES)
+        self.assertEqual(len(plan["milestones"]), 1)
+        self.assertEqual(plan["milestones"][0]["skill"], "Portfolio evidence")
+        self.assertIsNone(plan["milestones"][0]["course"])
 
     def test_aggregate_analysis_never_exposes_profiles(self):
         analysis = aggregate_role_analysis("DevOps Engineer", USERS[0]["skills"])
@@ -125,6 +135,96 @@ class RoleSearchAndExplainTests(unittest.TestCase):
         profile = {"skills": ["Totally Unrelated Skill"]}
         explanation = explain_role(ROLES["data_scientist"], profile, ROLES)
         self.assertIn("stretch", explanation["whyItMayFit"].lower())
+
+
+def _profile(skills, profile_id="user_test", interests=None):
+    return {"id": profile_id, "name": "Test User", "skills": list(skills), "interests": list(interests or [])}
+
+
+class CompareServiceTests(unittest.TestCase):
+    """Track B: compare_profile_to_role is the canonical fit source."""
+
+    ROLE = ROLES["data_scientist"]
+
+    def test_strengths_and_gaps_split_required_skills(self):
+        profile = _profile(["Python", "Machine Learning"])
+        result = compare_profile_to_role(profile, self.ROLE)
+        required = set(self.ROLE["skills"])
+        self.assertEqual(set(result["strengths"]), {"Python", "Machine Learning"})
+        missing = {gap["skill"] for gap in result["skillGaps"] if gap["status"] == "missing"}
+        self.assertEqual(set(result["strengths"]) | missing, required)
+        self.assertIsInstance(result["readinessScore"], int)
+        self.assertEqual(result["readinessScore"], round(100 * 2 / len(self.ROLE["skills"])))
+
+    def test_compare_is_case_insensitive(self):
+        lower = compare_profile_to_role(_profile(["python", "machine learning"]), self.ROLE)
+        mixed = compare_profile_to_role(_profile(["PYTHON", "Machine Learning"]), self.ROLE)
+        self.assertEqual(lower["readinessScore"], mixed["readinessScore"])
+        self.assertEqual(set(lower["strengths"]), set(mixed["strengths"]))
+
+    def test_missing_and_strength_gap_shapes(self):
+        result = compare_profile_to_role(_profile(["Python"]), self.ROLE)
+        missing = [gap for gap in result["skillGaps"] if gap["status"] == "missing"]
+        strength = [gap for gap in result["skillGaps"] if gap["status"] == "strength"]
+        self.assertTrue(missing and strength)
+        for gap in missing:
+            self.assertEqual(gap["importance"], "core")
+            self.assertEqual(gap["evidence"], [])  # no fabricated evidence
+            self.assertTrue(gap["suggestedProject"])
+        for gap in strength:
+            self.assertEqual(gap["evidence"], ["Listed in your profile"])
+
+    def test_empty_required_skills_role_yields_zero_readiness(self):
+        empty_role = {"id": "empty_role", "name": "Empty Role", "description": "", "skills": [], "companies": []}
+        result = compare_profile_to_role(_profile(["Python"]), empty_role)
+        self.assertEqual(result["readinessScore"], 0)
+        self.assertEqual(result["strengths"], [])
+        self.assertEqual(result["skillGaps"], [])
+        self.assertTrue(result["suggestedNextSteps"])
+
+    def test_aggregate_exposes_counts_only(self):
+        result = compare_profile_to_role(_profile(["Python"]), self.ROLE)
+        self.assertEqual(set(result["aggregateAnalysis"]), {"analyzed", "landed", "similar"})
+
+
+class PathServiceTests(unittest.TestCase):
+    """Track B: generate_path turns a comparison into ordered, course-backed milestones."""
+
+    ROLE = ROLES["data_scientist"]
+
+    def _comparison(self, skills):
+        return compare_profile_to_role(_profile(skills), self.ROLE)
+
+    def test_respects_max_milestones_with_sequential_orders(self):
+        path = generate_path(self._comparison(["Python"]), COURSES, max_milestones=2)
+        self.assertLessEqual(len(path["milestones"]), 2)
+        self.assertEqual([m["order"] for m in path["milestones"]], list(range(1, len(path["milestones"]) + 1)))
+
+    def test_default_caps_at_five(self):
+        path = generate_path(self._comparison([]), COURSES, max_milestones=5)
+        self.assertLessEqual(len(path["milestones"]), 5)
+
+    def test_missing_skill_with_course_record_uses_real_course(self):
+        path = generate_path(self._comparison(["Python", "Machine Learning"]), COURSES, max_milestones=5)
+        data_analysis = next(m for m in path["milestones"] if m["targetSkill"] == "Data Analysis")
+        self.assertIsNotNone(data_analysis["course"])
+        self.assertEqual(data_analysis["course"], COURSES["Data Analysis"][0])
+
+    def test_fully_aligned_profile_gets_one_portfolio_milestone(self):
+        path = generate_path(self._comparison(self.ROLE["skills"]), COURSES, max_milestones=5)
+        self.assertEqual(len(path["milestones"]), 1)
+        self.assertEqual(path["milestones"][0]["targetSkill"], "Portfolio evidence")
+        self.assertIsNone(path["milestones"][0]["course"])
+
+    def test_every_milestone_has_all_action_types_and_not_started(self):
+        path = generate_path(self._comparison(["Python"]), COURSES, max_milestones=5)
+        self.assertTrue(path["milestones"])
+        for milestone in path["milestones"]:
+            self.assertTrue(milestone["project"])
+            self.assertTrue(milestone["networkingAction"])
+            self.assertTrue(milestone["profileCheckpoint"])
+            self.assertEqual(milestone["completionState"], "not_started")
+        self.assertTrue(path["disclaimer"])
 
 
 if __name__ == "__main__":
