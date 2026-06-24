@@ -5,6 +5,14 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 
 ## [Unreleased]
 
+### Added (v3)
+- `components/RoleCard/RoleFifaCard.tsx` (W4): shared centered modal "FIFA card" for a role —
+  backed by one `compareRole()` call (readiness ring, owned vs missing skills, salary, top companies,
+  scrollable real postings); CTA "Compare your profile to this role" → `onCompare(roleId)`. Closes via
+  X / Esc / backdrop (card click does not close); `role="dialog"` + `aria-modal`. Added to coverage `include`.
+  Tests (RoleFifaCard.test.tsx): load/error+retry, all close paths, owned/missing/empty states, salary
+  present/demo, postings present/empty/undefined, ring color bands, CTA. 100% coverage.
+
 ### Changed
 - AppFlow: added explicit `explain` step (landing→explore→explain→comparison→milestone);
   owns canonical userId (default `user_2340`) and roleId; fetches the normalized profile once

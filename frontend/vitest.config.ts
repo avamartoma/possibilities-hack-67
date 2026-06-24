@@ -16,6 +16,8 @@ const TRACK_A_SURFACE = [
   "app/page.tsx",
   "app/layout.tsx",
   "app/explore/page.tsx",
+  // v3 — shared FIFA-card modal (W4)
+  "components/RoleCard/RoleFifaCard.tsx",
 ];
 
 // Track B surface (Compare → Your Path). Appended per the note above so the 100%
