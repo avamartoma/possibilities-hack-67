@@ -137,6 +137,25 @@ export default function ComparisonPanel({
           <p style={{ margin: 0, color: li.textSecondary, lineHeight: 1.5, fontSize: 15 }}>
             {role.summary}
           </p>
+          <div
+            style={{
+              marginTop: 12,
+              padding: "12px 16px",
+              background: li.blueLight,
+              borderRadius: li.cardRadius,
+              color: li.textPrimary,
+              fontSize: 14,
+              lineHeight: 1.45,
+            }}
+          >
+            <strong>{aggregateAnalysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
+            {aggregateAnalysis.landed.toLocaleString()} people in the dataset have held this role
+            {aggregateAnalysis.similar > 0 ? (
+              <>; {aggregateAnalysis.similar.toLocaleString()} share at least one skill with you.</>
+            ) : (
+              "."
+            )}
+          </div>
         </div>
 
         <hr style={{ border: "none", borderTop: `1px solid ${li.cardBorder}`, margin: "20px 0" }} />
@@ -238,26 +257,6 @@ export default function ComparisonPanel({
           haveSkills={strengths}
           missingSkills={missingSkills}
         />
-
-        <div
-          style={{
-            marginTop: 20,
-            padding: "12px 16px",
-            background: li.blueLight,
-            borderRadius: li.cardRadius,
-            color: li.textPrimary,
-            fontSize: 14,
-            lineHeight: 1.45,
-          }}
-        >
-          <strong>{aggregateAnalysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
-          {aggregateAnalysis.landed.toLocaleString()} people in the dataset have held this role
-          {aggregateAnalysis.similar > 0 ? (
-            <>; {aggregateAnalysis.similar.toLocaleString()} share at least one skill with you.</>
-          ) : (
-            "."
-          )}
-        </div>
 
         {/* Handoff to Your Path — IDs only; missing skills come from the backend. */}
         <button
