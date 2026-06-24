@@ -5,6 +5,7 @@ import {
   generatePath,
   getCourses,
   getFit,
+  getTopApplicantJobs,
   getMilestonePlan,
   getProfile,
   getRole,
@@ -83,6 +84,19 @@ describe("v2 POST helpers", () => {
     fetchMock.mockResolvedValueOnce(ok({ milestones: [] }));
     await generatePath({ userId: "user_2340", roleId: "data_scientist", maxMilestones: 3 });
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ userId: "user_2340", roleId: "data_scientist", maxMilestones: 3 });
+  });
+
+  it("getTopApplicantJobs posts to the jobs endpoint and resolves the body", async () => {
+    fetchMock.mockResolvedValueOnce(ok({ jobs: [{ id: "job_1" }], total: 1 }));
+    const result = await getTopApplicantJobs({ userId: "user_2340", limit: 10 });
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/jobs/top-applicant");
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ userId: "user_2340", limit: 10 });
+    expect(result).toEqual({ jobs: [{ id: "job_1" }], total: 1 });
+  });
+
+  it("getTopApplicantJobs rejects on a non-OK response", async () => {
+    fetchMock.mockResolvedValueOnce(notOk(503));
+    await expect(getTopApplicantJobs({ userId: "user_2340" })).rejects.toThrow(/503/);
   });
 });
 

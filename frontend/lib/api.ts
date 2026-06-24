@@ -2,7 +2,7 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath, RoleExplanation } from "./types";
+import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath, RoleExplanation, TopApplicantJobs } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
@@ -118,4 +118,9 @@ export function compareRole(input: { userId: string; roleId: string; profileOver
 
 export function generatePath(input: { userId: string; roleId: string; profileOverride?: ProfileOverride; maxMilestones?: number }): Promise<PersonalizedPath> {
   return postApi("/api/path/generate", input);
+}
+
+// v3: real postings ranked for how well the user fits them (Career Guide scroller).
+export function getTopApplicantJobs(input: { userId: string; profileOverride?: ProfileOverride; limit?: number }): Promise<TopApplicantJobs> {
+  return postApi("/api/jobs/top-applicant", input);
 }

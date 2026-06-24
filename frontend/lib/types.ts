@@ -114,6 +114,11 @@ export interface CareerRole {
   summary: string;
   description?: string;
   requiredSkills: string[];
+  // v3: requiredSkills split into industry-core vs keyword-supporting (for the
+  // FIFA card's owned-vs-missing chips). The backend always emits both; optional
+  // here so existing CareerRole fixtures stay valid. requiredSkills === coreSkills + supportingSkills.
+  coreSkills?: string[];
+  supportingSkills?: string[];
   relatedRoleIds?: string[];
   dayToDay?: string[];
   commonPaths?: string[];
@@ -165,4 +170,12 @@ export interface PersonalizedPath {
   milestones: Array<{ order: number; title: string; targetSkill: string; reason: string; course: Course | null; project: string; networkingAction: string; profileCheckpoint: string; completionState: "not_started" }>;
   generatedAt: string;
   disclaimer: string;
+}
+
+// v3: a real posting ranked for how well the user fits it (POST /api/jobs/top-applicant).
+export type TopApplicantJob = Posting & { roleId: string; score: number; topApplicant: boolean };
+
+export interface TopApplicantJobs {
+  jobs: TopApplicantJob[];
+  total: number;
 }
