@@ -5,6 +5,7 @@ GenZ/GenAlpha: help students discover job roles and fields they've never
 heard of, then use their profile data + AI to map the gap between where
 they are and a field they're excited about (Khan-Academy-style progress
 and % mastery).
+Slides : https://docs.google.com/presentation/d/1b6U2BZWCb9Kvy0PSQAuKAmkkyUQa_ju6kaN9wYab2SA/edit?slide=id.g3f2578c97fa_1_75#slide=id.g3f2578c97fa_1_75 
 
 > **Status: concept locked — building modularly (one owner per page).**
 
