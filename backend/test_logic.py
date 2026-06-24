@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .fit import compute_fit
 from .milestones import build_milestone_plan
+from .analysis import aggregate_role_analysis
 
 
 DATA_DIR = Path(__file__).parent / "data"
@@ -26,6 +27,11 @@ class CareerLogicTests(unittest.TestCase):
         self.assertTrue(plan["milestones"])
         self.assertEqual(plan["role"]["id"], "devops_engineer")
         self.assertTrue(all(step["actions"] for step in plan["milestones"]))
+
+    def test_aggregate_analysis_never_exposes_profiles(self):
+        analysis = aggregate_role_analysis("DevOps Engineer", USERS[0]["skills"])
+        self.assertEqual(set(analysis), {"analyzed", "landed", "similar"})
+        self.assertGreater(analysis["analyzed"], 0)
 
 
 if __name__ == "__main__":

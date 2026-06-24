@@ -17,6 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .fit import compute_fit
 from .milestones import build_milestone_plan
+from .analysis import aggregate_role_analysis
 
 DATA_DIR = Path(__file__).parent / "data"
 ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
@@ -73,7 +74,9 @@ def get_fit(userId: str, roleId: str) -> dict:
     role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
-    return compute_fit(user["skills"], role)
+    result = compute_fit(user["skills"], role)
+    result["analysis"] = aggregate_role_analysis(role["name"], user["skills"])
+    return result
 
 
 @app.get("/api/milestones")

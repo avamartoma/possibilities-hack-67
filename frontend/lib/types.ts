@@ -66,6 +66,11 @@ export interface FitResult {
   percent: number; // 0-100
   haveSkills: string[];
   missingSkills: string[];
+  analysis?: {
+    analyzed: number;
+    landed: number;
+    similar: number;
+  };
 }
 
 export interface MilestoneStep {
