@@ -171,6 +171,6 @@ describe("legacy helpers prefer the backend and fall back to bundled data", () =
     const plan = await getMilestonePlan("user_2340", "marketing_specialist");
     expect(plan.milestones).toHaveLength(1);
     expect(plan.milestones[0].skill).toBe("Portfolio evidence");
-    expect(plan.milestones[0].course).toBeNull();
+    expect(plan.milestones[0].course).toBeUndefined();
   });
 });

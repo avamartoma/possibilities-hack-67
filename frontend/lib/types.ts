@@ -77,8 +77,9 @@ export interface MilestoneStep {
   step: number;
   skill: string;
   title: string;
-  course: string | null;
-  courseLength: { value: number; unit: string } | null;
+  // Optional (absent) rather than null, matching the MilestoneView consumer's prop type.
+  course?: string;
+  courseLength?: { value: number; unit: string };
   actions: string[];
 }
 

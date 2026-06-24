@@ -14,10 +14,20 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 - ExploreView: replaced `roleSkills.json` import + local `computeFit` with POST /api/roles/search
   (debounced 250ms) for the catalog/typed search and POST /api/roles/recommend for per-card
   backend readiness; loading/empty/error+retry states; card click hands canonical role id to AppFlow.
+- ExplainView: replaced `matchCareers` + client taxonomy matcher with POST /api/roles/recommend
+  (free-text prompt → ranked roles with score reasons + matched skills) and POST /api/roles/explain
+  (plain-language summary, day-to-day, core skills, related roles, salary, why-it-may-fit). Auto-explains
+  the role carried in from Explore; "Compare this role" hands the canonical id to AppFlow. Loading/error/retry.
+- /explore standalone route now wires ExploreView with the canonical user + a comparison-demo handoff.
 
 ### Added
 
 ### Fixed
+- Build unblock (contract-side only): `MilestoneStep.course`/`courseLength` are now optional
+  (`string | undefined`) instead of `string | null`, matching the existing MilestoneView prop type.
+  This clears a PRE-EXISTING `next build` type error in Track B's MilestoneView (confirmed present at
+  parent commit bfc5582) without modifying MilestoneView. `api.getMilestonePlan` emits `undefined` for
+  the absent-course portfolio milestone.
 
 ### Tested
 - AppFlow (AppFlow.test.tsx): profile fetch loading/error/retry, full flow transition carrying
@@ -27,3 +37,9 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 - ExploreView (ExploreView.test.tsx): empty→catalog, backend readiness badges (all branches),
   one debounced search for typed query, no-results, error+retry, card→AppFlow, hover, recommend
   failure non-fatal. 100% coverage. No local role-fit JSON import remains.
+- ExplainView (ExplainView.test.tsx): auto-explain carried-in role + Compare handoff, prompt→recommend,
+  loading, score reasons + matched skills (incl. empty), open-recommendation→explain, empty/error recs,
+  explain error+retry, salary present/demo + related-roles present/absent, empty-prompt guard. 100%.
+- Pages: app/page (AppFlow mount), app/layout (children + metadata), app/explore (wires ExploreView +
+  comparison-demo navigation). 100%.
+- Full frontend suite: 58 tests, 100% lines/branches/functions on the Track-A surface; `next build` green.

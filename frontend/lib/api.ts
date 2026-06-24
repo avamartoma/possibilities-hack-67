@@ -77,7 +77,7 @@ export async function getMilestonePlan(userId: string, roleId: string): Promise<
       skill,
       title: `Build confidence in ${skill}`,
       course: course?.name ?? `Build a project using ${skill}`,
-      courseLength: course?.length ?? null,
+      courseLength: course?.length,
       actions: [
         `Complete ${course?.name ?? `a project using ${skill}`}`,
         `Add evidence of ${skill} to your LinkedIn profile`,
@@ -85,7 +85,7 @@ export async function getMilestonePlan(userId: string, roleId: string): Promise<
       ],
     };
   });
-  return { ...fit, readiness: fit.percent, milestones: steps.length ? steps : [{ step: 1, skill: "Portfolio evidence", title: "Turn your existing skills into proof of work", course: null, courseLength: null, actions: ["Publish a project that demonstrates your readiness", "Ask a relevant connection for feedback", "Update your LinkedIn profile with the outcome"] }] };
+  return { ...fit, readiness: fit.percent, milestones: steps.length ? steps : [{ step: 1, skill: "Portfolio evidence", title: "Turn your existing skills into proof of work", course: undefined, courseLength: undefined, actions: ["Publish a project that demonstrates your readiness", "Ask a relevant connection for feedback", "Update your LinkedIn profile with the outcome"] }] };
 }
 
 export async function getProfile(userId: string): Promise<UserProfile> {
