@@ -9,24 +9,14 @@ vi.mock("../../lib/api", () => ({
   searchRoles: (...a: unknown[]) => searchRoles(...a),
   recommendRoles: (...a: unknown[]) => recommendRoles(...a),
 }));
-// Isolate ExploreView from the modal (RoleFifaCard has its own suite).
-vi.mock("../RoleCard/RoleFifaCard", () => ({
-  default: ({ roleId, onClose, onCompare }: any) => (
-    <div>
-      <span>modal:{roleId}</span>
-      <button onClick={onClose}>modal-close</button>
-      <button onClick={() => onCompare(roleId)}>modal-compare</button>
-    </div>
-  ),
-}));
 
 import ExploreView from "./ExploreView";
 
-function role(id: string, name: string, jobCount = 5): CareerRole {
+function role(id: string, name: string, jobCount = 5, readinessScore?: number): CareerRole {
   return {
     id, name, category: "Tech", summary: "", requiredSkills: [], companies: [],
     salaryRange: { min: null, max: null, currency: "USD", isDemoGuidance: true },
-    jobCount, industries: [], levels: [],
+    jobCount, industries: [], levels: [], readinessScore,
   };
 }
 
@@ -59,15 +49,15 @@ describe("ExploreView (Discover)", () => {
   it("loads the catalog from the API on an empty query", async () => {
     setup();
     expect(await screen.findByText("Data Scientist")).toBeInTheDocument();
-    expect(searchRoles).toHaveBeenCalledWith({ query: "", categories: [], skills: [], limit: 100 });
+    expect(searchRoles).toHaveBeenCalledWith({ query: "", categories: [], skills: [], limit: 100, userId: "user_2340" });
     expect(screen.getByText("1 open role")).toBeInTheDocument(); // singular
     expect(screen.getAllByText(/5 open roles/).length).toBeGreaterThan(0); // plural
   });
 
-  it("shows industry and open-role counts without a readiness lookup", async () => {
+  it("shows the readiness percentage on each card from the search response", async () => {
+    searchRoles.mockResolvedValue({ roles: [role("data_scientist", "Data Scientist", 5, 60)] });
     setup();
-    expect((await screen.findAllByText("Tech")).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/open roles/).length).toBeGreaterThan(0);
+    expect(await screen.findByText("60%")).toBeInTheDocument();
     expect(recommendRoles).not.toHaveBeenCalled();
   });
 
@@ -100,24 +90,12 @@ describe("ExploreView (Discover)", () => {
     expect(await screen.findByText("Data Scientist")).toBeInTheDocument();
   });
 
-  it("opens the FIFA modal on card click and compares from it", async () => {
+  it("compares directly on card click without an intermediate modal", async () => {
     const onCompareRole = vi.fn();
     setup({ onCompareRole });
     await userEvent.click(await screen.findByText("Data Scientist"));
-    expect(screen.getByText("modal:data_scientist")).toBeInTheDocument();
-    await userEvent.click(screen.getByText("modal-compare"));
     expect(onCompareRole).toHaveBeenCalledWith("data_scientist");
-    expect(screen.queryByText("modal:data_scientist")).not.toBeInTheDocument(); // closes on compare
-  });
-
-  it("closes the modal without comparing", async () => {
-    const onCompareRole = vi.fn();
-    setup({ onCompareRole });
-    await userEvent.click(await screen.findByText("UX Designer"));
-    expect(screen.getByText("modal:ux_designer")).toBeInTheDocument();
-    await userEvent.click(screen.getByText("modal-close"));
-    expect(screen.queryByText("modal:ux_designer")).not.toBeInTheDocument();
-    expect(onCompareRole).not.toHaveBeenCalled();
+    expect(screen.queryByText(/modal:/)).not.toBeInTheDocument();
   });
 
   it("opens the Career Guide", async () => {

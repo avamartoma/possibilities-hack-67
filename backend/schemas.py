@@ -21,6 +21,7 @@ class RoleSearchRequest(BaseModel):
     categories: List[str] = Field(default_factory=list)
     skills: List[str] = Field(default_factory=list)
     limit: int = Field(default=20, ge=1, le=100)
+    userId: str | None = None
 
 
 class RecommendRequest(BaseModel):

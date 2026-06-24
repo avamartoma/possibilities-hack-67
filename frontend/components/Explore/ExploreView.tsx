@@ -1,15 +1,15 @@
 "use client";
 
 // Discover: a large, searchable catalog of roles (the v3 backend serves the full
-// jobs_data.json-derived catalog). Search genuinely filters. Clicking a card opens
-// the shared RoleFifaCard modal (no navigation); the modal's CTA jumps to Compare.
-// Readiness badges come from /api/roles/recommend — never computed locally.
+// jobs_data.json-derived catalog). Search genuinely filters. Each card shows the
+// user's readiness % for that role and jumps straight to Compare on click — no
+// intermediate modal. Readiness comes from /api/roles/search (userId) — never
+// computed locally.
 
 import { useEffect, useState } from "react";
 import { li } from "../../lib/theme";
 import { searchRoles } from "../../lib/api";
 import type { CareerRole } from "../../lib/types";
-import RoleFifaCard from "../RoleCard/RoleFifaCard";
 
 const DEBOUNCE_MS = 250;
 const SEARCH_LIMIT = 100;
@@ -28,7 +28,6 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(PAGE);
   const [attempt, setAttempt] = useState(0);
-  const [openRoleId, setOpenRoleId] = useState<string | null>(null);
 
   useEffect(() => setQuery(initialQuery), [initialQuery]);
 
@@ -36,12 +35,12 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
     const handle = setTimeout(() => {
       setRoles(null);
       setError(false);
-      searchRoles({ query, categories: [], skills: [], limit: SEARCH_LIMIT })
+      searchRoles({ query, categories: [], skills: [], limit: SEARCH_LIMIT, userId })
         .then((res) => { setRoles(res.roles); setVisible(PAGE); })
         .catch(() => setError(true));
     }, DEBOUNCE_MS);
     return () => clearTimeout(handle);
-  }, [query, attempt]);
+  }, [query, attempt, userId]);
 
   return (
     <div style={{ fontFamily: li.font }}>
@@ -49,7 +48,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 600, margin: "0 0 4px", color: li.textPrimary }}>Discover where you could go</h1>
           <p style={{ color: li.textSecondary, fontSize: 14, margin: "0 0 12px" }}>
-            Search hundreds of real roles — click any card for the full breakdown.
+            Search hundreds of real roles — click any card to compare your profile.
           </p>
         </div>
         <button
@@ -65,7 +64,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
           <input
             type="text"
             aria-label="Search roles"
-            placeholder="Search roles, industries, or skills"
+            placeholder="Tell me what you're looking for..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             style={{ width: "100%", padding: "12px 16px 12px 40px", border: `1px solid ${li.cardBorder}`, borderRadius: 999, fontSize: 15, background: li.cardBg, boxShadow: li.cardShadow }}
@@ -87,10 +86,16 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
         <div style={{ textAlign: "center", padding: 40, color: li.textHint }}>No careers match your search</div>
       ) : (
         <>
+          <p style={{ color: li.textSecondary, fontSize: 13, fontWeight: 600, textAlign: "center", margin: "0 0 12px" }}>
+            These are the careers you're most suited for currently.
+          </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
-            {roles.slice(0, visible).map((role) => (
-              <RoleCard key={role.id} role={role} onClick={() => setOpenRoleId(role.id)} />
-            ))}
+            {[...roles]
+              .sort((a, b) => (b.readinessScore ?? -1) - (a.readinessScore ?? -1))
+              .slice(0, visible)
+              .map((role) => (
+                <RoleCard key={role.id} role={role} onClick={() => onCompareRole(role.id)} />
+              ))}
           </div>
           {visible < roles.length && (
             <div style={{ textAlign: "center", marginTop: 20 }}>
@@ -101,15 +106,6 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
           )}
         </>
       )}
-
-      {openRoleId && (
-        <RoleFifaCard
-          userId={userId}
-          roleId={openRoleId}
-          onClose={() => setOpenRoleId(null)}
-          onCompare={(rid) => { setOpenRoleId(null); onCompareRole(rid); }}
-        />
-      )}
     </div>
   );
 }
@@ -117,6 +113,8 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
 const primaryBtn: React.CSSProperties = { background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "10px 22px", fontWeight: 700, cursor: "pointer", fontFamily: li.font };
 
 function RoleCard({ role, onClick }: { role: CareerRole; onClick: () => void }) {
+  const readiness = role.readinessScore;
+  const ringColor = readiness === undefined ? li.textHint : readiness >= 50 ? li.green : readiness >= 25 ? li.blue : li.amber;
   return (
     <div
       onClick={onClick}
@@ -131,6 +129,15 @@ function RoleCard({ role, onClick }: { role: CareerRole; onClick: () => void }) 
         <div style={{ fontSize: 12, color: li.textSecondary }}>{role.industries[0] || role.category}</div>
         <div style={{ fontSize: 11, color: li.textHint, marginTop: 6 }}>{role.jobCount} open {role.jobCount === 1 ? "role" : "roles"}</div>
       </div>
+      {readiness !== undefined && (
+        <div
+          aria-label={`${readiness}% ready`}
+          style={{ flexShrink: 0, width: 52, height: 52, borderRadius: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, background: ringColor }}
+        >
+          <span style={{ fontSize: 15, lineHeight: 1 }}>{readiness}%</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: 0.5 }}>READY</span>
+        </div>
+      )}
     </div>
   );
 }
