@@ -40,9 +40,10 @@ CATEGORY = {
     "Sales Representative": "Business", "Customer Service Manager": "Business",
 }
 
-# The "hero" is surfaced first as a suggested demo profile; all other real
-# users from user_data.json are included too (the picker is a search box).
+# The logged-in profile ("you") = this real user from user_data.json.
 HERO_ID = "user_5329"  # Economics grad whose security skills transfer to DevOps
+# Display name override for "you" (the dataset name is a placeholder).
+HERO_NAME = "Daniel Lee"
 
 
 def role_id(position):
@@ -107,11 +108,12 @@ def _shape_user(u):
 
 
 def build_current_user(users_raw):
-    """The single logged-in profile ("you") — the hero from user_data.json."""
-    for u in users_raw:
-        if u["id"] == HERO_ID:
-            return _shape_user(u)
-    return _shape_user(users_raw[0])
+    """The single logged-in profile ("you") — the hero from user_data.json,
+    with the display name overridden to HERO_NAME (real degree/skills kept)."""
+    hero = next((u for u in users_raw if u["id"] == HERO_ID), users_raw[0])
+    shaped = _shape_user(hero)
+    shaped["name"] = HERO_NAME
+    return shaped
 
 
 def build_analysis(users_raw, jobs_raw, current_user):

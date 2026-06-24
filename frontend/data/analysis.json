@@ -1,28 +1,4 @@
 {
-  "data_scientist": {
-    "analyzed": 2000,
-    "landed": 290,
-    "similar": 89,
-    "topMissing": [
-      "Administration",
-      "Marketing",
-      "Business",
-      "Nursing",
-      "Healthcare"
-    ]
-  },
-  "devops_engineer": {
-    "analyzed": 2000,
-    "landed": 353,
-    "similar": 79,
-    "topMissing": [
-      "Administration",
-      "AWS",
-      "Blockchain",
-      "DevOps",
-      "Healthcare"
-    ]
-  },
   "ux_designer": {
     "analyzed": 2000,
     "landed": 339,
@@ -33,6 +9,18 @@
       "Blockchain",
       "DevOps",
       "Information"
+    ]
+  },
+  "data_scientist": {
+    "analyzed": 2000,
+    "landed": 290,
+    "similar": 89,
+    "topMissing": [
+      "Administration",
+      "Marketing",
+      "Business",
+      "Nursing",
+      "Healthcare"
     ]
   },
   "software_engineer": {
@@ -47,6 +35,18 @@
       "Teaching"
     ]
   },
+  "devops_engineer": {
+    "analyzed": 2000,
+    "landed": 353,
+    "similar": 79,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Healthcare"
+    ]
+  },
   "sales_representative": {
     "analyzed": 2000,
     "landed": 378,
@@ -59,18 +59,6 @@
       "Information"
     ]
   },
-  "customer_service_manager": {
-    "analyzed": 2000,
-    "landed": 313,
-    "similar": 102,
-    "topMissing": [
-      "Administration",
-      "Finance",
-      "Healthcare",
-      "Nursing",
-      "Accounting"
-    ]
-  },
   "financial_analyst": {
     "analyzed": 2000,
     "landed": 383,
@@ -81,6 +69,18 @@
       "Blockchain",
       "DevOps",
       "Computer"
+    ]
+  },
+  "customer_service_manager": {
+    "analyzed": 2000,
+    "landed": 313,
+    "similar": 102,
+    "topMissing": [
+      "Administration",
+      "Finance",
+      "Healthcare",
+      "Nursing",
+      "Accounting"
     ]
   },
   "marketing_specialist": {
