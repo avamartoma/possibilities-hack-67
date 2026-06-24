@@ -1,0 +1,165 @@
+[
+  {
+    "id": "user_5329",
+    "name": "Alice Johnson",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Economics",
+        "graduation_year": 2020
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Economics",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_849223"
+    ],
+    "skills": [
+      "Information Security",
+      "Economics",
+      "Investing",
+      "Corporate Finance",
+      "Ethical Hacking",
+      "Network Security",
+      "Financial Modeling"
+    ],
+    "current_location": "Seattle, WA",
+    "courses": [
+      "course_8930",
+      "course_1995",
+      "course_6282"
+    ],
+    "hero": true,
+    "tagline": null
+  },
+  {
+    "id": "user_5377",
+    "name": "Bob Smith",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Software Engineering",
+        "graduation_year": 2011
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Computer Science",
+        "graduation_year": 2022
+      }
+    ],
+    "job_history": [
+      "job_900489",
+      "job_380964"
+    ],
+    "skills": [
+      "AWS",
+      "Science",
+      "DevOps",
+      "Engineering",
+      "Software",
+      "Blockchain",
+      "Computer"
+    ],
+    "current_location": "San Francisco, CA",
+    "courses": [
+      "course_5000"
+    ],
+    "hero": false,
+    "tagline": null
+  },
+  {
+    "id": "user_8705",
+    "name": "Charlie Brown",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Economics",
+        "graduation_year": 2014
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Finance",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_440968"
+    ],
+    "skills": [
+      "Economics",
+      "Finance"
+    ],
+    "current_location": "San Francisco, CA",
+    "courses": [],
+    "hero": false,
+    "tagline": null
+  },
+  {
+    "id": "user_9138",
+    "name": "Edward Norton",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Accounting",
+        "graduation_year": 2012
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Accounting",
+        "graduation_year": 2021
+      }
+    ],
+    "job_history": [
+      "job_676364"
+    ],
+    "skills": [
+      "Investing",
+      "Corporate Finance",
+      "Information Security",
+      "Ethical Hacking",
+      "Network Security",
+      "Accounting",
+      "Financial Modeling"
+    ],
+    "current_location": "San Francisco, CA",
+    "courses": [
+      "course_6282",
+      "course_4794"
+    ],
+    "hero": false,
+    "tagline": null
+  },
+  {
+    "id": "user_4579",
+    "name": "Bob Smith",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Psychology",
+        "graduation_year": 2019
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Education",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_500483",
+      "job_546688",
+      "job_949042",
+      "job_389045"
+    ],
+    "skills": [
+      "Education",
+      "Psychology"
+    ],
+    "current_location": "Boston, MA",
+    "courses": [],
+    "hero": false,
+    "tagline": null
+  }
+]

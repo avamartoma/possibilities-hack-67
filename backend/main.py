@@ -1,26 +1,29 @@
 """FastAPI backend for the Career Map Comparison Page.
 
 Endpoints:
-  GET /api/roles             -> role catalog (map / role search consume this)
-  GET /api/me                -> the logged-in profile ("you")
-  GET /api/courses           -> skill -> real courses (Milestone page)
-  GET /api/fit?roleId=...     -> your fit vs a role + an invisible aggregate
-                                analysis of people who landed it (counts only)
+  GET /api/roles            -> all roles (Person A's map can consume this too)
+  GET /api/users            -> demo users (shared avatar/user picker)
+  GET /api/fit?userId&roleId -> FitResult for a user against a role
 
 Run: uvicorn backend.main:app --reload  (from the repo root)
 """
 
+import json
+from pathlib import Path
 from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .fit import compute_fit
-from .build_data import build_all
+from .milestones import build_milestone_plan
+from .analysis import aggregate_role_analysis
 
-# Build app data directly from the real sample_data/ files at startup
-# (no pre-generated files in backend/).
-ROLES, CURRENT_USER, ANALYSIS, COURSES = build_all()
+DATA_DIR = Path(__file__).parent / "data"
+ROLES: dict = json.loads((DATA_DIR / "roleSkills.json").read_text())
+USERS: list = json.loads((DATA_DIR / "users.json").read_text())
+COURSES: dict = json.loads((DATA_DIR / "courses.json").read_text())
+USERS_BY_ID = {u["id"]: u for u in USERS}
 
 app = FastAPI(title="Career Map — Comparison API")
 
@@ -33,16 +36,27 @@ app.add_middleware(
 )
 
 
+@app.get("/api/health")
+def health() -> dict:
+    """Lightweight readiness signal for local and deployed environments."""
+    return {
+        "status": "ok",
+        "roles": len(ROLES),
+        "users": len(USERS),
+        "courseSkills": len(COURSES),
+    }
+
+
 @app.get("/api/roles")
 def get_roles() -> List[dict]:
-    """All roles, as a list (map + role search consume this)."""
+    """All roles, as a list (map + role pickers consume this)."""
     return list(ROLES.values())
 
 
-@app.get("/api/me")
-def get_me() -> dict:
-    """The single logged-in profile ('you')."""
-    return CURRENT_USER
+@app.get("/api/users")
+def get_users() -> List[dict]:
+    """Demo users for the avatar / user picker."""
+    return USERS
 
 
 @app.get("/api/courses")
@@ -52,16 +66,26 @@ def get_courses() -> dict:
 
 
 @app.get("/api/fit")
-def get_fit(roleId: str) -> dict:
-    """Your fit vs a role + an invisible aggregate analysis of people who landed it.
-
-    The per-profile comparison is computed internally and NOT returned; the
-    response exposes your fit-vs-role (ring + skills) and counts only
-    (analyzed / landed / similar), which drive the "Build my path" handoff.
-    """
+def get_fit(userId: str, roleId: str) -> dict:
+    """Compute a user's fit against a role."""
+    user = USERS_BY_ID.get(userId)
+    if user is None:
+        raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
     role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
-    result = compute_fit(CURRENT_USER["skills"], role)
-    result["analysis"] = ANALYSIS.get(roleId)
+    result = compute_fit(user["skills"], role)
+    result["analysis"] = aggregate_role_analysis(role["name"], user["skills"])
     return result
+
+
+@app.get("/api/milestones")
+def get_milestones(userId: str, roleId: str) -> dict:
+    """Return the next high-impact, course-backed actions for one role."""
+    user = USERS_BY_ID.get(userId)
+    if user is None:
+        raise HTTPException(status_code=404, detail=f"Unknown userId: {userId}")
+    role = ROLES.get(roleId)
+    if role is None:
+        raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
+    return build_milestone_plan(user, role, COURSES)

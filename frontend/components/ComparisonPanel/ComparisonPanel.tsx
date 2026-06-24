@@ -12,11 +12,13 @@ import FitRing from "./FitRing";
 import SkillColumns from "./SkillColumns";
 
 interface ComparisonPanelProps {
+  userId: string;
   roleId: string;
   onBuildPath?: (payload: { roleId: string; missingSkills: string[] }) => void;
 }
 
 export default function ComparisonPanel({
+  userId,
   roleId,
   onBuildPath,
 }: ComparisonPanelProps) {
@@ -26,13 +28,13 @@ export default function ComparisonPanel({
   useEffect(() => {
     let active = true;
     setLoading(true);
-    getFit(roleId)
+    getFit(userId, roleId)
       .then((f) => active && setFit(f))
       .finally(() => active && setLoading(false));
     return () => {
       active = false;
     };
-  }, [roleId]);
+  }, [userId, roleId]);
 
   const card: React.CSSProperties = {
     background: li.cardBg,
@@ -196,25 +198,24 @@ export default function ComparisonPanel({
           missingSkills={fit.missingSkills}
         />
 
-        {/* Invisible analysis: we compare your profile against everyone who
-            landed this role behind the scenes and only surface the counts. */}
         {fit.analysis && (
           <div
             style={{
               marginTop: 20,
               padding: "12px 16px",
               background: li.blueLight,
-              borderRadius: 8,
-              fontSize: 14,
+              borderRadius: li.cardRadius,
               color: li.textPrimary,
+              fontSize: 14,
+              lineHeight: 1.45,
             }}
           >
             <strong>{fit.analysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
-            {fit.analysis.landed.toLocaleString()} landed this role
+            {fit.analysis.landed.toLocaleString()} people in the dataset have held this role
             {fit.analysis.similar > 0 && (
-              <> — {fit.analysis.similar.toLocaleString()} started with skills like yours</>
+              <>; {fit.analysis.similar.toLocaleString()} share at least one skill with you.</>
             )}
-            . We used what they had in common to build your path below.
+            {fit.analysis.similar === 0 && "."}
           </div>
         )}
 

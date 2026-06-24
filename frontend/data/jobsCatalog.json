@@ -1,0 +1,3723 @@
+{
+  "industries": [
+    "Aerospace",
+    "Architecture & Construction",
+    "Biotech & Pharma",
+    "Customer Success",
+    "Design",
+    "Education",
+    "Energy & Environment",
+    "Engineering",
+    "Finance",
+    "Healthcare",
+    "Hospitality & Culinary",
+    "Human Resources",
+    "Legal",
+    "Manufacturing",
+    "Media & Entertainment",
+    "Operations & Logistics",
+    "Product Management",
+    "Retail & E-commerce",
+    "Sales & Marketing",
+    "Science & Research",
+    "Technology"
+  ],
+  "positions": [
+    {
+      "position": "3D Artist",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "131000"
+      }
+    },
+    {
+      "position": "Academic Advisor",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "33000",
+        "to": "127000"
+      }
+    },
+    {
+      "position": "Account Executive",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "46000",
+        "to": "211000"
+      }
+    },
+    {
+      "position": "Accountant",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "255000"
+      }
+    },
+    {
+      "position": "Acoustic Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "Actuary",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Sterling Finance",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "74000",
+        "to": "287000"
+      }
+    },
+    {
+      "position": "Aerospace Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "BlueOrbit",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "267000"
+      }
+    },
+    {
+      "position": "Animator",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "39000",
+        "to": "142000"
+      }
+    },
+    {
+      "position": "Architect",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Ironwood Manufacturing",
+        "Meridian Group"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "179000"
+      }
+    },
+    {
+      "position": "Art Director",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios"
+      ],
+      "salary": {
+        "from": "38000",
+        "to": "133000"
+      }
+    },
+    {
+      "position": "Astronomer",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "199000"
+      }
+    },
+    {
+      "position": "Auditor",
+      "industry": "Finance",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "89000",
+        "to": "283000"
+      }
+    },
+    {
+      "position": "Automotive Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "237000"
+      }
+    },
+    {
+      "position": "Avionics Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Senior"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit"
+      ],
+      "salary": {
+        "from": "125000",
+        "to": "218000"
+      }
+    },
+    {
+      "position": "BIM Specialist",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Granite Construction"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "173000"
+      }
+    },
+    {
+      "position": "Backend Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit",
+        "Northwind Labs",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "72000",
+        "to": "255000"
+      }
+    },
+    {
+      "position": "Bioinformatics Scientist",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "55000",
+        "to": "219000"
+      }
+    },
+    {
+      "position": "Biomechanical Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "232000"
+      }
+    },
+    {
+      "position": "Biomedical Engineer",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "202000"
+      }
+    },
+    {
+      "position": "Biostatistician",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio"
+      ],
+      "salary": {
+        "from": "80000",
+        "to": "235000"
+      }
+    },
+    {
+      "position": "Blockchain Developer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Innovatech",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "278000"
+      }
+    },
+    {
+      "position": "Botanist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Northwind Labs",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "174000"
+      }
+    },
+    {
+      "position": "Brand Manager",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "196000"
+      }
+    },
+    {
+      "position": "Brewmaster",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "151000"
+      }
+    },
+    {
+      "position": "Broadcast Engineer",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "54000",
+        "to": "174000"
+      }
+    },
+    {
+      "position": "Business Analyst",
+      "industry": "Product Management",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "108000",
+        "to": "296000"
+      }
+    },
+    {
+      "position": "CNC Machinist",
+      "industry": "Manufacturing",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "32000",
+        "to": "123000"
+      }
+    },
+    {
+      "position": "Carbon Markets Analyst",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Solstice Renewables"
+      ],
+      "salary": {
+        "from": "107000",
+        "to": "201000"
+      }
+    },
+    {
+      "position": "Cartographer",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Northwind Labs",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "51000",
+        "to": "212000"
+      }
+    },
+    {
+      "position": "Category Manager",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "48000",
+        "to": "152000"
+      }
+    },
+    {
+      "position": "Chemist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Northwind Labs",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "213000"
+      }
+    },
+    {
+      "position": "Cinematographer",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "40000",
+        "to": "177000"
+      }
+    },
+    {
+      "position": "Civil Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "224000"
+      }
+    },
+    {
+      "position": "Civil Estimator",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Ironwood Manufacturing",
+        "Meridian Group"
+      ],
+      "salary": {
+        "from": "100000",
+        "to": "218000"
+      }
+    },
+    {
+      "position": "Clinical Data Manager",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "76000",
+        "to": "240000"
+      }
+    },
+    {
+      "position": "Clinical Research Coordinator",
+      "industry": "Healthcare",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "172000"
+      }
+    },
+    {
+      "position": "Cloud Architect",
+      "industry": "Technology",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit",
+        "FutureWorks",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "136000",
+        "to": "319000"
+      }
+    },
+    {
+      "position": "Compensation Analyst",
+      "industry": "Human Resources",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Meridian Group",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "47000",
+        "to": "192000"
+      }
+    },
+    {
+      "position": "Compliance Officer",
+      "industry": "Legal",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Keystone Legal",
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "60000",
+        "to": "217000"
+      }
+    },
+    {
+      "position": "Computer Vision Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Innovatech",
+        "Northwind Labs",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "70000",
+        "to": "273000"
+      }
+    },
+    {
+      "position": "Conservation Scientist",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "182000"
+      }
+    },
+    {
+      "position": "Construction Manager",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Granite Construction",
+        "Ironwood Manufacturing"
+      ],
+      "salary": {
+        "from": "98000",
+        "to": "216000"
+      }
+    },
+    {
+      "position": "Content Strategist",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Innovatech",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "47000",
+        "to": "186000"
+      }
+    },
+    {
+      "position": "Contract Manager",
+      "industry": "Legal",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Keystone Legal",
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "60000",
+        "to": "251000"
+      }
+    },
+    {
+      "position": "Controls Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Northwind Labs",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "84000",
+        "to": "223000"
+      }
+    },
+    {
+      "position": "Copywriter",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "171000"
+      }
+    },
+    {
+      "position": "Corporate Counsel",
+      "industry": "Legal",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "90000",
+        "to": "285000"
+      }
+    },
+    {
+      "position": "Credit Analyst",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "273000"
+      }
+    },
+    {
+      "position": "Curriculum Developer",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "32000",
+        "to": "131000"
+      }
+    },
+    {
+      "position": "Customer Service Manager",
+      "industry": "Customer Success",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "63000",
+        "to": "176000"
+      }
+    },
+    {
+      "position": "Customer Success Manager",
+      "industry": "Customer Success",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Bright Harbor",
+        "Global Solutions LLC",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "43000",
+        "to": "188000"
+      }
+    },
+    {
+      "position": "Data Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit",
+        "FutureWorks",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "134000",
+        "to": "271000"
+      }
+    },
+    {
+      "position": "Data Scientist",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems",
+        "BlueOrbit",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "227000"
+      }
+    },
+    {
+      "position": "Database Administrator",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "BlueOrbit",
+        "Innovatech",
+        "Northwind Labs",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "70000",
+        "to": "251000"
+      }
+    },
+    {
+      "position": "Demand Generation Manager",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Innovatech",
+        "Lumen Media",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "202000"
+      }
+    },
+    {
+      "position": "Design Systems Lead",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "201000"
+      }
+    },
+    {
+      "position": "DevOps Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems"
+      ],
+      "salary": {
+        "from": "65000",
+        "to": "209000"
+      }
+    },
+    {
+      "position": "Developer Advocate",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Innovatech",
+        "Northwind Labs",
+        "Tech Innovators Inc.",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "72000",
+        "to": "284000"
+      }
+    },
+    {
+      "position": "Dietitian",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "51000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "E-commerce Manager",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Lumen Media",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "36000",
+        "to": "168000"
+      }
+    },
+    {
+      "position": "Education Program Coordinator",
+      "industry": "Education",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "134000"
+      }
+    },
+    {
+      "position": "Education Researcher",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "33000",
+        "to": "144000"
+      }
+    },
+    {
+      "position": "Electrical Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "59000",
+        "to": "234000"
+      }
+    },
+    {
+      "position": "Embedded Systems Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "FutureWorks",
+        "Innovatech",
+        "Northwind Labs",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "101000",
+        "to": "285000"
+      }
+    },
+    {
+      "position": "Energy Analyst",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "204000"
+      }
+    },
+    {
+      "position": "Environmental Scientist",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research",
+        "Solstice Renewables"
+      ],
+      "salary": {
+        "from": "51000",
+        "to": "220000"
+      }
+    },
+    {
+      "position": "Epidemiologist",
+      "industry": "Healthcare",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "173000"
+      }
+    },
+    {
+      "position": "Ethical Hacker",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Northwind Labs",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "67000",
+        "to": "261000"
+      }
+    },
+    {
+      "position": "Event Coordinator",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "35000",
+        "to": "132000"
+      }
+    },
+    {
+      "position": "Executive Chef",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "33000",
+        "to": "148000"
+      }
+    },
+    {
+      "position": "Field Service Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "59000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "Financial Analyst",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "65000",
+        "to": "274000"
+      }
+    },
+    {
+      "position": "Financial Planner",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Sterling Finance",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "213000"
+      }
+    },
+    {
+      "position": "Fleet Manager",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Mid"
+      ],
+      "companies": [
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "65000",
+        "to": "107000"
+      }
+    },
+    {
+      "position": "Flight Test Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "BlueOrbit",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "256000"
+      }
+    },
+    {
+      "position": "Foley Artist",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios"
+      ],
+      "salary": {
+        "from": "33000",
+        "to": "144000"
+      }
+    },
+    {
+      "position": "Frontend Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit",
+        "Innovatech",
+        "Tech Innovators Inc.",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "265000"
+      }
+    },
+    {
+      "position": "Full Stack Developer",
+      "industry": "Technology",
+      "levels": [
+        "Senior"
+      ],
+      "companies": [
+        "Innovatech",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "133000",
+        "to": "224000"
+      }
+    },
+    {
+      "position": "Game Designer",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "38000",
+        "to": "172000"
+      }
+    },
+    {
+      "position": "Game Developer",
+      "industry": "Technology",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit"
+      ],
+      "salary": {
+        "from": "103000",
+        "to": "287000"
+      }
+    },
+    {
+      "position": "Genetic Counselor",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "170000"
+      }
+    },
+    {
+      "position": "Geologist",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "207000"
+      }
+    },
+    {
+      "position": "Geospatial Analyst",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "221000"
+      }
+    },
+    {
+      "position": "Graphic Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "FutureWorks",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "55000",
+        "to": "183000"
+      }
+    },
+    {
+      "position": "Growth Marketer",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Lumen Media",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "46000",
+        "to": "164000"
+      }
+    },
+    {
+      "position": "Growth Product Manager",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "FutureWorks",
+        "Innovatech",
+        "Meridian Group",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "77000",
+        "to": "302000"
+      }
+    },
+    {
+      "position": "Guidance Navigation and Control Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "266000"
+      }
+    },
+    {
+      "position": "HR Business Partner",
+      "industry": "Human Resources",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co."
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "171000"
+      }
+    },
+    {
+      "position": "HR Coordinator",
+      "industry": "Human Resources",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Global Solutions LLC",
+        "Meridian Group",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "190000"
+      }
+    },
+    {
+      "position": "Hotel Manager",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "47000",
+        "to": "129000"
+      }
+    },
+    {
+      "position": "Hydrologist",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "77000",
+        "to": "219000"
+      }
+    },
+    {
+      "position": "Immigration Specialist",
+      "industry": "Legal",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "115000",
+        "to": "245000"
+      }
+    },
+    {
+      "position": "Implementation Specialist",
+      "industry": "Customer Success",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "FutureWorks",
+        "Global Solutions LLC",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "46000",
+        "to": "181000"
+      }
+    },
+    {
+      "position": "Industrial Engineer",
+      "industry": "Manufacturing",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Granite Construction",
+        "Ironwood Manufacturing"
+      ],
+      "salary": {
+        "from": "82000",
+        "to": "181000"
+      }
+    },
+    {
+      "position": "Instructional Designer",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "34000",
+        "to": "140000"
+      }
+    },
+    {
+      "position": "Interaction Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "53000",
+        "to": "224000"
+      }
+    },
+    {
+      "position": "Inventory Analyst",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Atlas Logistics",
+        "Ironwood Manufacturing",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "46000",
+        "to": "192000"
+      }
+    },
+    {
+      "position": "Investment Banker",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "97000",
+        "to": "337000"
+      }
+    },
+    {
+      "position": "Journalist",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "131000"
+      }
+    },
+    {
+      "position": "Lab Technician",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "30000",
+        "to": "112000"
+      }
+    },
+    {
+      "position": "Landscape Architect",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Ironwood Manufacturing"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "177000"
+      }
+    },
+    {
+      "position": "Learning and Development Specialist",
+      "industry": "Human Resources",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "64000",
+        "to": "145000"
+      }
+    },
+    {
+      "position": "Legal Operations Manager",
+      "industry": "Legal",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Keystone Legal",
+        "Meridian Group",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "89000",
+        "to": "251000"
+      }
+    },
+    {
+      "position": "Logistics Analyst",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Atlas Logistics",
+        "Ironwood Manufacturing",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "44000",
+        "to": "185000"
+      }
+    },
+    {
+      "position": "Logistics Coordinator",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Atlas Logistics",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "48000",
+        "to": "194000"
+      }
+    },
+    {
+      "position": "Machine Learning Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "BlueOrbit",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "86000",
+        "to": "338000"
+      }
+    },
+    {
+      "position": "Maintenance Technician",
+      "industry": "Manufacturing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Granite Construction",
+        "Ironwood Manufacturing",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "32000",
+        "to": "108000"
+      }
+    },
+    {
+      "position": "Manufacturing Engineer",
+      "industry": "Manufacturing",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Granite Construction",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "74000",
+        "to": "180000"
+      }
+    },
+    {
+      "position": "Marine Biologist",
+      "industry": "Science & Research",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "73000",
+        "to": "196000"
+      }
+    },
+    {
+      "position": "Marketing Analyst",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "99000",
+        "to": "193000"
+      }
+    },
+    {
+      "position": "Marketing Specialist",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "Materials Scientist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "48000",
+        "to": "220000"
+      }
+    },
+    {
+      "position": "Mechanical Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "233000"
+      }
+    },
+    {
+      "position": "Mechatronics Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Ironwood Manufacturing",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "239000"
+      }
+    },
+    {
+      "position": "Medical Laboratory Scientist",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "218000"
+      }
+    },
+    {
+      "position": "Merchandiser",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "51000",
+        "to": "165000"
+      }
+    },
+    {
+      "position": "Merchandising Analyst",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Lumen Media",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "36000",
+        "to": "160000"
+      }
+    },
+    {
+      "position": "Meteorologist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "167000"
+      }
+    },
+    {
+      "position": "Microbiologist",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "78000",
+        "to": "187000"
+      }
+    },
+    {
+      "position": "Mission Operations Specialist",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "62000",
+        "to": "214000"
+      }
+    },
+    {
+      "position": "Mobile Developer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "FutureWorks",
+        "Innovatech",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "265000"
+      }
+    },
+    {
+      "position": "Motion Designer",
+      "industry": "Design",
+      "levels": [
+        "Senior"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "Innovatech",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "103000",
+        "to": "187000"
+      }
+    },
+    {
+      "position": "Network Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "FutureWorks",
+        "Northwind Labs",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "257000"
+      }
+    },
+    {
+      "position": "Nuclear Engineer",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "72000",
+        "to": "297000"
+      }
+    },
+    {
+      "position": "Occupational Therapist",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "209000"
+      }
+    },
+    {
+      "position": "Oceanographer",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "114000"
+      }
+    },
+    {
+      "position": "Onboarding Specialist",
+      "industry": "Customer Success",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Bright Harbor",
+        "FutureWorks",
+        "Global Solutions LLC",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "42000",
+        "to": "180000"
+      }
+    },
+    {
+      "position": "Operations Manager",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Global Solutions LLC",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "51000",
+        "to": "151000"
+      }
+    },
+    {
+      "position": "Optical Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "209000"
+      }
+    },
+    {
+      "position": "Orbital Analyst",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "261000"
+      }
+    },
+    {
+      "position": "Paralegal",
+      "industry": "Legal",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Keystone Legal",
+        "Meridian Group",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "38000",
+        "to": "120000"
+      }
+    },
+    {
+      "position": "Pastry Chef",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "29000",
+        "to": "119000"
+      }
+    },
+    {
+      "position": "Patent Agent",
+      "industry": "Legal",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Keystone Legal",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "59000",
+        "to": "217000"
+      }
+    },
+    {
+      "position": "People Operations Manager",
+      "industry": "Human Resources",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "64000",
+        "to": "138000"
+      }
+    },
+    {
+      "position": "Petroleum Engineer",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Polaris Research",
+        "Solstice Renewables"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "302000"
+      }
+    },
+    {
+      "position": "Pharmacist",
+      "industry": "Healthcare",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "112000",
+        "to": "240000"
+      }
+    },
+    {
+      "position": "Physical Therapist",
+      "industry": "Healthcare",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "72000",
+        "to": "163000"
+      }
+    },
+    {
+      "position": "Physician Assistant",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "Physicist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Helios Energy",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "203000"
+      }
+    },
+    {
+      "position": "Podcast Producer",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "53000",
+        "to": "175000"
+      }
+    },
+    {
+      "position": "Portfolio Manager",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "98000",
+        "to": "391000"
+      }
+    },
+    {
+      "position": "Process Development Scientist",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "191000"
+      }
+    },
+    {
+      "position": "Procurement Specialist",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "47000",
+        "to": "192000"
+      }
+    },
+    {
+      "position": "Product Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "FutureWorks",
+        "Innovatech",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "219000"
+      }
+    },
+    {
+      "position": "Product Manager",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "285000"
+      }
+    },
+    {
+      "position": "Product Operations Manager",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "FutureWorks",
+        "Innovatech",
+        "Meridian Group",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "74000",
+        "to": "286000"
+      }
+    },
+    {
+      "position": "Production Supervisor",
+      "industry": "Manufacturing",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Granite Construction",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "38000",
+        "to": "179000"
+      }
+    },
+    {
+      "position": "Project Manager",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Innovatech",
+        "Meridian Group"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "297000"
+      }
+    },
+    {
+      "position": "Prompt Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "94000",
+        "to": "213000"
+      }
+    },
+    {
+      "position": "Propulsion Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "132000",
+        "to": "267000"
+      }
+    },
+    {
+      "position": "Public Relations Specialist",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Innovatech",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "161000"
+      }
+    },
+    {
+      "position": "QA Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Innovatech",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "282000"
+      }
+    },
+    {
+      "position": "Quality Control Inspector",
+      "industry": "Manufacturing",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "144000"
+      }
+    },
+    {
+      "position": "Quantitative Analyst",
+      "industry": "Finance",
+      "levels": [
+        "Management"
+      ],
+      "companies": [
+        "Sterling Finance"
+      ],
+      "salary": {
+        "from": "229000",
+        "to": "368000"
+      }
+    },
+    {
+      "position": "RF Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "60000",
+        "to": "234000"
+      }
+    },
+    {
+      "position": "Radiologic Technologist",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "169000"
+      }
+    },
+    {
+      "position": "Recruiter",
+      "industry": "Human Resources",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Global Solutions LLC",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "141000"
+      }
+    },
+    {
+      "position": "Registered Nurse",
+      "industry": "Healthcare",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "50000",
+        "to": "217000"
+      }
+    },
+    {
+      "position": "Regulatory Affairs Specialist",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Northwind Labs"
+      ],
+      "salary": {
+        "from": "61000",
+        "to": "213000"
+      }
+    },
+    {
+      "position": "Research Scientist",
+      "industry": "Biotech & Pharma",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "59000",
+        "to": "190000"
+      }
+    },
+    {
+      "position": "Restaurant Manager",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "31000",
+        "to": "132000"
+      }
+    },
+    {
+      "position": "Retail Buyer",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Management"
+      ],
+      "companies": [
+        "Global Solutions LLC",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "83000",
+        "to": "172000"
+      }
+    },
+    {
+      "position": "Risk Manager",
+      "industry": "Finance",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "128000",
+        "to": "269000"
+      }
+    },
+    {
+      "position": "Robotics Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Ironwood Manufacturing",
+        "Northwind Labs",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "238000"
+      }
+    },
+    {
+      "position": "SEO Specialist",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Meridian Group",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "48000",
+        "to": "112000"
+      }
+    },
+    {
+      "position": "Sales Engineer",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Innovatech",
+        "Lumen Media",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "47000",
+        "to": "201000"
+      }
+    },
+    {
+      "position": "Sales Representative",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "153000"
+      }
+    },
+    {
+      "position": "Satellite Communications Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "63000",
+        "to": "148000"
+      }
+    },
+    {
+      "position": "School Counselor",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Global Solutions LLC",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "34000",
+        "to": "120000"
+      }
+    },
+    {
+      "position": "Scrum Master",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "FutureWorks",
+        "Meridian Group",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "295000"
+      }
+    },
+    {
+      "position": "Security Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems",
+        "Northwind Labs",
+        "Tech Innovators Inc.",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "261000"
+      }
+    },
+    {
+      "position": "Seismologist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Polaris Research",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "198000"
+      }
+    },
+    {
+      "position": "Service Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "230000"
+      }
+    },
+    {
+      "position": "Site Reliability Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "BlueOrbit",
+        "FutureWorks"
+      ],
+      "salary": {
+        "from": "70000",
+        "to": "278000"
+      }
+    },
+    {
+      "position": "Social Media Manager",
+      "industry": "Sales & Marketing",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Innovatech",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "89000",
+        "to": "208000"
+      }
+    },
+    {
+      "position": "Software Engineer",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "65000",
+        "to": "259000"
+      }
+    },
+    {
+      "position": "Solar Energy Engineer",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Solstice Renewables"
+      ],
+      "salary": {
+        "from": "58000",
+        "to": "224000"
+      }
+    },
+    {
+      "position": "Solutions Architect",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "FutureWorks",
+        "Tech Innovators Inc.",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "90000",
+        "to": "201000"
+      }
+    },
+    {
+      "position": "Sommelier",
+      "industry": "Hospitality & Culinary",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co.",
+        "Harborview Hospitality"
+      ],
+      "salary": {
+        "from": "35000",
+        "to": "160000"
+      }
+    },
+    {
+      "position": "Sound Engineer",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "38000",
+        "to": "181000"
+      }
+    },
+    {
+      "position": "Spacecraft Systems Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "BlueOrbit"
+      ],
+      "salary": {
+        "from": "88000",
+        "to": "265000"
+      }
+    },
+    {
+      "position": "Speech-Language Pathologist",
+      "industry": "Healthcare",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cascade Health",
+        "Evergreen Bio",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "67000",
+        "to": "203000"
+      }
+    },
+    {
+      "position": "Store Manager",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Lumen Media",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "36000",
+        "to": "168000"
+      }
+    },
+    {
+      "position": "Structural Engineer",
+      "industry": "Engineering",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Northwind Labs",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "225000"
+      }
+    },
+    {
+      "position": "Supply Chain Analyst",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Atlas Logistics",
+        "Global Solutions LLC",
+        "Ironwood Manufacturing",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "45000",
+        "to": "190000"
+      }
+    },
+    {
+      "position": "Support Operations Analyst",
+      "industry": "Customer Success",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "FutureWorks",
+        "Innovatech"
+      ],
+      "salary": {
+        "from": "42000",
+        "to": "183000"
+      }
+    },
+    {
+      "position": "Surveyor",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Cedar & Co.",
+        "Granite Construction",
+        "Ironwood Manufacturing"
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "218000"
+      }
+    },
+    {
+      "position": "Sustainability Analyst",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Northwind Labs",
+        "Solstice Renewables"
+      ],
+      "salary": {
+        "from": "57000",
+        "to": "180000"
+      }
+    },
+    {
+      "position": "Systems Integration Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Pioneer Robotics",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "66000",
+        "to": "250000"
+      }
+    },
+    {
+      "position": "Talent Acquisition Specialist",
+      "industry": "Human Resources",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Cedar & Co."
+      ],
+      "salary": {
+        "from": "49000",
+        "to": "148000"
+      }
+    },
+    {
+      "position": "Tax Advisor",
+      "industry": "Finance",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners",
+        "Vertex Analytics"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "286000"
+      }
+    },
+    {
+      "position": "Teacher",
+      "industry": "Education",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cedar & Co."
+      ],
+      "salary": {
+        "from": "29000",
+        "to": "99000"
+      }
+    },
+    {
+      "position": "Technical Lead",
+      "industry": "Technology",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "AI Dynamics",
+        "Apex Systems"
+      ],
+      "salary": {
+        "from": "68000",
+        "to": "215000"
+      }
+    },
+    {
+      "position": "Technical Program Manager",
+      "industry": "Product Management",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "FutureWorks",
+        "Innovatech",
+        "Tech Innovators Inc."
+      ],
+      "salary": {
+        "from": "73000",
+        "to": "238000"
+      }
+    },
+    {
+      "position": "Technical Support Specialist",
+      "industry": "Customer Success",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Apex Systems",
+        "Bright Harbor",
+        "FutureWorks",
+        "Global Solutions LLC"
+      ],
+      "salary": {
+        "from": "41000",
+        "to": "176000"
+      }
+    },
+    {
+      "position": "Thermal Engineer",
+      "industry": "Aerospace",
+      "levels": [
+        "Mid",
+        "Senior"
+      ],
+      "companies": [
+        "Apex Systems",
+        "BlueOrbit",
+        "Quantum Aerospace"
+      ],
+      "salary": {
+        "from": "86000",
+        "to": "206000"
+      }
+    },
+    {
+      "position": "Treasury Analyst",
+      "industry": "Finance",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group",
+        "Sterling Finance",
+        "Summit Partners"
+      ],
+      "salary": {
+        "from": "88000",
+        "to": "274000"
+      }
+    },
+    {
+      "position": "UI Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "FutureWorks"
+      ],
+      "salary": {
+        "from": "56000",
+        "to": "231000"
+      }
+    },
+    {
+      "position": "UX Designer",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Cobalt Studios",
+        "Innovatech",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "231000"
+      }
+    },
+    {
+      "position": "UX Researcher",
+      "industry": "Design",
+      "levels": [
+        "Entry",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "FutureWorks",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "53000",
+        "to": "210000"
+      }
+    },
+    {
+      "position": "Urban Planner",
+      "industry": "Architecture & Construction",
+      "levels": [
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Meridian Group"
+      ],
+      "salary": {
+        "from": "69000",
+        "to": "213000"
+      }
+    },
+    {
+      "position": "Video Editor",
+      "industry": "Media & Entertainment",
+      "levels": [
+        "Mid",
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Bright Harbor",
+        "Cobalt Studios",
+        "Lumen Media"
+      ],
+      "salary": {
+        "from": "55000",
+        "to": "183000"
+      }
+    },
+    {
+      "position": "Visual Merchandiser",
+      "industry": "Retail & E-commerce",
+      "levels": [
+        "Entry",
+        "Mid",
+        "Management"
+      ],
+      "companies": [
+        "Global Solutions LLC",
+        "Lumen Media",
+        "Nova Retail Group"
+      ],
+      "salary": {
+        "from": "36000",
+        "to": "163000"
+      }
+    },
+    {
+      "position": "Volcanologist",
+      "industry": "Science & Research",
+      "levels": [
+        "Entry",
+        "Mid"
+      ],
+      "companies": [
+        "Northwind Labs",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "52000",
+        "to": "126000"
+      }
+    },
+    {
+      "position": "Warehouse Manager",
+      "industry": "Operations & Logistics",
+      "levels": [
+        "Entry",
+        "Senior"
+      ],
+      "companies": [
+        "Atlas Logistics",
+        "Global Solutions LLC",
+        "Ironwood Manufacturing"
+      ],
+      "salary": {
+        "from": "46000",
+        "to": "163000"
+      }
+    },
+    {
+      "position": "Welding Technician",
+      "industry": "Manufacturing",
+      "levels": [
+        "Entry",
+        "Management"
+      ],
+      "companies": [
+        "Granite Construction",
+        "Pioneer Robotics"
+      ],
+      "salary": {
+        "from": "30000",
+        "to": "117000"
+      }
+    },
+    {
+      "position": "Wind Turbine Technician",
+      "industry": "Energy & Environment",
+      "levels": [
+        "Senior",
+        "Management"
+      ],
+      "companies": [
+        "Helios Energy",
+        "Polaris Research"
+      ],
+      "salary": {
+        "from": "102000",
+        "to": "205000"
+      }
+    }
+  ]
+}
