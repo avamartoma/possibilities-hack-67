@@ -12,6 +12,7 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 - **W1** — `coreSkills`/`supportingSkills` exposed on `normalize_role` output (falls back to all-core for untagged legacy roles). (test_catalog.NormalizeRoleCoreSupportingTests)
 
 - **W2** — `backend/readiness.py::compute_readiness` — weighted (core 0.7 / supporting 0.3) readiness, case/whitespace/synonym-folded (`SKILL_SYNONYMS`), clamped 0–100, monotonic; supporting weight drops out when a role has none. (test_readiness.py)
+- **W3** — `backend/jobs.py::rank_top_applicant_jobs` + `POST /api/jobs/top-applicant` (`TopApplicantRequest`): ranks real catalog postings by role readiness + level/industry alignment; returns `{jobs: Posting+roleId+score+topApplicant, total}` sorted desc, `topApplicant` when score ≥ 70, default limit 25, request-scoped overrides, no peer data. (test_jobs.py)
 
 ### Changed
 - **W1** — `main.ROLES` now loads the full 207-role `rolesCatalog.json`; canonical ids preserved so `/api/fit` + `/api/milestones` + v2 tests keep resolving. Search paginates over the larger catalog. (test_api.CatalogApiTests)
@@ -20,6 +21,7 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 ### Tested
 - W1: slugger deterministic + collision-free over 207 names; INDUSTRY_SKILLS covers all 21 industries; catalog ≥200 roles with full shape; canonical ids present + skilled; known position (Environmental Scientist) resolves with real postings + industry skills; precompute builders + `main()` writer (temp dir) at 100% (test_catalog.py)
 - W2: all-core→100, no-match→0, half-core→mid band, core weighted > supporting, case+synonym invariance, no-supporting not penalized, empty required→0, clamped int, monotonic; compare + recommend carry the weighted score (test_readiness.py)
+- W3: postings sorted by descending score w/ roleId + topApplicant flag, flag tracks threshold, Finance skills surface Finance postings, limit respected; handler returns jobs+total, unknown user→404, override re-ranks without seed mutation, default limit 25 (test_jobs.py)
 
 ### Added
 - `app/milestones/selection.ts`: pure `resolveSelection(search)` so browser + SSR (null) param paths are directly testable.

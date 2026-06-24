@@ -44,3 +44,9 @@ class CompareRequest(BaseModel):
 
 class PathGenerateRequest(CompareRequest):
     maxMilestones: int = Field(default=5, ge=1, le=10)
+
+
+class TopApplicantRequest(BaseModel):
+    userId: str
+    profileOverride: ProfileOverride | None = None
+    limit: int = Field(default=25, ge=1, le=100)
