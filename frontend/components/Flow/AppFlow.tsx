@@ -11,6 +11,7 @@
 import { useMemo, useState } from "react";
 import { li } from "../../lib/theme";
 import LinkedInNav from "../LinkedInNav";
+import ProfilePage from "../Profile/ProfilePage";
 import ExploreView from "../Explore/ExploreView";
 import ExplainView from "../Explain/ExplainView";
 import ComparisonPanel from "../ComparisonPanel/ComparisonPanel";
@@ -49,7 +50,7 @@ export default function AppFlow() {
       <LinkedInNav userName={user?.name} />
 
       {step === "landing" && (
-        <Landing user={user} onLockIn={() => setStep("choose")} />
+        <ProfilePage onLockIn={() => setStep("choose")} />
       )}
 
       {step === "choose" && (
@@ -121,50 +122,6 @@ function BackBar({ label, onBack }: { label: string; onBack: () => void }) {
     >
       ← {label}
     </button>
-  );
-}
-
-function Landing({ user, onLockIn }: { user: UserProfile; onLockIn: () => void }) {
-  const degree = user.school_history?.slice(-1)[0]?.degree;
-  const card: React.CSSProperties = { background: li.cardBg, borderRadius: li.cardRadius, boxShadow: li.cardShadow, overflow: "hidden" };
-  return (
-    <main style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px" }}>
-      <div style={card}>
-        <div style={{ height: 88, background: `linear-gradient(120deg, ${li.blue}, #378fe9)` }} />
-        <div style={{ padding: "0 24px 24px", marginTop: -36 }}>
-          <div
-            style={{
-              width: 72, height: 72, borderRadius: "50%", background: li.blue, color: "#fff",
-              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, fontWeight: 700,
-              border: `3px solid ${li.cardBg}`,
-            }}
-          >
-            {(user.name ?? "Y").charAt(0)}
-          </div>
-          <h1 style={{ margin: "12px 0 2px", fontSize: 24, color: li.textPrimary }}>{user.name}</h1>
-          <p style={{ margin: 0, color: li.textSecondary }}>
-            {degree ?? "Career Explorer"}{user.current_location ? ` · ${user.current_location}` : ""}
-          </p>
-          <p style={{ margin: "10px 0 0", color: li.textSecondary }}>
-            Exploring where my skills and curiosity can take me.
-          </p>
-          <div style={{ margin: "16px 0 0", display: "flex", flexWrap: "wrap", gap: 6 }}>
-            {user.skills.slice(0, 8).map((s) => (
-              <span key={s} style={{ background: li.blueLight, color: li.blue, borderRadius: 999, padding: "4px 12px", fontSize: 13, fontWeight: 600 }}>{s}</span>
-            ))}
-          </div>
-          <button
-            onClick={onLockIn}
-            style={{ marginTop: 22, background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "12px 28px", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: li.font }}
-          >
-            Lock In →
-          </button>
-        </div>
-      </div>
-      <p style={{ textAlign: "center", color: li.textHint, fontSize: 13, marginTop: 16 }}>
-        Career discovery, built around your profile.
-      </p>
-    </main>
   );
 }
 

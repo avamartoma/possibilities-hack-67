@@ -1,5 +1,46 @@
 [
   {
+    "id": "user_2340",
+    "name": "Bob Smith",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Software Engineering",
+        "graduation_year": 2018
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Computer Science",
+        "graduation_year": 2022
+      }
+    ],
+    "job_history": [
+      "job_456729",
+      "job_699254",
+      "job_788137"
+    ],
+    "skills": [
+      "AWS",
+      "Science",
+      "DevOps",
+      "Engineering",
+      "Corporate Finance",
+      "Software",
+      "Blockchain",
+      "Investing",
+      "Computer",
+      "Financial Modeling"
+    ],
+    "current_location": "Austin, TX",
+    "courses": [
+      "course_6598",
+      "course_7833",
+      "course_1685"
+    ],
+    "hero": true,
+    "tagline": "Cloud, DevOps & blockchain engineer exploring what's next."
+  },
+  {
     "id": "user_5329",
     "name": "Alice Johnson",
     "school_history": [
@@ -32,7 +73,7 @@
       "course_1995",
       "course_6282"
     ],
-    "hero": true,
+    "hero": false,
     "tagline": null
   },
   {
