@@ -43,4 +43,9 @@ def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str
         if role.get("jobCount", 0): reasons.append(f"Backed by {role['jobCount']} seeded postings")
         ranked.append((score, role.get("jobCount", 0), role, overlap, reasons or ["An adjacent role to explore"]))
     ranked.sort(key=lambda item: (-item[0], -item[1], item[2]["name"]))
-    return [{"role": normalize_role(role), "score": round(score, 2), "scoreReasons": reasons, "matchedSkills": overlap} for score, _, role, overlap, reasons in ranked[:limit]]
+    results = []
+    for score, _, role, overlap, reasons in ranked[:limit]:
+        required = role.get("skills", [])
+        readiness = round(100 * len(overlap) / len(required)) if required else 0
+        results.append({"role": normalize_role(role), "score": round(score, 2), "readinessScore": readiness, "scoreReasons": reasons, "matchedSkills": overlap})
+    return results

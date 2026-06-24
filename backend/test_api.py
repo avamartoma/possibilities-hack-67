@@ -7,7 +7,7 @@ import unittest
 
 from fastapi import HTTPException
 
-from .main import get_fit, get_milestones, get_profile, get_role_detail, post_compare, post_explain, post_path_generate, post_recommend, post_role_search
+from .main import get_courses, get_fit, get_milestones, get_profile, get_role_detail, get_roles, get_users, health, post_compare, post_explain, post_path_generate, post_recommend, post_role_search
 from .schemas import CompareRequest, ExplainRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest
 
 
@@ -49,6 +49,58 @@ class CareerApiTests(unittest.TestCase):
     def test_compatibility_routes_remain_available(self):
         self.assertIn("percent", get_fit("user_5329", "data_scientist"))
         self.assertIn("milestones", get_milestones("user_5329", "data_scientist"))
+
+    def test_canonical_user_2340_profile_resolves(self):
+        response = get_profile("user_2340")
+        self.assertEqual(set(response), {"id", "name", "headline", "currentStatus", "skills", "experience", "education", "interests", "savedGoals", "location"})
+        self.assertEqual(response["name"], "Bob Smith")
+        self.assertIn("AWS", response["skills"])
+
+    def test_user_2340_works_for_compare_and_path(self):
+        comparison = post_compare(CompareRequest(userId="user_2340", roleId="data_scientist"))
+        self.assertIn("readinessScore", comparison)
+        path = post_path_generate(PathGenerateRequest(userId="user_2340", roleId="data_scientist", maxMilestones=3))
+        self.assertLessEqual(len(path["milestones"]), 3)
+
+    def test_override_does_not_mutate_canonical_baseline(self):
+        baseline = get_profile("user_2340")["skills"]
+        post_compare(CompareRequest(userId="user_2340", roleId="data_scientist", profileOverride={"skills": ["Totally", "Different", "Skills"]}))
+        after = get_profile("user_2340")["skills"]
+        self.assertEqual(baseline, after)
+
+    def test_legacy_collection_routes_return_seed_data(self):
+        self.assertEqual(health()["status"], "ok")
+        self.assertTrue(get_roles())
+        self.assertTrue(get_users())
+        self.assertTrue(get_courses())
+
+    def test_legacy_fit_and_milestones_reject_unknown_ids(self):
+        for bad in (("nope", "data_scientist"), ("user_5329", "nope")):
+            with self.assertRaises(HTTPException) as fit_error:
+                get_fit(*bad)
+            self.assertEqual(fit_error.exception.status_code, 404)
+            with self.assertRaises(HTTPException) as ms_error:
+                get_milestones(*bad)
+            self.assertEqual(ms_error.exception.status_code, 404)
+
+    def test_unknown_role_detail_is_404(self):
+        with self.assertRaises(HTTPException) as error:
+            get_role_detail("no_such_role")
+        self.assertEqual(error.exception.status_code, 404)
+
+    def test_compare_unknown_role_is_404(self):
+        with self.assertRaises(HTTPException) as error:
+            post_compare(CompareRequest(userId="user_2340", roleId="no_such_role"))
+        self.assertEqual(error.exception.status_code, 404)
+
+    def test_recommendations_carry_integer_readiness_score(self):
+        recommendations = post_recommend(RecommendRequest(userId="user_2340", query="data", limit=3))["recommendations"]
+        self.assertTrue(recommendations)
+        for item in recommendations:
+            self.assertIn("readinessScore", item)
+            self.assertIsInstance(item["readinessScore"], int)
+            self.assertGreaterEqual(item["readinessScore"], 0)
+            self.assertLessEqual(item["readinessScore"], 100)
 
 
 if __name__ == "__main__":

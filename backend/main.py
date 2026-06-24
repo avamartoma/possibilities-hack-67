@@ -15,7 +15,8 @@ from .comparison import compare_profile_to_role, recommend_roles
 from .fit import compute_fit
 from .milestones import build_milestone_plan
 from .pathing import generate_path
-from .profiles import apply_override, normalize_profile
+from .profile_source import resolve_profile
+from .profiles import apply_override
 from .roles import explain_role, normalize_role, search_roles
 from .schemas import CompareRequest, ExplainRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest
 
@@ -30,10 +31,10 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allo
 
 
 def seeded_profile(user_id: str) -> dict:
-    user = USERS_BY_ID.get(user_id)
-    if user is None:
+    profile = resolve_profile(user_id)
+    if profile is None:
         raise HTTPException(status_code=404, detail=f"Unknown userId: {user_id}")
-    return normalize_profile(user)
+    return profile
 
 
 def seeded_role(role_id: str) -> dict:
