@@ -89,3 +89,65 @@ export interface MilestonePlan {
   missingSkills: string[];
   milestones: MilestoneStep[];
 }
+
+// V2 API contracts for the Profile -> Explore -> Compare -> Your Path flow.
+export interface UserProfile {
+  id: string;
+  name: string;
+  headline: string;
+  currentStatus: string;
+  skills: string[];
+  experience: Record<string, unknown>[];
+  education: Record<string, unknown>[];
+  interests: string[];
+  savedGoals: string[];
+  location: string | null;
+}
+
+export interface ProfileOverride extends Partial<Omit<UserProfile, "id" | "name">> {}
+
+export interface CareerRole {
+  id: string;
+  name: string;
+  category: string;
+  summary: string;
+  description?: string;
+  requiredSkills: string[];
+  relatedRoleIds?: string[];
+  dayToDay?: string[];
+  commonPaths?: string[];
+  salaryRange: { min: number | null; max: number | null; currency: string; isDemoGuidance: boolean };
+  companies: string[];
+  postings?: Posting[];
+  jobCount: number;
+  industries: string[];
+  levels: string[];
+}
+
+export interface RoleRecommendation {
+  role: CareerRole;
+  score: number;
+  scoreReasons: string[];
+  matchedSkills: string[];
+}
+
+export interface RoleComparison {
+  profile: UserProfile;
+  role: CareerRole;
+  readinessScore: number;
+  strengths: string[];
+  skillGaps: Array<{ skill: string; status: "strength" | "missing" | "adjacent"; importance: "core" | "supporting"; evidence: string[]; recommendedCourse: Course | null; suggestedProject: string | null }>;
+  suggestedNextSteps: string[];
+  aggregateAnalysis: { analyzed: number; landed: number; similar: number };
+}
+
+export interface PersonalizedPath {
+  profileId: string;
+  role: CareerRole;
+  readinessScore: number;
+  startingStrengths: string[];
+  skillGaps: RoleComparison["skillGaps"];
+  milestones: Array<{ order: number; title: string; targetSkill: string; reason: string; course: Course | null; project: string; networkingAction: string; profileCheckpoint: string; completionState: "not_started" }>;
+  generatedAt: string;
+  disclaimer: string;
+}

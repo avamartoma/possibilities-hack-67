@@ -2,7 +2,7 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course, MilestonePlan } from "./types";
+import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
@@ -20,6 +20,16 @@ async function tryFetch<T>(url: string): Promise<T | null> {
   } catch {
     return null; // backend down -> caller falls back to bundled data
   }
+}
+
+async function postApi<T>(url: string, body: unknown): Promise<T> {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) throw new Error(`API request failed (${response.status})`);
+  return response.json() as Promise<T>;
 }
 
 export async function getRoles(): Promise<Role[]> {
@@ -76,4 +86,36 @@ export async function getMilestonePlan(userId: string, roleId: string): Promise<
     };
   });
   return { ...fit, readiness: fit.percent, milestones: steps.length ? steps : [{ step: 1, skill: "Portfolio evidence", title: "Turn your existing skills into proof of work", course: null, courseLength: null, actions: ["Publish a project that demonstrates your readiness", "Ask a relevant connection for feedback", "Update your LinkedIn profile with the outcome"] }] };
+}
+
+export async function getProfile(userId: string): Promise<UserProfile> {
+  const response = await fetch(`/api/profile/${encodeURIComponent(userId)}`);
+  if (!response.ok) throw new Error(`Profile not found (${response.status})`);
+  return response.json() as Promise<UserProfile>;
+}
+
+export function searchRoles(input: { query?: string; categories?: string[]; skills?: string[]; limit?: number } = {}): Promise<{ roles: CareerRole[] }> {
+  return postApi("/api/roles/search", input);
+}
+
+export async function getRole(roleId: string): Promise<CareerRole> {
+  const response = await fetch(`/api/roles/${encodeURIComponent(roleId)}`);
+  if (!response.ok) throw new Error(`Role not found (${response.status})`);
+  return response.json() as Promise<CareerRole>;
+}
+
+export function recommendRoles(input: { userId: string; profileOverride?: ProfileOverride; interests?: string[]; query?: string; limit?: number }): Promise<{ profileId: string; recommendations: RoleRecommendation[] }> {
+  return postApi("/api/roles/recommend", input);
+}
+
+export function explainRole(input: { roleId: string; userId?: string }): Promise<{ role: CareerRole; plainLanguageSummary: string; dayToDay: string[]; coreSkills: string[]; commonPaths: string[]; relatedRoles: CareerRole[]; salaryRange: CareerRole["salaryRange"]; whyItMayFit: string; disclaimer: string }> {
+  return postApi("/api/roles/explain", input);
+}
+
+export function compareRole(input: { userId: string; roleId: string; profileOverride?: ProfileOverride }): Promise<RoleComparison> {
+  return postApi("/api/compare", input);
+}
+
+export function generatePath(input: { userId: string; roleId: string; profileOverride?: ProfileOverride; maxMilestones?: number }): Promise<PersonalizedPath> {
+  return postApi("/api/path/generate", input);
 }
