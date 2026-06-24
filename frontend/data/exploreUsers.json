@@ -1,0 +1,161 @@
+[
+  {
+    "id": "user_5329",
+    "name": "Alex Rivera",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Economics",
+        "graduation_year": 2020
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Economics",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_849223"
+    ],
+    "skills": [
+      "Corporate Finance",
+      "Economics",
+      "Ethical Hacking",
+      "Financial Modeling",
+      "Information Security",
+      "Investing",
+      "Network Security"
+    ],
+    "current_location": "Seattle, WA"
+  },
+  {
+    "id": "user_5377",
+    "name": "Sam Carter",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Software Engineering",
+        "graduation_year": 2011
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Computer Science",
+        "graduation_year": 2022
+      }
+    ],
+    "job_history": [
+      "job_900489",
+      "job_380964"
+    ],
+    "skills": [
+      "AWS",
+      "Blockchain",
+      "Computer",
+      "DevOps",
+      "Engineering",
+      "Science",
+      "Software"
+    ],
+    "current_location": "San Francisco, CA"
+  },
+  {
+    "id": "user_8705",
+    "name": "Jordan Lee",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Economics",
+        "graduation_year": 2014
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Finance",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_440968"
+    ],
+    "skills": [
+      "AWS",
+      "Blockchain",
+      "Computer",
+      "Corporate Finance",
+      "DevOps",
+      "Financial Modeling",
+      "Information",
+      "Investing",
+      "Science",
+      "Technology"
+    ],
+    "current_location": "San Francisco, CA"
+  },
+  {
+    "id": "user_4579",
+    "name": "Maya Brooks",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Psychology",
+        "graduation_year": 2019
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Education",
+        "graduation_year": 2023
+      }
+    ],
+    "job_history": [
+      "job_500483",
+      "job_546688",
+      "job_949042",
+      "job_389045"
+    ],
+    "skills": [
+      "Education",
+      "Psychology"
+    ],
+    "current_location": "Boston, MA"
+  },
+  {
+    "id": "user_9138",
+    "name": "Chris Diaz",
+    "school_history": [
+      {
+        "school_name": "University of California, Berkeley",
+        "degree": "Accounting",
+        "graduation_year": 2012
+      },
+      {
+        "school_name": "Stanford University",
+        "degree": "Accounting",
+        "graduation_year": 2021
+      }
+    ],
+    "job_history": [
+      "job_676364"
+    ],
+    "skills": [
+      "Accounting",
+      "Corporate Finance",
+      "Ethical Hacking",
+      "Financial Modeling",
+      "Information Security",
+      "Investing",
+      "Network Security"
+    ],
+    "current_location": "San Francisco, CA"
+  },
+  {
+    "id": "user_demo_student",
+    "name": "Riley Chen",
+    "school_history": [],
+    "job_history": [],
+    "skills": [
+      "Communication",
+      "Creative Writing",
+      "Content Creation"
+    ],
+    "current_location": "Austin, TX"
+  }
+]
