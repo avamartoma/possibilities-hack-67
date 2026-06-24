@@ -158,26 +158,6 @@ export default function ComparisonPanel({
           </div>
         </div>
 
-        <div
-          style={{
-            marginTop: 16,
-            padding: "12px 16px",
-            background: li.blueLight,
-            borderRadius: li.cardRadius,
-            color: li.textPrimary,
-            fontSize: 14,
-            lineHeight: 1.45,
-          }}
-        >
-          <strong>{aggregateAnalysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
-          {aggregateAnalysis.landed.toLocaleString()} people in the dataset have held this role
-          {aggregateAnalysis.similar > 0 ? (
-            <>; {aggregateAnalysis.similar.toLocaleString()} share at least one skill with you.</>
-          ) : (
-            "."
-          )}
-        </div>
-
         <hr style={{ border: "none", borderTop: `1px solid ${li.cardBorder}`, margin: "20px 0" }} />
 
         {/* Ring + companies */}
