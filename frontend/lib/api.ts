@@ -2,7 +2,7 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath } from "./types";
+import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath, RoleExplanation } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
@@ -108,7 +108,7 @@ export function recommendRoles(input: { userId: string; profileOverride?: Profil
   return postApi("/api/roles/recommend", input);
 }
 
-export function explainRole(input: { roleId: string; userId?: string }): Promise<{ role: CareerRole; plainLanguageSummary: string; dayToDay: string[]; coreSkills: string[]; commonPaths: string[]; relatedRoles: CareerRole[]; salaryRange: CareerRole["salaryRange"]; whyItMayFit: string; disclaimer: string }> {
+export function explainRole(input: { roleId: string; userId?: string }): Promise<RoleExplanation> {
   return postApi("/api/roles/explain", input);
 }
 

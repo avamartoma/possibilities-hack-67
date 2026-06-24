@@ -127,6 +127,8 @@ export interface CareerRole {
 export interface RoleRecommendation {
   role: CareerRole;
   score: number;
+  // Distinct from the ranking `score`: 0-100 readiness from role skills ∩ profile skills.
+  readinessScore: number;
   scoreReasons: string[];
   matchedSkills: string[];
 }
@@ -139,6 +141,18 @@ export interface RoleComparison {
   skillGaps: Array<{ skill: string; status: "strength" | "missing" | "adjacent"; importance: "core" | "supporting"; evidence: string[]; recommendedCourse: Course | null; suggestedProject: string | null }>;
   suggestedNextSteps: string[];
   aggregateAnalysis: { analyzed: number; landed: number; similar: number };
+}
+
+export interface RoleExplanation {
+  role: CareerRole;
+  plainLanguageSummary: string;
+  dayToDay: string[];
+  coreSkills: string[];
+  commonPaths: string[];
+  relatedRoles: CareerRole[];
+  salaryRange: CareerRole["salaryRange"];
+  whyItMayFit: string;
+  disclaimer: string;
 }
 
 export interface PersonalizedPath {
