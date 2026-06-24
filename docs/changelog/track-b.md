@@ -11,11 +11,15 @@ Append one bullet per behavior-changing commit, grouped by Added/Changed/Fixed/T
 - **W1** — `backend/precompute.py` rebuilt as importable building blocks (`slugify`, `INDUSTRY_SKILLS` for all 21 industries, `KEYWORD_SKILLS`, `role_skills_for`, `build_catalog`, `build_demo_users`, `build_courses`, `main(out_dir)`); emits `backend/data/rolesCatalog.json` — 207 roles from `jobs_data.json` with real postings/companies/salary/levels/industries/jobCount/easyApplyPct and deterministic core (industry) + supporting (keyword) skills. (test_catalog.py)
 - **W1** — `coreSkills`/`supportingSkills` exposed on `normalize_role` output (falls back to all-core for untagged legacy roles). (test_catalog.NormalizeRoleCoreSupportingTests)
 
+- **W2** — `backend/readiness.py::compute_readiness` — weighted (core 0.7 / supporting 0.3) readiness, case/whitespace/synonym-folded (`SKILL_SYNONYMS`), clamped 0–100, monotonic; supporting weight drops out when a role has none. (test_readiness.py)
+
 ### Changed
 - **W1** — `main.ROLES` now loads the full 207-role `rolesCatalog.json`; canonical ids preserved so `/api/fit` + `/api/milestones` + v2 tests keep resolving. Search paginates over the larger catalog. (test_api.CatalogApiTests)
+- **W2** — `compare_profile_to_role` + `recommend_roles` now derive `readinessScore` from `compute_readiness` (replaces the inline matched/required ratio); semantics weighted, value range unchanged 0–100. (test_readiness.ReadinessWiringTests)
 
 ### Tested
 - W1: slugger deterministic + collision-free over 207 names; INDUSTRY_SKILLS covers all 21 industries; catalog ≥200 roles with full shape; canonical ids present + skilled; known position (Environmental Scientist) resolves with real postings + industry skills; precompute builders + `main()` writer (temp dir) at 100% (test_catalog.py)
+- W2: all-core→100, no-match→0, half-core→mid band, core weighted > supporting, case+synonym invariance, no-supporting not penalized, empty required→0, clamped int, monotonic; compare + recommend carry the weighted score (test_readiness.py)
 
 ### Added
 - `app/milestones/selection.ts`: pure `resolveSelection(search)` so browser + SSR (null) param paths are directly testable.

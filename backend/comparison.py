@@ -1,6 +1,7 @@
 """Deterministic recommendation and comparison services."""
 
 from .analysis import aggregate_role_analysis
+from .readiness import compute_readiness
 from .roles import RELATED, normalize_role
 
 
@@ -14,7 +15,7 @@ def compare_profile_to_role(profile: dict, role: dict) -> dict:
     required = normalized_role["requiredSkills"]
     strengths = [skill for skill in required if skill.casefold() in user_skills]
     missing = [skill for skill in required if skill.casefold() not in user_skills]
-    readiness = round(100 * len(strengths) / len(required)) if required else 0
+    readiness = compute_readiness(profile["skills"], normalized_role)
     gaps = [{"skill": skill, "status": "missing", "importance": "core", "evidence": [], "recommendedCourse": None, "suggestedProject": f"Create a small portfolio project that uses {skill}."} for skill in missing]
     gaps.extend({"skill": skill, "status": "strength", "importance": "core", "evidence": ["Listed in your profile"], "recommendedCourse": None, "suggestedProject": None} for skill in strengths)
     return {"profile": profile, "role": normalized_role, "readinessScore": readiness, "strengths": strengths, "skillGaps": gaps, "suggestedNextSteps": [f"Build evidence in {skill}" for skill in missing[:3]] or ["Turn your current strengths into a portfolio story."], "aggregateAnalysis": aggregate_role_analysis(role["name"], profile["skills"])}
@@ -45,7 +46,7 @@ def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str
     ranked.sort(key=lambda item: (-item[0], -item[1], item[2]["name"]))
     results = []
     for score, _, role, overlap, reasons in ranked[:limit]:
-        required = role.get("skills", [])
-        readiness = round(100 * len(overlap) / len(required)) if required else 0
-        results.append({"role": normalize_role(role), "score": round(score, 2), "readinessScore": readiness, "scoreReasons": reasons, "matchedSkills": overlap})
+        normalized = normalize_role(role)
+        readiness = compute_readiness(profile["skills"], normalized)
+        results.append({"role": normalized, "score": round(score, 2), "readinessScore": readiness, "scoreReasons": reasons, "matchedSkills": overlap})
     return results
