@@ -31,12 +31,12 @@ export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide
     const handle = setTimeout(() => {
       setRoles(null);
       setError(false);
-      searchRoles({ query, categories: [], skills: [], limit: SEARCH_LIMIT })
+      searchRoles({ query, categories: [], skills: [], limit: SEARCH_LIMIT, userId })
         .then((res) => { setRoles(res.roles); setVisible(PAGE); })
         .catch(() => setError(true));
     }, DEBOUNCE_MS);
     return () => clearTimeout(handle);
-  }, [query, attempt]);
+  }, [query, attempt, userId]);
 
   return (
     <div style={{ fontFamily: li.font }}>
@@ -60,7 +60,7 @@ export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide
           <input
             type="text"
             aria-label="Search roles"
-            placeholder="Search roles, industries, or skills"
+            placeholder="Tell me what you're looking for..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             style={{ width: "100%", padding: "12px 16px 12px 40px", border: `1px solid ${li.cardBorder}`, borderRadius: 999, fontSize: 15, background: li.cardBg, boxShadow: li.cardShadow }}
@@ -82,8 +82,11 @@ export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide
         <div style={{ textAlign: "center", padding: 40, color: li.textHint }}>No careers match your search</div>
       ) : (
         <>
+          <p style={{ color: li.textSecondary, fontSize: 13, fontWeight: 600, textAlign: "center", margin: "0 0 12px" }}>
+            These are the careers you're most suited for currently.
+          </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
-            {roles.slice(0, visible).map((role) => (
+            {[...roles].sort((a, b) => (b.readinessScore ?? -1) - (a.readinessScore ?? -1)).slice(0, visible).map((role) => (
               <RoleCard key={role.id} role={role} onClick={() => onSelectRole(role.id)} />
             ))}
           </div>
@@ -103,6 +106,8 @@ export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide
 const primaryBtn: React.CSSProperties = { background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "10px 22px", fontWeight: 700, cursor: "pointer", fontFamily: li.font };
 
 function RoleCard({ role, onClick }: { role: CareerRole; onClick: () => void }) {
+  const readiness = role.readinessScore;
+  const ringColor = readiness === undefined ? li.textHint : readiness >= 50 ? li.green : readiness >= 25 ? li.blue : li.amber;
   return (
     <div
       onClick={onClick}
@@ -117,6 +122,15 @@ function RoleCard({ role, onClick }: { role: CareerRole; onClick: () => void }) 
         <div style={{ fontSize: 12, color: li.textSecondary }}>{role.industries[0] || role.category}</div>
         <div style={{ fontSize: 11, color: li.textHint, marginTop: 6 }}>{role.jobCount} open {role.jobCount === 1 ? "role" : "roles"}</div>
       </div>
+      {readiness !== undefined && (
+        <div
+          aria-label={`${readiness}% ready`}
+          style={{ flexShrink: 0, width: 52, height: 52, borderRadius: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, background: ringColor }}
+        >
+          <span style={{ fontSize: 15, lineHeight: 1 }}>{readiness}%</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: 0.5 }}>READY</span>
+        </div>
+      )}
     </div>
   );
 }

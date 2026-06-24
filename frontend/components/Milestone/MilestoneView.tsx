@@ -1,16 +1,13 @@
 "use client";
-
 import { useCallback, useEffect, useState } from "react";
 import { generatePath } from "../../lib/api";
 import { loadProgress, saveProgress } from "../../lib/persistence";
 import type { PersonalizedPath } from "../../lib/types";
 import { li } from "../../lib/theme";
-
 type Milestone = PersonalizedPath["milestones"][number];
 function phaseFor(order: number) { return Math.min(Math.floor((order - 1) / 2), 3); }
 function phaseLabel(index: number) { const date = new Date(); const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; const start = (date.getMonth() + index * 3) % 12; return `Q${index + 1} (${months[start]}–${months[(start + 2) % 12]})`; }
 function targetFor(date: string, order: number) { const d = new Date(date); d.setDate(d.getDate() + (order === 1 ? 28 : order <= 3 ? 90 : 180)); return `Target by ${d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}`; }
-
 export default function MilestoneView({ userId, roleId, onCompare }: { userId: string; roleId: string; onCompare?: () => void }) {
   const [path, setPath] = useState<PersonalizedPath | null>(null); const [pathError, setPathError] = useState(false); const [completed, setCompleted] = useState<number[]>([]); const [checkedAt, setCheckedAt] = useState<string | null>(null);
   const loadPath = useCallback(() => { setPathError(false); generatePath({ userId, roleId }).then(setPath).catch(() => setPathError(true)); }, [userId, roleId]);

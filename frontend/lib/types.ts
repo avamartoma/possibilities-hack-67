@@ -128,6 +128,9 @@ export interface CareerRole {
   jobCount: number;
   industries: string[];
   levels: string[];
+  // Optional 0-100 readiness for the current user, attached by /api/roles/search
+  // when a userId is supplied (Discover cards). Absent for anonymous searches.
+  readinessScore?: number;
 }
 
 export interface RoleRecommendation {

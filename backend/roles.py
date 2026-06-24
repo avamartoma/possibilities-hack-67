@@ -2,6 +2,8 @@
 
 from copy import deepcopy
 
+from .readiness import compute_readiness
+
 
 RELATED = {
     "data_scientist": ["software_engineer", "product_manager", "financial_analyst"],
@@ -54,7 +56,7 @@ def role_summary(role: dict) -> dict:
     return {key: full[key] for key in ("id", "name", "category", "summary", "requiredSkills", "companies", "jobCount", "industries", "levels", "salaryRange")}
 
 
-def search_roles(roles: dict, query: str = "", categories=None, skills=None, limit: int = 20) -> list:
+def search_roles(roles: dict, query: str = "", categories: list[str] | None = None, skills: list[str] | None = None, limit: int = 20, profile_skills: list[str] | None = None) -> list[dict]:
     terms = [term.casefold() for term in query.split() if term.strip()]
     wanted_categories = {item.casefold() for item in (categories or [])}
     wanted_skills = {item.casefold() for item in (skills or [])}
@@ -71,7 +73,14 @@ def search_roles(roles: dict, query: str = "", categories=None, skills=None, lim
             continue
         results.append((relevance, role.get("jobCount", 0), role))
     results.sort(key=lambda item: (-item[0], -item[1], item[2]["name"]))
-    return [role_summary(item[2]) for item in results[:limit]]
+    summaries = []
+    for item in results[:limit]:
+        role = item[2]
+        summary = role_summary(role)
+        if profile_skills is not None:
+            summary["readinessScore"] = compute_readiness(profile_skills, role)
+        summaries.append(summary)
+    return summaries
 
 
 def explain_role(role: dict, profile, roles: dict) -> dict:

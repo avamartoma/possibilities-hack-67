@@ -27,6 +27,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
+    // jsdom only exposes a real Storage (localStorage/sessionStorage) when the
+    // document has a concrete, non-opaque origin — otherwise window.localStorage
+    // is undefined and the shared setup's .clear() throws.
+    environmentOptions: { jsdom: { url: "http://localhost" } },
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.test.{ts,tsx}"],
     coverage: {

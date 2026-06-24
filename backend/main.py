@@ -123,7 +123,8 @@ def get_profile(userId: str) -> dict:
 
 @app.post("/api/roles/search")
 def post_role_search(request: RoleSearchRequest) -> dict:
-    return {"roles": search_roles(ROLES, request.query, request.categories, request.skills, request.limit)}
+    profile_skills = seeded_profile(request.userId)["skills"] if request.userId else None
+    return {"roles": search_roles(ROLES, request.query, request.categories, request.skills, request.limit, profile_skills)}
 
 
 @app.get("/api/roles/{roleId}")

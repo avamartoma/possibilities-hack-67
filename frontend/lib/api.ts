@@ -94,7 +94,7 @@ export async function getProfile(userId: string): Promise<UserProfile> {
   return response.json() as Promise<UserProfile>;
 }
 
-export function searchRoles(input: { query?: string; categories?: string[]; skills?: string[]; limit?: number } = {}): Promise<{ roles: CareerRole[] }> {
+export function searchRoles(input: { query?: string; categories?: string[]; skills?: string[]; limit?: number; userId?: string } = {}): Promise<{ roles: CareerRole[] }> {
   return postApi("/api/roles/search", input);
 }
 
