@@ -2,10 +2,10 @@
 
 // Integrated flow (the whole product, one shell):
 //   Lock In  →  choose Explore / Explain  →  pick a role  →  Comparison (Daniel)
-//            →  "Build my path"  →  Milestone (Namyanzi, embedded).
+//            →  "Build my path"  →  Milestone (native Next component).
 //
 // Explore = Person A (me), Explain = Person B (Muhammed, ported), Comparison =
-// Person C (Daniel), Milestone = Person D (Namyanzi, milestones-demo.html iframe).
+// Person C (Daniel), Milestone = Person D (Namyanzi, native plan component).
 // A single shared user identity (flowUsers) drives every step.
 
 import { useMemo, useState } from "react";
@@ -188,7 +188,7 @@ function Chooser({ onExplore, onExplain, onBack }: { onExplore: () => void; onEx
       </p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 12 }}>
         <button style={choice} onClick={onExplore}>
-          <span style={{ fontSize: 28 }}>🧭</span>
+          <span style={{ fontSize: 12, color: li.blue, fontWeight: 700 }}>01</span>
           <strong style={{ fontSize: 18, color: li.textPrimary }}>Explore</strong>
           <p style={{ margin: 0, color: li.textSecondary }}>
             Browse fields and roles that could surprise you — filtered to what’s open to you.
@@ -196,7 +196,7 @@ function Chooser({ onExplore, onExplain, onBack }: { onExplore: () => void; onEx
           <span style={{ color: li.blue, fontWeight: 600 }}>Browse careers →</span>
         </button>
         <button style={choice} onClick={onExplain}>
-          <span style={{ fontSize: 28 }}>💬</span>
+          <span style={{ fontSize: 12, color: li.blue, fontWeight: 700 }}>02</span>
           <strong style={{ fontSize: 18, color: li.textPrimary }}>Explain</strong>
           <p style={{ margin: 0, color: li.textSecondary }}>
             Describe your interests and goals. We’ll find role patterns that fit.

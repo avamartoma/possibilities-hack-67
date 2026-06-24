@@ -35,6 +35,17 @@ app.add_middleware(
 )
 
 
+@app.get("/api/health")
+def health() -> dict:
+    """Lightweight readiness signal for local and deployed environments."""
+    return {
+        "status": "ok",
+        "roles": len(ROLES),
+        "users": len(USERS),
+        "courseSkills": len(COURSES),
+    }
+
+
 @app.get("/api/roles")
 def get_roles() -> List[dict]:
     """All roles, as a list (map + role pickers consume this)."""
