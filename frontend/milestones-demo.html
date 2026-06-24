@@ -22,10 +22,6 @@ body{background:var(--li-bg);color:var(--li-text);font-family:var(--li-font);fon
 .progress-bar-bg{background:var(--li-border);border-radius:9999px;height:8px;overflow:hidden;margin:6px 0}
 .progress-bar-fill{height:100%;background:var(--li-green-brand);border-radius:9999px}
 .progress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--li-text-2)}
-/* Tabs */
-.tabs{display:flex;border-bottom:1px solid var(--li-border);margin-bottom:16px}
-.tab{padding:12px 16px;font-size:14px;font-weight:600;color:var(--li-text-2);cursor:pointer;border-bottom:2px solid transparent}
-.tab:hover{color:var(--li-text)}.tab.active{color:var(--li-green);border-bottom-color:var(--li-green)}
 /* Milestones */
 .ms-container{max-height:560px;overflow-y:auto}
 .ms{border-left:2px solid var(--li-border);padding:10px 16px;margin-bottom:10px}
@@ -42,29 +38,6 @@ body{background:var(--li-bg);color:var(--li-text);font-family:var(--li-font);fon
 .chip-red{background:var(--li-red-bg);color:#B24020}
 .chip-amber{background:#fef3c7;color:#92400e}
 .now-tag{display:inline-block;background:var(--li-green);color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;margin-left:6px}
-/* Leaderboard — 5-segment bar */
-.lb-desc{font-size:12px;color:var(--li-text-2);margin-bottom:14px}
-.lb-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f5}
-.lb-row:last-child{border-bottom:none}
-.lb-row.you{background:var(--li-blue-bg);margin:0 -24px;padding:8px 24px;border-radius:4px}
-.lb-rank{width:18px;font-size:13px;font-weight:600;color:var(--li-text-3)}
-.lb-name{width:100px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-segments{flex:1;display:flex;gap:3px;height:10px}
-.lb-seg{flex:1;border-radius:3px;background:var(--li-border)}
-.lb-seg.filled{background:var(--li-green-brand)}
-.lb-seg.filled-2{background:var(--li-blue)}
-.lb-seg.filled-3{background:#E7A33E}
-.lb-pts{font-size:12px;font-weight:600;color:var(--li-text-2);width:32px;text-align:right}
-/* Opportunities */
-.opp-item{border:1px solid var(--li-border);border-radius:var(--li-radius);padding:14px;margin-bottom:10px;transition:.15s}
-.opp-item:hover{border-color:var(--li-blue);box-shadow:var(--li-shadow)}
-.opp-item h3{font-size:14px;font-weight:600;margin-bottom:3px}
-.opp-item .desc{font-size:12px;color:var(--li-text-2)}
-.fit-row{display:flex;align-items:center;gap:8px;margin-top:8px}
-.fit-bar-bg{flex:1;height:6px;background:var(--li-border);border-radius:9999px;overflow:hidden}
-.fit-bar{height:100%;background:var(--li-green-brand);border-radius:9999px}
-.fit-pct{font-size:12px;font-weight:600;color:var(--li-green)}
-.hidden{display:none}
 </style>
 </head>
 <body>
@@ -81,14 +54,8 @@ body{background:var(--li-bg);color:var(--li-text);font-family:var(--li-font);fon
     <div class="progress-labels"><span>You (Now)</span><span id="pTarget"></span></div>
   </div>
   <div class="card">
-    <div class="tabs">
-      <div class="tab active" onclick="sw('path')">My Path</div>
-      <div class="tab" onclick="sw('opps')">Opportunities</div>
-      <div class="tab" onclick="sw('lb')">Leaderboard</div>
-    </div>
+    <h2>My Path</h2>
     <div id="pathTab" class="ms-container"></div>
-    <div id="oppsTab" class="hidden"></div>
-    <div id="lbTab" class="hidden"></div>
   </div>
 </div>
 <script>
@@ -123,37 +90,6 @@ document.getElementById('pathTab').innerHTML=milestones.map((m,i)=>{
   const cls=i===0?'current':'';
   return`<div class="ms ${cls}"><div class="ms-q">${m.quarter}${i===0?'<span class="now-tag">NOW</span>':''}</div><div class="ms-theme">${m.theme}</div><div class="ms-sec">Action Items</div><ul class="ms-list">${m.actions.map(a=>`<li>${a}</li>`).join('')}</ul><span class="chip chip-blue">${m.skill}</span></div>`;
 }).join('');
-
-// Opportunities (careermap-style cards with fit bars)
-const opps=[
-  {name:'Coca-Cola Scholars Program',desc:'$20K scholarship for HS juniors with leadership',fit:85},
-  {name:'LinkedIn Possibilities in Tech',desc:'Scholarship + mentorship for underrepresented students',fit:78},
-  {name:'QuestBridge National College Match',desc:'Full-ride scholarships to top colleges',fit:72},
-  {name:'Google CSSI',desc:'3-week CS summer intensive for rising freshmen',fit:68},
-  {name:'Code2040 Fellows',desc:'Internship connecting Black/Latinx talent to tech',fit:60},
-  {name:'NASA SEES',desc:'STEM Enhancement in Earth Science research',fit:55}
-];
-document.getElementById('oppsTab').innerHTML=`<p style="font-size:12px;color:var(--li-text-2);margin-bottom:12px">Programs for <strong>${user.name}</strong> pursuing <strong>${role.name}</strong></p>`+opps.map(o=>`<div class="opp-item"><h3>${o.name}</h3><p class="desc">${o.desc}</p><div class="fit-row"><div class="fit-bar-bg"><div class="fit-bar" style="width:${o.fit}%"></div></div><span class="fit-pct">${o.fit}%</span></div><div style="margin-top:6px">${haveSkills.slice(0,2).map(s=>`<span class="chip chip-green">${s}</span>`).join('')}${missingSkills.slice(0,1).map(s=>`<span class="chip chip-red">${s}</span>`).join('')}</div></div>`).join('');
-
-// Leaderboard — 5-segment bars (each segment = 1 quarter completed)
-const peers=[
-  {name:'Sam C.',segs:4},{name:'Jordan L.',segs:3},{name:user.name+' (You)',segs:1,you:true},{name:'Maya B.',segs:1},{name:'Chris D.',segs:2}
-].sort((a,b)=>b.segs-a.segs);
-const segColors=['filled','filled-2','filled-3','filled','filled-2'];
-document.getElementById('lbTab').innerHTML=`<div class="lb-desc">Your local cohort · Same quarter, similar goals</div>`+peers.map((p,i)=>{
-  let segs='';for(let s=0;s<5;s++)segs+=`<div class="lb-seg${s<p.segs?' '+segColors[s%3]:''}"></div>`;
-  return`<div class="lb-row${p.you?' you':''}"><div class="lb-rank">${i+1}</div><div class="lb-name">${p.name}</div><div class="lb-segments">${segs}</div><div class="lb-pts">${p.segs}/5</div></div>`;
-}).join('');
-
-function sw(t){
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  document.getElementById('pathTab').classList.add('hidden');
-  document.getElementById('oppsTab').classList.add('hidden');
-  document.getElementById('lbTab').classList.add('hidden');
-  if(t==='path'){document.getElementById('pathTab').classList.remove('hidden');document.querySelectorAll('.tab')[0].classList.add('active');}
-  else if(t==='opps'){document.getElementById('oppsTab').classList.remove('hidden');document.querySelectorAll('.tab')[1].classList.add('active');}
-  else{document.getElementById('lbTab').classList.remove('hidden');document.querySelectorAll('.tab')[2].classList.add('active');}
-}
 </script>
 </body>
 </html>
