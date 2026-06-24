@@ -50,3 +50,27 @@ def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str
         readiness = compute_readiness(profile["skills"], normalized)
         results.append({"role": normalized, "score": round(score, 2), "readinessScore": readiness, "scoreReasons": reasons, "matchedSkills": overlap})
     return results
+
+
+def recommend_exploratory_roles(profile: dict, roles: dict, limit: int) -> list[dict]:
+    user_skills = _casefold(profile["skills"])
+    high_fit = {rid for rid, role in roles.items() if compute_readiness(profile["skills"], normalize_role(role)) >= 50}
+    adjacent = {target for rid in high_fit for target in RELATED.get(rid, [])}
+    ranked = []
+    for role in roles.values():
+        normalized = normalize_role(role)
+        readiness = compute_readiness(profile["skills"], normalized)
+        if readiness >= 65:
+            continue
+        industry = (normalized.get("industries") or [normalized["category"]])[0]
+        novel = not user_skills.intersection(_casefold(normalized.get("coreSkills", [])))
+        score = 100 - abs(readiness - 30) + (20 if novel else 0) + (10 if role["id"] in adjacent else 0)
+        if novel:
+            reason = f"New industry: {industry}"
+        elif role["id"] in adjacent:
+            reason = "Adjacent to your current strengths"
+        else:
+            reason = f"Stretch: {readiness}% readiness"
+        ranked.append((score, role["name"], normalized, readiness, reason))
+    ranked.sort(key=lambda row: (-row[0], row[1]))
+    return [{"role": role, "readinessScore": readiness, "exploreReason": reason} for _, _, role, readiness, reason in ranked[:limit]]

@@ -179,3 +179,36 @@ export interface TopApplicantJobs {
   jobs: TopApplicantJob[];
   total: number;
 }
+
+// v4: a curiosity/stretch role for the Career Guide (POST /api/roles/explore-breadth).
+// Deliberately NOT high-fit — low readiness + adjacent + new-industry, with a reason to explore.
+export interface ExploreRole {
+  role: CareerRole;
+  exploreReason: string;
+  readinessScore: number;
+}
+
+export interface ExploreRoles {
+  profileId: string;
+  exploratoryRoles: ExploreRole[];
+}
+
+// v4: a generated non-traditional opportunity (scholarship/fellowship/cohort/etc.).
+export interface Opportunity {
+  id: string;
+  name: string;
+  organization: string;
+  type: string;
+  desc: string;
+  eligibility: string[];
+  skills: string[];
+  category: string;
+}
+
+export type OpportunityMatch = Opportunity & { fit: number; matchedSkills: string[]; missingSkills: string[] };
+
+export interface OpportunityMatches {
+  profileId: string;
+  opportunities: OpportunityMatch[];
+  total: number;
+}

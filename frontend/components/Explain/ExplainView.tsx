@@ -8,8 +8,8 @@
 
 import { useEffect, useState } from "react";
 import { li } from "../../lib/theme";
-import { getTopApplicantJobs, recommendRoles } from "../../lib/api";
-import type { RoleRecommendation, TopApplicantJob } from "../../lib/types";
+import { exploreBreadth, recommendRoles } from "../../lib/api";
+import type { ExploreRole, RoleRecommendation } from "../../lib/types";
 import RoleFifaCard from "../RoleCard/RoleFifaCard";
 
 const PROMPTS = [
@@ -31,7 +31,7 @@ export default function ExplainView({ userId, onCompare }: Props) {
   const [recommendations, setRecommendations] = useState<RoleRecommendation[] | null>(null);
   const [recError, setRecError] = useState(false);
 
-  const [topJobs, setTopJobs] = useState<TopApplicantJob[] | null>(null);
+  const [topJobs, setTopJobs] = useState<ExploreRole[] | null>(null);
   const [topError, setTopError] = useState(false);
   const [topAttempt, setTopAttempt] = useState(0);
 
@@ -40,8 +40,8 @@ export default function ExplainView({ userId, onCompare }: Props) {
   useEffect(() => {
     setTopJobs(null);
     setTopError(false);
-    getTopApplicantJobs({ userId, limit: 25 })
-      .then((res) => setTopJobs(res.jobs))
+    exploreBreadth({ userId, limit: 12 })
+      .then((res) => setTopJobs(res.exploratoryRoles))
       .catch(() => setTopError(true));
   }, [userId, topAttempt]);
 
@@ -62,25 +62,24 @@ export default function ExplainView({ userId, onCompare }: Props) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: li.font }}>
       <section style={{ ...card, padding: 20 }}>
-        <h2 style={{ margin: "0 0 4px", fontSize: 18, color: li.textPrimary }}>Jobs you’d be a top applicant for</h2>
-        <p style={{ margin: "0 0 12px", color: li.textSecondary, fontSize: 13 }}>Real postings ranked by how well your profile fits.</p>
+        <h2 style={{ margin: "0 0 4px", fontSize: 18, color: li.textPrimary }}>Roles to get curious about</h2>
+        <p style={{ margin: "0 0 12px", color: li.textSecondary, fontSize: 13 }}>Learn from a nearby role or explore a new direction.</p>
         {topError ? (
           <div>
-            <p style={{ color: li.amber, margin: "0 0 8px" }}>Couldn’t load jobs.</p>
+            <p style={{ color: li.amber, margin: "0 0 8px" }}>Couldn’t load curiosity roles.</p>
             <button onClick={() => setTopAttempt((a) => a + 1)} style={btn}>Retry</button>
           </div>
         ) : topJobs === null ? (
-          <p style={{ color: li.textSecondary, margin: 0 }}>Finding your best-fit jobs…</p>
+          <p style={{ color: li.textSecondary, margin: 0 }}>Finding a few directions to explore…</p>
         ) : topJobs.length === 0 ? (
-          <p style={{ color: li.textHint, margin: 0 }}>No strong matches yet — build a few more skills.</p>
+          <p style={{ color: li.textHint, margin: 0 }}>No curiosity roles yet — try again shortly.</p>
         ) : (
-          <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6 }} data-testid="top-jobs-scroll">
+          <div style={{ display: "flex", gap: 12, overflowX: "auto", paddingBottom: 6 }} data-testid="curiosity-scroll">
             {topJobs.map((job) => (
-              <article key={job.id} style={{ flex: "0 0 220px", border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, padding: 14 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: li.textPrimary }}>{job.company}</div>
-                <div style={{ fontSize: 12, color: li.textSecondary }}>{job.location} · {job.level}</div>
-                {job.topApplicant && <span style={{ ...chip(li.greenBg, li.green), marginTop: 8 }}>Top applicant</span>}
-                <button type="button" onClick={() => setOpenRoleId(job.roleId)} style={{ ...linkBtn, marginTop: 8 }}>
+              <article key={job.role.id} style={{ flex: "0 0 220px", border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, padding: 14 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: li.textPrimary }}>{job.role.name}</div>
+                <div style={{ fontSize: 12, color: li.textSecondary }}>{job.exploreReason}</div>
+                <button type="button" onClick={() => setOpenRoleId(job.role.id)} style={{ ...linkBtn, marginTop: 8 }}>
                   Explore this role →
                 </button>
               </article>

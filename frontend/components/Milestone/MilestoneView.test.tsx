@@ -4,8 +4,10 @@ import userEvent from "@testing-library/user-event";
 import type { PersonalizedPath } from "../../lib/types";
 
 const generatePath = vi.fn();
+const getOpportunities = vi.fn();
 vi.mock("../../lib/api", () => ({
   generatePath: (input: unknown) => generatePath(input),
+  getOpportunities: (input: unknown) => getOpportunities(input),
 }));
 
 import MilestoneView from "./MilestoneView";
@@ -61,6 +63,8 @@ function path(overrides: Partial<PersonalizedPath> = {}): PersonalizedPath {
 
 beforeEach(() => {
   generatePath.mockReset();
+  getOpportunities.mockReset();
+  getOpportunities.mockResolvedValue({ profileId: "user_5329", total: 0, opportunities: [] });
 });
 afterEach(cleanup);
 
@@ -84,7 +88,7 @@ describe("MilestoneView", () => {
     expect(screen.getByText(/Talk to a Data Scientist about ML/)).toBeInTheDocument();
     expect(screen.getByText(/Add an ML artifact/)).toBeInTheDocument();
     // progress bar reflects readinessScore.
-    expect(screen.getByText(/40% ready/)).toBeInTheDocument();
+    expect(screen.getByText(/40% role readiness/)).toBeInTheDocument();
   });
 
   it("renders a milestone whose course is null without crashing", async () => {
@@ -98,9 +102,6 @@ describe("MilestoneView", () => {
     render(<MilestoneView userId="user_5329" roleId="data_scientist" />);
     const firstTitle = await screen.findByText("Build confidence in Machine Learning");
 
-    // The checkbox is revealed on hover (LinkedIn-style affordance).
-    const item = firstTitle.closest("div")!.parentElement!.parentElement!;
-    await userEvent.hover(item);
     const checkbox = screen.getByRole("checkbox", { name: /Build confidence in Machine Learning/ });
     expect(checkbox).not.toBeChecked();
     await userEvent.click(checkbox);
@@ -110,13 +111,7 @@ describe("MilestoneView", () => {
     // local toggle never calls the backend again.
     expect(generatePath).toHaveBeenCalledTimes(1);
 
-    // Unhovering an unchecked milestone hides its checkbox again.
-    const secondTitle = screen.getByText("Build confidence in SQL");
-    const secondItem = secondTitle.closest("div")!.parentElement!.parentElement!;
-    await userEvent.hover(secondItem);
     expect(screen.getByRole("checkbox", { name: /Build confidence in SQL/ })).toBeInTheDocument();
-    await userEvent.unhover(secondItem);
-    expect(screen.queryByRole("checkbox", { name: /Build confidence in SQL/ })).not.toBeInTheDocument();
   });
 
   it("uses plural skill-gap copy when more than one core skill is missing", async () => {

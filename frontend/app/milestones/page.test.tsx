@@ -3,8 +3,10 @@ import { cleanup, render, screen } from "@testing-library/react";
 import type { PersonalizedPath } from "../../lib/types";
 
 const generatePath = vi.fn();
+const getOpportunities = vi.fn();
 vi.mock("../../lib/api", () => ({
   generatePath: (input: unknown) => generatePath(input),
+  getOpportunities: (input: unknown) => getOpportunities(input),
 }));
 
 import Page from "./page";
@@ -28,6 +30,7 @@ function path(): PersonalizedPath {
 beforeEach(() => {
   generatePath.mockReset();
   generatePath.mockResolvedValue(path());
+  getOpportunities.mockResolvedValue({ profileId: "user_2340", total: 0, opportunities: [] });
   window.history.replaceState({}, "", "/milestones?user=user_2340&role=ux_designer");
 });
 afterEach(cleanup);

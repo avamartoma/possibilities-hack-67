@@ -2,7 +2,7 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath, RoleExplanation, TopApplicantJobs } from "./types";
+import type { Role, User, FitResult, Course, MilestonePlan, UserProfile, ProfileOverride, CareerRole, RoleRecommendation, RoleComparison, PersonalizedPath, RoleExplanation, TopApplicantJobs, ExploreRoles, OpportunityMatches } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
@@ -123,4 +123,14 @@ export function generatePath(input: { userId: string; roleId: string; profileOve
 // v3: real postings ranked for how well the user fits them (Career Guide scroller).
 export function getTopApplicantJobs(input: { userId: string; profileOverride?: ProfileOverride; limit?: number }): Promise<TopApplicantJobs> {
   return postApi("/api/jobs/top-applicant", input);
+}
+
+// v4: curiosity/stretch roles for the Career Guide (low-fit, adjacent, new-industry).
+export function exploreBreadth(input: { userId: string; profileOverride?: ProfileOverride; limit?: number }): Promise<ExploreRoles> {
+  return postApi("/api/roles/explore-breadth", input);
+}
+
+// v4: non-traditional opportunities ranked by skill fit (Milestones page).
+export function getOpportunities(input: { userId: string; profileOverride?: ProfileOverride; limit?: number }): Promise<OpportunityMatches> {
+  return postApi("/api/opportunities", input);
 }

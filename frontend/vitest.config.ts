@@ -8,6 +8,7 @@ import react from "@vitejs/plugin-react";
 const TRACK_A_SURFACE = [
   "lib/api.ts",
   "lib/theme.ts",
+  "lib/persistence.ts",
   "components/Flow/AppFlow.tsx",
   "components/Profile/ProfilePage.tsx",
   "components/Explore/ExploreView.tsx",

@@ -10,6 +10,7 @@ import { getRoles, getUsers } from "../../lib/api";
 import { li } from "../../lib/theme";
 import LinkedInNav from "../../components/LinkedInNav";
 import ComparisonPanel from "../../components/ComparisonPanel/ComparisonPanel";
+import { clearSession, clearUserProgress } from "../../lib/persistence";
 
 export default function Home() {
   const [users, setUsers] = useState<User[]>([]);
@@ -52,7 +53,7 @@ export default function Home() {
 
   return (
     <div style={{ background: li.pageBg, minHeight: "100vh", fontFamily: li.font }}>
-      <LinkedInNav userName={activeUser?.name} />
+      <LinkedInNav userName={activeUser?.name} onHome={() => { window.location.href = "/"; }} onProfile={() => { window.location.href = "/"; }} onJobs={(query) => { window.location.href = `/explore${query ? `?q=${encodeURIComponent(query)}` : ""}`; }} onRestart={() => { clearSession(); if (userId) clearUserProgress(userId); window.location.href = "/"; }} />
 
       <main
         style={{

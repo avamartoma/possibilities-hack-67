@@ -64,13 +64,11 @@ describe("ExploreView (Discover)", () => {
     expect(screen.getAllByText(/5 open roles/).length).toBeGreaterThan(0); // plural
   });
 
-  it("shows backend readiness badges (all bands) and '—' when absent", async () => {
+  it("shows industry and open-role counts without a readiness lookup", async () => {
     setup();
-    expect(await screen.findByText("60%")).toBeInTheDocument();
-    expect(screen.getByText("30%")).toBeInTheDocument();
-    expect(screen.getByText("10%")).toBeInTheDocument();
-    expect(screen.getAllByText("—").length).toBeGreaterThan(0);
-    expect(recommendRoles).toHaveBeenCalledWith({ userId: "user_2340", limit: 20 });
+    expect((await screen.findAllByText("Tech")).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/open roles/).length).toBeGreaterThan(0);
+    expect(recommendRoles).not.toHaveBeenCalled();
   });
 
   it("paginates with Load more", async () => {
@@ -138,9 +136,4 @@ describe("ExploreView (Discover)", () => {
     expect(card.style.transform).toBe("");
   });
 
-  it("still renders when the readiness lookup fails", async () => {
-    recommendRoles.mockRejectedValueOnce(new Error("no recs"));
-    setup();
-    expect(await screen.findByText("Data Scientist")).toBeInTheDocument();
-  });
 });

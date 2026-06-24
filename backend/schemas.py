@@ -50,3 +50,15 @@ class TopApplicantRequest(BaseModel):
     userId: str
     profileOverride: ProfileOverride | None = None
     limit: int = Field(default=25, ge=1, le=100)
+
+
+class ExploreBreadthRequest(BaseModel):
+    userId: str
+    profileOverride: ProfileOverride | None = None
+    limit: int = Field(default=12, ge=1, le=24)
+
+
+class OpportunityRequest(BaseModel):
+    userId: str
+    profileOverride: ProfileOverride | None = None
+    limit: int = Field(default=12, ge=1, le=24)

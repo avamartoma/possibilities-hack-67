@@ -7,39 +7,30 @@
 
 import { useEffect, useState } from "react";
 import { li } from "../../lib/theme";
-import { recommendRoles, searchRoles } from "../../lib/api";
+import { searchRoles } from "../../lib/api";
 import type { CareerRole } from "../../lib/types";
 import RoleFifaCard from "../RoleCard/RoleFifaCard";
 
 const DEBOUNCE_MS = 250;
 const SEARCH_LIMIT = 100;
-const RECOMMEND_LIMIT = 20;
 const PAGE = 30;
 
 interface ExploreViewProps {
   userId: string;
   onCompareRole: (roleId: string) => void;
   onOpenGuide: () => void;
+  initialQuery?: string;
 }
 
-export default function ExploreView({ userId, onCompareRole, onOpenGuide }: ExploreViewProps) {
+export default function ExploreView({ userId, onCompareRole, onOpenGuide, initialQuery = "" }: ExploreViewProps) {
   const [query, setQuery] = useState("");
   const [roles, setRoles] = useState<CareerRole[] | null>(null);
   const [error, setError] = useState(false);
-  const [readiness, setReadiness] = useState<Record<string, number>>({});
   const [visible, setVisible] = useState(PAGE);
   const [attempt, setAttempt] = useState(0);
   const [openRoleId, setOpenRoleId] = useState<string | null>(null);
 
-  useEffect(() => {
-    recommendRoles({ userId, limit: RECOMMEND_LIMIT })
-      .then((res) => {
-        const lookup: Record<string, number> = {};
-        for (const rec of res.recommendations) lookup[rec.role.id] = rec.readinessScore;
-        setReadiness(lookup);
-      })
-      .catch(() => { /* badges are an enhancement; the catalog still renders */ });
-  }, [userId]);
+  useEffect(() => setQuery(initialQuery), [initialQuery]);
 
   useEffect(() => {
     const handle = setTimeout(() => {
@@ -98,7 +89,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide }: Expl
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
             {roles.slice(0, visible).map((role) => (
-              <RoleCard key={role.id} role={role} readiness={readiness[role.id]} onClick={() => setOpenRoleId(role.id)} />
+              <RoleCard key={role.id} role={role} onClick={() => setOpenRoleId(role.id)} />
             ))}
           </div>
           {visible < roles.length && (
@@ -125,9 +116,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide }: Expl
 
 const primaryBtn: React.CSSProperties = { background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "10px 22px", fontWeight: 700, cursor: "pointer", fontFamily: li.font };
 
-function RoleCard({ role, readiness, onClick }: { role: CareerRole; readiness?: number; onClick: () => void }) {
-  const badgeBg = readiness === undefined ? li.blueLight : readiness >= 50 ? li.greenBg : readiness >= 25 ? li.blueLight : li.amberBg;
-  const badgeColor = readiness === undefined ? li.textHint : readiness >= 50 ? li.green : readiness >= 25 ? li.blue : li.amber;
+function RoleCard({ role, onClick }: { role: CareerRole; onClick: () => void }) {
   return (
     <div
       onClick={onClick}
@@ -139,11 +128,8 @@ function RoleCard({ role, readiness, onClick }: { role: CareerRole; readiness?: 
     >
       <div>
         <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>{role.name}</div>
-        <div style={{ fontSize: 12, color: li.textSecondary }}>{role.category}</div>
+        <div style={{ fontSize: 12, color: li.textSecondary }}>{role.industries[0] || role.category}</div>
         <div style={{ fontSize: 11, color: li.textHint, marginTop: 6 }}>{role.jobCount} open {role.jobCount === 1 ? "role" : "roles"}</div>
-      </div>
-      <div style={{ flexShrink: 0, width: 48, height: 48, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, background: badgeBg, color: badgeColor }}>
-        {readiness === undefined ? "—" : `${readiness}%`}
       </div>
     </div>
   );

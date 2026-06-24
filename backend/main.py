@@ -11,15 +11,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from .analysis import aggregate_role_analysis
-from .comparison import compare_profile_to_role, recommend_roles
+from .comparison import compare_profile_to_role, recommend_exploratory_roles, recommend_roles
 from .fit import compute_fit
 from .jobs import rank_top_applicant_jobs
 from .milestones import build_milestone_plan
 from .pathing import generate_path
+from .opportunities import OPPORTUNITIES, rank_opportunities
 from .profile_source import resolve_profile
 from .profiles import apply_override
 from .roles import explain_role, normalize_role, search_roles
-from .schemas import CompareRequest, ExplainRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest, TopApplicantRequest
+from .schemas import CompareRequest, ExplainRequest, ExploreBreadthRequest, OpportunityRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest, TopApplicantRequest
 
 DATA_DIR = Path(__file__).parent / "data"
 # v3: the full 207-role catalog (built from jobs_data.json by precompute) backs
@@ -114,6 +115,12 @@ def post_recommend(request: RecommendRequest) -> dict:
     return {"profileId": profile["id"], "recommendations": recommend_roles(profile, ROLES, request.interests, request.query, request.limit)}
 
 
+@app.post("/api/roles/explore-breadth")
+def post_explore_breadth(request: ExploreBreadthRequest) -> dict:
+    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
+    return {"profileId": profile["id"], "exploratoryRoles": recommend_exploratory_roles(profile, ROLES, request.limit)}
+
+
 @app.post("/api/roles/explain")
 def post_explain(request: ExplainRequest) -> dict:
     profile = seeded_profile(request.userId) if request.userId else None
@@ -138,3 +145,9 @@ def post_top_applicant_jobs(request: TopApplicantRequest) -> dict:
     profile = apply_override(seeded_profile(request.userId), request.profileOverride)
     jobs = rank_top_applicant_jobs(profile, ROLES, request.limit)
     return {"jobs": jobs, "total": len(jobs)}
+
+
+@app.post("/api/opportunities")
+def post_opportunities(request: OpportunityRequest) -> dict:
+    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
+    return {"profileId": profile["id"], "opportunities": rank_opportunities(profile, request.limit), "total": len(OPPORTUNITIES)}
