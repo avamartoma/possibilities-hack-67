@@ -25,6 +25,12 @@ export function computeFit(userSkills: string[], role: Role): FitResult {
       name: role.name,
       description: role.description,
       companies: role.companies,
+      // pass through real enrichment from precompute.py
+      salaryFrom: role.salaryFrom,
+      salaryTo: role.salaryTo,
+      easyApplyPct: role.easyApplyPct,
+      jobCount: role.jobCount,
+      postings: role.postings,
     },
     percent,
     haveSkills: have,

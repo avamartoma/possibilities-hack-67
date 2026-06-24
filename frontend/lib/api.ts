@@ -2,13 +2,15 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult } from "./types";
+import type { Role, User, FitResult, Course, MilestonePlan } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import usersData from "../data/users.json";
+import coursesData from "../data/courses.json";
 
 const ROLES = rolesData as Record<string, Role>;
 const USERS = usersData as User[];
+const COURSES = coursesData as Record<string, Course[]>;
 
 async function tryFetch<T>(url: string): Promise<T | null> {
   try {
@@ -30,6 +32,12 @@ export async function getUsers(): Promise<User[]> {
   return live ?? USERS;
 }
 
+// Skill -> real courses (from course_data.json), for the Milestone page.
+export async function getCourses(): Promise<Record<string, Course[]>> {
+  const live = await tryFetch<Record<string, Course[]>>("/api/courses");
+  return live ?? COURSES;
+}
+
 export async function getFit(userId: string, roleId: string): Promise<FitResult> {
   const live = await tryFetch<FitResult>(
     `/api/fit?userId=${encodeURIComponent(userId)}&roleId=${encodeURIComponent(roleId)}`
@@ -43,4 +51,29 @@ export async function getFit(userId: string, roleId: string): Promise<FitResult>
     throw new Error(`Unknown user (${userId}) or role (${roleId})`);
   }
   return computeFit(user.skills, role);
+}
+
+export async function getMilestonePlan(userId: string, roleId: string): Promise<MilestonePlan> {
+  const live = await tryFetch<MilestonePlan>(
+    `/api/milestones?userId=${encodeURIComponent(userId)}&roleId=${encodeURIComponent(roleId)}`
+  );
+  if (live) return live;
+
+  const fit = await getFit(userId, roleId);
+  const steps = fit.missingSkills.slice(0, 5).map((skill, index) => {
+    const course = COURSES[skill]?.[0];
+    return {
+      step: index + 1,
+      skill,
+      title: `Build confidence in ${skill}`,
+      course: course?.name ?? `Build a project using ${skill}`,
+      courseLength: course?.length ?? null,
+      actions: [
+        `Complete ${course?.name ?? `a project using ${skill}`}`,
+        `Add evidence of ${skill} to your LinkedIn profile`,
+        `Connect with one ${fit.role.name} who uses ${skill}`,
+      ],
+    };
+  });
+  return { ...fit, readiness: fit.percent, milestones: steps.length ? steps : [{ step: 1, skill: "Portfolio evidence", title: "Turn your existing skills into proof of work", course: null, courseLength: null, actions: ["Publish a project that demonstrates your readiness", "Ask a relevant connection for feedback", "Update your LinkedIn profile with the outcome"] }] };
 }
