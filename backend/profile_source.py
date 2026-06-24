@@ -79,7 +79,7 @@ def normalize_sample_user(record: dict) -> dict:
     }
 
 
-def resolve_profile(user_id: str) -> dict | None:
+def resolve_profile(user_id: str):
     """Return a normalized profile for either source, or None if unknown.
 
     Seed users keep their existing normalization so Compare/Path behavior is

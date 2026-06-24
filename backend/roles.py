@@ -54,7 +54,7 @@ def role_summary(role: dict) -> dict:
     return {key: full[key] for key in ("id", "name", "category", "summary", "requiredSkills", "companies", "jobCount", "industries", "levels", "salaryRange")}
 
 
-def search_roles(roles: dict, query: str = "", categories: list[str] | None = None, skills: list[str] | None = None, limit: int = 20) -> list[dict]:
+def search_roles(roles: dict, query: str = "", categories=None, skills=None, limit: int = 20) -> list:
     terms = [term.casefold() for term in query.split() if term.strip()]
     wanted_categories = {item.casefold() for item in (categories or [])}
     wanted_skills = {item.casefold() for item in (skills or [])}
@@ -74,7 +74,7 @@ def search_roles(roles: dict, query: str = "", categories: list[str] | None = No
     return [role_summary(item[2]) for item in results[:limit]]
 
 
-def explain_role(role: dict, profile: dict | None, roles: dict) -> dict:
+def explain_role(role: dict, profile, roles: dict) -> dict:
     normalized = normalize_role(role)
     related = [role_summary(roles[role_id]) for role_id in normalized["relatedRoleIds"] if role_id in roles]
     strengths = []

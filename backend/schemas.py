@@ -1,45 +1,45 @@
 """Request contracts for the v2 Career Map API."""
 
-from typing import Any
+from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
 
 
 class ProfileOverride(BaseModel):
-    headline: str | None = None
-    currentStatus: str | None = None
-    skills: list[str] | None = None
-    experience: list[dict[str, Any]] | None = None
-    education: list[dict[str, Any]] | None = None
-    interests: list[str] | None = None
-    savedGoals: list[str] | None = None
-    location: str | None = None
+    headline: Optional[str] = None
+    currentStatus: Optional[str] = None
+    skills: Optional[List[str]] = None
+    experience: Optional[List[dict]] = None
+    education: Optional[List[dict]] = None
+    interests: Optional[List[str]] = None
+    savedGoals: Optional[List[str]] = None
+    location: Optional[str] = None
 
 
 class RoleSearchRequest(BaseModel):
     query: str = ""
-    categories: list[str] = Field(default_factory=list)
-    skills: list[str] = Field(default_factory=list)
+    categories: List[str] = Field(default_factory=list)
+    skills: List[str] = Field(default_factory=list)
     limit: int = Field(default=20, ge=1, le=100)
 
 
 class RecommendRequest(BaseModel):
     userId: str
-    profileOverride: ProfileOverride | None = None
-    interests: list[str] = Field(default_factory=list)
+    profileOverride: Optional[ProfileOverride] = None
+    interests: List[str] = Field(default_factory=list)
     query: str = ""
     limit: int = Field(default=3, ge=1, le=20)
 
 
 class ExplainRequest(BaseModel):
     roleId: str
-    userId: str | None = None
+    userId: Optional[str] = None
 
 
 class CompareRequest(BaseModel):
     userId: str
     roleId: str
-    profileOverride: ProfileOverride | None = None
+    profileOverride: Optional[ProfileOverride] = None
 
 
 class PathGenerateRequest(CompareRequest):
@@ -48,17 +48,17 @@ class PathGenerateRequest(CompareRequest):
 
 class TopApplicantRequest(BaseModel):
     userId: str
-    profileOverride: ProfileOverride | None = None
+    profileOverride: Optional[ProfileOverride] = None
     limit: int = Field(default=25, ge=1, le=100)
 
 
 class ExploreBreadthRequest(BaseModel):
     userId: str
-    profileOverride: ProfileOverride | None = None
+    profileOverride: Optional[ProfileOverride] = None
     limit: int = Field(default=12, ge=1, le=24)
 
 
 class OpportunityRequest(BaseModel):
     userId: str
-    profileOverride: ProfileOverride | None = None
+    profileOverride: Optional[ProfileOverride] = None
     limit: int = Field(default=12, ge=1, le=24)
