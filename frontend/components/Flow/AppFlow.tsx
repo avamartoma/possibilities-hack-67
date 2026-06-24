@@ -2,10 +2,10 @@
 
 // Integrated flow (the whole product, one shell):
 //   Lock In  →  choose Explore / Explain  →  pick a role  →  Comparison (Daniel)
-//            →  "Build my path"  →  Milestone (Namyanzi, embedded).
+//            →  "Build my path"  →  Milestone (native Next component).
 //
 // Explore = Person A (me), Explain = Person B (Muhammed, ported), Comparison =
-// Person C (Daniel), Milestone = Person D (Namyanzi, milestones-demo.html iframe).
+// Person C (Daniel), Milestone = Person D (Namyanzi, native plan component).
 // A single shared user identity (flowUsers) drives every step.
 
 import { useMemo, useState } from "react";
@@ -15,6 +15,7 @@ import ProfilePage from "../Profile/ProfilePage";
 import ExploreView from "../Explore/ExploreView";
 import ExplainView from "../Explain/ExplainView";
 import ComparisonPanel from "../ComparisonPanel/ComparisonPanel";
+import MilestoneView from "../Milestone/MilestoneView";
 import type { UserProfile } from "../../lib/explore/types";
 import flowUsersData from "../../data/flowUsers.json";
 
@@ -106,6 +107,7 @@ export default function AppFlow() {
         <Milestone
           roleTitle={roleTitle}
           roleId={roleId}
+          userId={userId}
           missingSkills={missingSkills}
           onBack={() => setStep("comparison")}
         />
@@ -143,7 +145,7 @@ function Chooser({ onExplore, onExplain, onBack }: { onExplore: () => void; onEx
       </p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 12 }}>
         <button style={choice} onClick={onExplore}>
-          <span style={{ fontSize: 28 }}>🧭</span>
+          <span style={{ fontSize: 12, color: li.blue, fontWeight: 700 }}>01</span>
           <strong style={{ fontSize: 18, color: li.textPrimary }}>Explore</strong>
           <p style={{ margin: 0, color: li.textSecondary }}>
             Browse fields and roles that could surprise you — filtered to what’s open to you.
@@ -151,7 +153,7 @@ function Chooser({ onExplore, onExplain, onBack }: { onExplore: () => void; onEx
           <span style={{ color: li.blue, fontWeight: 600 }}>Browse careers →</span>
         </button>
         <button style={choice} onClick={onExplain}>
-          <span style={{ fontSize: 28 }}>💬</span>
+          <span style={{ fontSize: 12, color: li.blue, fontWeight: 700 }}>02</span>
           <strong style={{ fontSize: 18, color: li.textPrimary }}>Explain</strong>
           <p style={{ margin: 0, color: li.textSecondary }}>
             Describe your interests and goals. We’ll find role patterns that fit.
@@ -178,13 +180,8 @@ function NoFitNotice({ title, onBack }: { title: string; onBack: () => void }) {
 }
 
 function Milestone({
-  roleTitle, roleId, missingSkills, onBack,
-}: { roleTitle: string; roleId: string | null; missingSkills: string[]; onBack: () => void }) {
-  const params = new URLSearchParams();
-  if (roleId) params.set("role", roleId);
-  if (roleTitle) params.set("title", roleTitle);
-  if (missingSkills.length) params.set("missing", missingSkills.join(","));
-  const src = `/milestones-demo.html${params.toString() ? `?${params.toString()}` : ""}`;
+  roleTitle, roleId, userId, missingSkills, onBack,
+}: { roleTitle: string; roleId: string | null; userId: string; missingSkills: string[]; onBack: () => void }) {
 
   return (
     <div style={wrap}>
@@ -201,11 +198,7 @@ function Milestone({
             : "A personalized milestone plan to get you there."}
         </p>
       </div>
-      <iframe
-        title="Milestone plan"
-        src={src}
-        style={{ width: "100%", height: 720, border: `1px solid ${li.cardBorder}`, borderRadius: li.cardRadius, background: "#fff" }}
-      />
+      {roleId && <MilestoneView userId={userId} roleId={roleId} />}
     </div>
   );
 }

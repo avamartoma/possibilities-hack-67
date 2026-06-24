@@ -198,6 +198,27 @@ export default function ComparisonPanel({
           missingSkills={fit.missingSkills}
         />
 
+        {fit.analysis && (
+          <div
+            style={{
+              marginTop: 20,
+              padding: "12px 16px",
+              background: li.blueLight,
+              borderRadius: li.cardRadius,
+              color: li.textPrimary,
+              fontSize: 14,
+              lineHeight: 1.45,
+            }}
+          >
+            <strong>{fit.analysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
+            {fit.analysis.landed.toLocaleString()} people in the dataset have held this role
+            {fit.analysis.similar > 0 && (
+              <>; {fit.analysis.similar.toLocaleString()} share at least one skill with you.</>
+            )}
+            {fit.analysis.similar === 0 && "."}
+          </div>
+        )}
+
         {/* Handoff to Milestone page */}
         <button
           onClick={handleBuild}

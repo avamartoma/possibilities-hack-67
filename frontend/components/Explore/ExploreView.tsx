@@ -103,7 +103,7 @@ export default function ExploreView({
     const rid = roleIdFor(role);
     title = role.position;
     if (signals.fitCapable && rid) {
-      body = <ComparisonPanel userId={userId} roleId={rid} />;
+      body = <ComparisonPanel userId={userId} roleId={rid} onBuildPath={({roleId: r}) => { window.location.href = `/milestones-demo.html?role=${r}&user=${userId}`; }} />;
     } else {
       body = (
         <RoleDetail

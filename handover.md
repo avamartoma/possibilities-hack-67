@@ -3,7 +3,7 @@
 Single-file context for anyone (human or AI chat session) joining this
 project. Read this first.
 
-**Last rewritten:** 2026-06-23 (Ava) — concept locked; build started.
+**Last rewritten:** 2026-06-24 (Ava) — pages built; full flow integrated.
 
 ---
 
@@ -42,10 +42,10 @@ difference; path = what closes it; fit % = overlap).
 
 ## 3. Current state (snapshot)
 
-- **Phase:** building, modularly. Concept locked.
-- **Stack (DECIDED):** **Python backend + React/TypeScript frontend.**
-  Backend hosts the skill-overlap engine + AI inference; frontend is the
-  pages. They talk over a JSON/HTTP API.
+- **Phase:** building, modularly — **first pages are built and running.**
+- **Stack (DECIDED):** **Python (FastAPI) backend + Next.js / React /
+  TypeScript frontend.** They talk over a JSON/HTTP API; the frontend
+  falls back to bundled JSON if the backend isn't running.
 - **Data:** running on the synthetic sample data in `sample_data/`.
   `jobs_data.json` now has **207 distinct positions across 21 industries**
   (expanded 2026-06-23 from the original 10 titles / 5 industries) so it
@@ -53,12 +53,22 @@ difference; path = what closes it; fit % = overlap).
   field (role→skills is inferred). Real/richer data may come later.
 - **Repo:** LIVE — public GitHub repo
   `https://github.com/avamartoma/possibilities-hack-67`, branch `main`.
-  Local git identity: ava.martoma@gmail.com.
-- **Code so far:** `milestone_generator.py` (Namyanzi, the Milestone
-  page) is in the repo. Other pages not yet started.
-- **Docs:** `README.md`, `handover.md` (this file),
-  `ava_personal_notes.md` (Ava's full notes), `presentation_notes.md`
-  (slide-ready summary for the deck).
+- **The app is real now:** **Next.js + TypeScript** frontend (`frontend/`)
+  + **FastAPI** backend (`backend/`). On `main`: Daniel's **Comparison
+  page** (merged) and Namyanzi's **Milestone page** (Flask `app.py` +
+  `frontend/public/milestones-demo.html`).
+- **Built, on branches (not all merged to `main` yet) — see §7 branch map:**
+  - **Explore** (Ava): clean slice on `explore-page` → **PR #3 open**.
+  - **Explain** (Muhammed): `origin/muhammed-explain-chatbot` (separate Vite
+    app); ported into Next on the integration branch.
+  - **Daniel's latest** restyle: `origin/feature/comparison-page`.
+  - **Full end-to-end flow** integrated on **`ava-explore`** (`AppFlow`:
+    Lock-in → Explore/Explain → Comparison → Milestone).
+- **Run it:** `cd frontend && npm install && npm run dev` →
+  `http://localhost:3000` (`/` flow on `ava-explore`; `/explore`;
+  `/comparison-demo`; `/milestones-demo.html`).
+- **Docs:** `README.md`, `handover.md` (this file), `ava_personal_notes.md`
+  (Ava's full notes — the most detailed catch-up), `presentation_notes.md`.
 
 ---
 
@@ -82,13 +92,26 @@ user's profile. The % fit / skill-overlap logic appears on both the
 Comparison page and (implicitly) the Milestone page, so it should be
 **one shared engine**, not reimplemented per page.
 
+**Build status (2026-06-24):** all four are built. Comparison + Milestone
+are on `main`; Explore is on `explore-page` (PR #3); Explain is ported and
+the whole flow is wired on `ava-explore` (see §7). Lock-in owner still TBD
+(not Jaden).
+
 ---
 
-## 5. Open questions (small; not blocking)
+## 5. Open questions / known issues
 
-1. **Milestone page placement** — same page as the Role Detail, or a
+1. **[PICK UP HERE] Explore → Comparison only covers 10 roles.** The
+   Comparison's `roleSkills.json` has only the 10 canonical roles, but
+   Explore surfaces all 207 — so clicking a niche role shows a "coming
+   soon" card instead of a comparison. Agreed fix (not yet built): **infer
+   `role→skills` for all 207 positions** (from holders' skills via
+   `job_history` + industry/title), additive to Daniel's 10, and make
+   `roleIdFor()` slug-derive the id. Touches Daniel's slice → do on
+   `ava-explore`, coordinate with Daniel.
+2. **Milestone page placement** — same page as the Role Detail, or a
    separate page? (Owner call: Daniel + Namyanzi.)
-2. **Local leaderboard** — include alongside the streak, or streak only?
+3. **Local leaderboard** — include alongside the streak, or streak only?
 
 ---
 
@@ -132,6 +155,24 @@ git add -A && git commit -m "..."
 git push origin main      # (or a feature branch + PR if you prefer)
 ```
 
+**Branch map (2026-06-24):**
+- `main` — expanded `jobs_data` (207/21), Comparison (Daniel) + Milestone
+  (Namyanzi) merged, current docs.
+- `explore-page` — clean **Explore-only** slice (Ava). **PR #3 → main, open.**
+- `ava-explore` — the **integration** branch (~10 ahead of main): everyone's
+  work combined + Explore + `AppFlow` end-to-end flow. Not PR'd yet — wait
+  until the other slices land on `main`, then PR/rebase so the diff is clean.
+- `origin/feature/comparison-page` — Daniel's latest restyle (unmerged).
+- `origin/muhammed-explain-chatbot` — Muhammed's Vite Explain (unmerged).
+
+**Making PRs with `gh`:** `gh` (2.95.0) is installed but not logged in (the
+cached git token lacks `read:org`, so `gh auth login` fails). Pass the token
+via env instead:
+```bash
+GH_TOKEN=$(printf "protocol=https\nhost=github.com\n\n" | git credential fill | sed -n 's/^password=//p') \
+  gh pr create --base main --head <branch> --title "..." --body-file <file>
+```
+
 ---
 
 ## 8. House rules
@@ -151,14 +192,35 @@ git push origin main      # (or a feature branch + PR if you prefer)
 
 - **This handover:** `handover.md`
 - **Ava's full notes (most detailed catch-up):** `ava_personal_notes.md`
+- **Frontend (Next.js + TS):** `frontend/` — `app/` routes,
+  `components/` (ComparisonPanel, Explore, Explain, Flow, LinkedInNav),
+  `lib/` (types, fit, theme, explore, explain), `data/` (bundled JSON).
+- **Backend (FastAPI):** `backend/` (`main.py`, `fit.py`, `data/`).
+- **Milestone (Namyanzi):** `app.py` (Flask, Claude API) +
+  `frontend/public/milestones-demo.html` + `static/`.
 - **Sample data:** `sample_data/` (`user_data.json`, `jobs_data.json`,
-  `course_data.json`)
-- **Code:** `milestone_generator.py` (Milestone page, Namyanzi). More to
-  come, one page per owner (§4).
+  `course_data.json`).
+- **Slice docs:** `EXPLORE_PAGE.md`, `COMPARISON_PAGE.md` (on their branches).
 
 ---
 
 ## 10. Session log
+
+### 2026-06-24 (session 3) — Explore built + full flow integrated
+- **Repo became a real app:** Daniel merged the Comparison page (Next.js
+  `frontend/` + FastAPI `backend/`); Namyanzi merged the Milestone page
+  (Flask + `milestones-demo.html`).
+- **Ava built the Explore page** (`frontend/app/explore` + `components/Explore`
+  + `lib/explore`): hierarchical bubble → field → job-title drill-down from
+  `jobsCatalog.json`, with profile **eligibility filtering** (grad-year
+  seniority + degree). Clean slice on `explore-page` → **PR #3 open**.
+- **Integrated the full flow** on `ava-explore` (`AppFlow`): merged Daniel's
+  latest, ported Muhammed's Explain to Next/TSX, embedded Namyanzi's
+  milestone via iframe; one shared identity (`flowUsers.json`). Root `/` =
+  flow; `/comparison-demo` preserves Daniel's demo. Build + typecheck clean.
+- **Known issue / next:** Explore only leads to the Comparison for the 10
+  canonical roles; the other ~197 show "coming soon" (jobs have no skills
+  field). Fix = infer `role→skills` for all 207 (see §5 #1).
 
 ### 2026-06-23 (session 2) — concept locked, build started
 - **Stack decided:** Python backend + React/TypeScript frontend.
