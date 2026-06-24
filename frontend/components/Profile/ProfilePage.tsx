@@ -27,12 +27,12 @@ interface EducationItem {
 
 const COL = 760;
 
-export default function ProfilePage({ profile, onLockIn, actionLabel = "Lock In →" }: { profile: UserProfile; onLockIn: () => void; actionLabel?: string }) {
+export default function ProfilePage({ profile, onLockIn }: { profile: UserProfile; onLockIn: () => void }) {
   const experience = profile.experience as unknown as ExperienceItem[];
   const education = profile.education as unknown as EducationItem[];
   return (
     <main style={{ maxWidth: COL, margin: "0 auto", padding: "24px 16px", fontFamily: li.font }}>
-      <IntroCard profile={profile} onLockIn={onLockIn} actionLabel={actionLabel} />
+      <IntroCard profile={profile} onLockIn={onLockIn} />
       {experience.length > 0 && (
         <SectionCard title="Experience">
           {experience.map((e, i) => (
@@ -161,7 +161,7 @@ function Divider() {
   return <hr style={{ border: "none", borderTop: `1px solid ${li.cardBorder}`, margin: "16px 0" }} />;
 }
 
-function IntroCard({ profile, onLockIn, actionLabel }: { profile: UserProfile; onLockIn: () => void; actionLabel: string }) {
+function IntroCard({ profile, onLockIn }: { profile: UserProfile; onLockIn: () => void }) {
   return (
     <section style={cardStyle}>
       <div style={{ height: 134, background: `linear-gradient(120deg, ${li.blue}, #378fe9)` }} />
@@ -191,9 +191,10 @@ function IntroCard({ profile, onLockIn, actionLabel }: { profile: UserProfile; o
         <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
           <button
             onClick={onLockIn}
+            aria-label="Continue your career journey"
             style={{ background: li.blue, color: "#fff", border: "none", borderRadius: 999, padding: "10px 28px", fontSize: 16, fontWeight: 700, cursor: "pointer", fontFamily: li.font }}
           >
-            {actionLabel}
+            Locked<span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 17, height: 17, marginLeft: 4, borderRadius: 2, background: "#0a66c2", color: "#fff", fontSize: 13, lineHeight: 1, fontWeight: 800 }}>in</span>
           </button>
         </div>
       </div>

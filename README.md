@@ -28,9 +28,8 @@ schema.
 
 The repository has one application stack:
 
-- `frontend/` — Next.js product flow: Lock In → Explore / Explain →
-  Comparison → Milestones.
-- `backend/` — FastAPI role-fit, course, and milestone-plan API.
+- `frontend/` — Next.js product flow: Locked[IN] → Discover or Career Guide → Your Path.
+- `backend/` — FastAPI role-fit, course, path, and server-side Career Guide API.
 
 In separate terminals from the repository root:
 
@@ -45,9 +44,13 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. The frontend falls back to bundled data when
-the API is not running, but the FastAPI service enables the shared fit and
-milestone endpoints.
+Open `http://localhost:3000`. A clean clone routes `/api` to the shared Render
+service by default, so it does not need an Anthropic key. Local backend work can
+override that destination with `CAREER_API_URL=http://localhost:8000` and use a
+developer-owned `ANTHROPIC_API_KEY` in the local environment. Render stores the
+key and model only as encrypted environment variables; see `render.yaml` and
+`.env.example`.
+
 
 ## Contributing
 

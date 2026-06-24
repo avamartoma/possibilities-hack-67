@@ -24,6 +24,21 @@ def compare_profile_to_role(profile: dict, role: dict) -> dict:
 def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str, limit: int) -> list[dict]:
     user_skills = _casefold(profile["skills"])
     terms = _casefold([*profile.get("interests", []), *interests, *query.split()])
+    query_text = " ".join([query, *interests]).casefold()
+    # Industry is the primary prompt signal. These aliases cover common language
+    # that is broader than the catalog's exact jobs_data.json labels.
+    aliases = {
+        "healthcare": ("health", "medical", "medicine", "hospital", "clinical", "patient", "nursing"),
+        "biotech & pharma": ("biotech", "pharma", "pharmaceutical", "drug", "biology", "life science"),
+        "media & entertainment": ("broadcast", "broadcasting", "media", "journalism", "film", "tv", "television", "radio", "music"),
+        "education": ("education", "teaching", "teacher", "school", "learning"),
+    }
+    matched_industries = {
+        industry.casefold()
+        for role in roles.values()
+        for industry in role.get("industries", [])
+        if industry.casefold() in query_text or any(alias in query_text for alias in aliases.get(industry.casefold(), ()))
+    }
     direct_match_ids = {
         role_id for role_id, role in roles.items()
         if user_skills.intersection(_casefold(role.get("skills", [])))
@@ -34,10 +49,13 @@ def recommend_roles(profile: dict, roles: dict, interests: list[str], query: str
         required = role.get("skills", [])
         overlap = [skill for skill in required if skill.casefold() in user_skills]
         text = " ".join([role["name"], role.get("category", ""), role.get("description", ""), *required, *role.get("industries", [])]).casefold()
+        role_industries = _casefold(role.get("industries", []))
+        industry_match = bool(role_industries & matched_industries)
         relevance = sum(term in text for term in terms)
         adjacent_boost = 2 if role["id"] in adjacent_ids and not overlap else 0
-        score = len(overlap) * 10 + relevance * 4 + adjacent_boost + min(role.get("jobCount", 0), 200) / 100
+        score = (10000 if industry_match else 0) + len(overlap) * 10 + relevance * 4 + adjacent_boost + min(role.get("jobCount", 0), 200) / 100
         reasons = []
+        if industry_match: reasons.append(f"Matches the {role.get('industries', [''])[0]} industry")
         if overlap: reasons.append(f"Matches {', '.join(overlap[:3])}")
         if relevance: reasons.append("Connects with your interests or search")
         if adjacent_boost: reasons.append("Adjacent to roles that match your current skills")

@@ -1,6 +1,5 @@
 // Root route: the integrated end-to-end flow.
-//   Lock In → choose Explore/Explain → role → Comparison → Build my path → Milestone.
-// (Daniel's standalone Comparison demo harness is preserved at /comparison-demo.)
+//   Locked[IN] → Discover or Career Guide → role → Your Path.
 
 import AppFlow from "../components/Flow/AppFlow";
 

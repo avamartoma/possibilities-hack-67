@@ -1,6 +1,6 @@
 """Request contracts for the v2 Career Map API."""
 
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -58,7 +58,12 @@ class ExploreBreadthRequest(BaseModel):
     limit: int = Field(default=12, ge=1, le=24)
 
 
-class OpportunityRequest(BaseModel):
-    userId: str
+class CareerGuideMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=800)
+
+
+class CareerGuideRequest(BaseModel):
+    userId: str = Field(min_length=1, max_length=120)
+    messages: list[CareerGuideMessage] = Field(min_length=1, max_length=8)
     profileOverride: ProfileOverride | None = None
-    limit: int = Field(default=12, ge=1, le=24)

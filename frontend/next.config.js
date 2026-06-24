@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Proxy /api/* to the FastAPI backend so the frontend can call /api/fit
-  // with no CORS and no hardcoded port. Falls back to bundled JSON if the
-  // backend isn't running (see lib/api.ts).
+  // The deployed API is the default for clean judge clones. Developers can use
+  // CAREER_API_URL=http://localhost:8000 while running `make api`.
   async rewrites() {
+    const apiUrl = process.env.CAREER_API_URL || "https://career-map-api.onrender.com";
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:8000/api/:path*",
+        destination: `${apiUrl}/api/:path*`,
       },
     ];
   },

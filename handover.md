@@ -24,15 +24,11 @@ project. Read this first.
 
 A career-discovery feature that lives **inside LinkedIn**, aimed at
 GenZ/GenAlpha who don't have a good mental map of what jobs exist or how
-to reach them. A **"Lock in" button on your profile** launches the
-feature. From there you either **Explore** (click broad interest bubbles
-to surface roles) or **Explain** (a chatbot router where you say what you
-want). Both land you on a **Role Detail / Comparison page** that scores
-your profile against the role (% fit + skills you have vs. miss, à la
-Simplify). From there **"Build my path"** opens a **Milestone page** that
-generates a concrete plan — a "dream profile" — pointing you to local
-jobs, online courses, and certifications that close each missing skill.
-A **streak** (and maybe a local leaderboard) wraps it for engagement.
+to reach them. A persistent **Locked[IN]** button on the profile opens
+Discover; the user can also move into the Career Guide. Selecting any role
+directly opens **Your Path**, which shows readiness, gaps, and a concrete
+milestone plan. The Guide uses the shared Render backend for Anthropic when
+available and deterministic recommendations otherwise.
 
 **Core bet:** everything reduces to **skills** as the connective tissue
 (role = skill cluster; user = skills held; course = skills taught; gap =

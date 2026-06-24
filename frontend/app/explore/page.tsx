@@ -2,7 +2,7 @@
 
 // Standalone Explore route (/explore): a thin harness around the shared ExploreView.
 // The integrated journey lives at / (AppFlow); this page defaults to the canonical
-// demo user and hands a selected role to the standalone comparison demo.
+// demo user and opens the selected role's path directly.
 
 import ExploreView from "../../components/Explore/ExploreView";
 import { DEFAULT_USER_ID } from "../../components/Flow/AppFlow";
@@ -18,8 +18,8 @@ export default function ExplorePage() {
         <ExploreView
           userId={DEFAULT_USER_ID}
           initialQuery={search}
-          onCompareRole={(roleId) => {
-            window.location.href = `/comparison-demo?role=${encodeURIComponent(roleId)}&user=${DEFAULT_USER_ID}`;
+          onSelectRole={(roleId) => {
+            window.location.href = `/milestones?role=${encodeURIComponent(roleId)}&user=${DEFAULT_USER_ID}`;
           }}
           onOpenGuide={() => { window.location.href = "/"; }}
         />

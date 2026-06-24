@@ -1,9 +1,7 @@
 "use client";
 
-// Integrated flow coordinator. Owns the canonical userId + roleId and the normalized
-// profile (fetched once on entry). v3: both Discover (Explore) and the Career Guide
-// (Explain) open the shared RoleFifaCard modal, whose CTA jumps straight to Compare.
-// Back from Compare returns to wherever you opened it (origin-aware), then Path.
+// Integrated flow coordinator. Selecting a role always opens the single Your Path
+// destination; origin is retained only so the back action is unsurprising.
 
 import { useCallback, useEffect, useState } from "react";
 import { li } from "../../lib/theme";
@@ -14,7 +12,6 @@ import LinkedInNav from "../LinkedInNav";
 import ProfilePage from "../Profile/ProfilePage";
 import ExploreView from "../Explore/ExploreView";
 import ExplainView from "../Explain/ExplainView";
-import ComparisonPanel from "../ComparisonPanel/ComparisonPanel";
 import MilestoneView from "../Milestone/MilestoneView";
 
 export const DEFAULT_USER_ID = "user_2340";
@@ -49,12 +46,12 @@ export default function AppFlow() {
 
   function go(next: FlowStep, nextRole = roleId, nextOrigin = origin) {
     setStep(next); setRoleId(nextRole); setOrigin(nextOrigin);
-    const value = { userId, step: next, ...(nextRole ? { roleId: nextRole } : {}), ...(next === "comparison" || next === "milestone" ? { origin: nextOrigin } : {}) };
+    const value = { userId, step: next, ...(nextRole ? { roleId: nextRole } : {}), ...(next === "milestone" ? { origin: nextOrigin } : {}) };
     saveSession(value); setSaved(value);
   }
 
-  function startComparison(rid: string, from: Origin) {
-    go("comparison", rid, from);
+  function selectRole(rid: string, from: Origin) {
+    go("milestone", rid, from);
   }
 
   return (
@@ -64,7 +61,7 @@ export default function AppFlow() {
       {step === "landing" && (
         status === "loading" ? <CenterNotice>Loading your profile…</CenterNotice>
         : status === "error" ? <ErrorNotice onRetry={loadProfile} />
-        : <ProfilePage profile={profile!} actionLabel={saved ? `Resume → ${saved.step === "milestone" ? "Your Path" : saved.step === "explain" ? "Career Guide" : saved.step === "comparison" ? "Compare" : "Discover"}` : "Lock In →"} onLockIn={() => saved ? go(saved.step, saved.roleId ?? null, saved.origin ?? "explore") : go("explore")} />
+        : <ProfilePage profile={profile!} onLockIn={() => saved ? go(saved.step, saved.roleId ?? null, saved.origin ?? "explore") : go("explore")} />
       )}
 
       {step === "explore" && (
@@ -73,7 +70,7 @@ export default function AppFlow() {
           <ExploreView
             userId={userId}
             initialQuery={discoverQuery}
-            onCompareRole={(rid) => startComparison(rid, "explore")}
+            onSelectRole={(rid) => selectRole(rid, "explore")}
             onOpenGuide={() => go("explain")}
           />
         </div>
@@ -82,21 +79,14 @@ export default function AppFlow() {
       {step === "explain" && (
         <div style={wrap}>
           <BackBar label="Back to Explore" onBack={() => go("explore")} />
-          <ExplainView userId={userId} onCompare={(rid) => startComparison(rid, "explain")} />
-        </div>
-      )}
-
-      {step === "comparison" && (
-        <div style={wrap}>
-          <BackBar label={origin === "explore" ? "Back to Explore" : "Back to Career Guide"} onBack={() => go(origin)} />
-          <ComparisonPanel userId={userId} roleId={roleId!} onBuildPath={() => go("milestone")} />
+          <ExplainView userId={userId} onSelectRole={(rid) => selectRole(rid, "explain")} />
         </div>
       )}
 
       {step === "milestone" && (
-        <div style={wrap}>
-          <BackBar label="Back to comparison" onBack={() => go("comparison")} />
-          <MilestoneView userId={userId} roleId={roleId!} />
+        <div style={{ ...wrap, maxWidth: 760 }}>
+          <BackBar label={origin === "explore" ? "Back to Discover" : "Back to Career Guide"} onBack={() => go(origin)} />
+          <MilestoneView userId={userId} roleId={roleId!} onCompare={() => { window.location.href = `/comparison?user=${encodeURIComponent(userId)}&role=${encodeURIComponent(roleId!)}`; }} />
         </div>
       )}
     </div>

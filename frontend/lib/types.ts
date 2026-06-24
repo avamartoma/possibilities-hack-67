@@ -193,22 +193,5 @@ export interface ExploreRoles {
   exploratoryRoles: ExploreRole[];
 }
 
-// v4: a generated non-traditional opportunity (scholarship/fellowship/cohort/etc.).
-export interface Opportunity {
-  id: string;
-  name: string;
-  organization: string;
-  type: string;
-  desc: string;
-  eligibility: string[];
-  skills: string[];
-  category: string;
-}
-
-export type OpportunityMatch = Opportunity & { fit: number; matchedSkills: string[]; missingSkills: string[] };
-
-export interface OpportunityMatches {
-  profileId: string;
-  opportunities: OpportunityMatch[];
-  total: number;
-}
+export interface CareerGuideMessage { role: "user" | "assistant"; content: string; mode?: "ai" | "fallback"; suggestedRoleIds?: string[]; }
+export interface CareerGuideResponse { mode: "ai" | "fallback"; message: string; suggestedRoleIds: string[]; }

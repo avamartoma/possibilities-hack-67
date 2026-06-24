@@ -1,4 +1,4 @@
-// LinkedIn design tokens — shared across the comparison page components.
+// LinkedIn-inspired design tokens shared by the Career Map views.
 // Sourced from LinkedIn's public design system (colors, radii, type).
 
 export const li = {

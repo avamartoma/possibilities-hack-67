@@ -1,15 +1,11 @@
 "use client";
 
-// Discover: a large, searchable catalog of roles (the v3 backend serves the full
-// jobs_data.json-derived catalog). Search genuinely filters. Clicking a card opens
-// the shared RoleFifaCard modal (no navigation); the modal's CTA jumps to Compare.
-// Readiness badges come from /api/roles/recommend — never computed locally.
+// Discover: a searchable catalog. Selecting a card opens Your Path directly.
 
 import { useEffect, useState } from "react";
 import { li } from "../../lib/theme";
 import { searchRoles } from "../../lib/api";
 import type { CareerRole } from "../../lib/types";
-import RoleFifaCard from "../RoleCard/RoleFifaCard";
 
 const DEBOUNCE_MS = 250;
 const SEARCH_LIMIT = 100;
@@ -17,18 +13,17 @@ const PAGE = 30;
 
 interface ExploreViewProps {
   userId: string;
-  onCompareRole: (roleId: string) => void;
+  onSelectRole: (roleId: string) => void;
   onOpenGuide: () => void;
   initialQuery?: string;
 }
 
-export default function ExploreView({ userId, onCompareRole, onOpenGuide, initialQuery = "" }: ExploreViewProps) {
+export default function ExploreView({ userId: _userId, onSelectRole, onOpenGuide, initialQuery = "" }: ExploreViewProps) {
   const [query, setQuery] = useState("");
   const [roles, setRoles] = useState<CareerRole[] | null>(null);
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(PAGE);
   const [attempt, setAttempt] = useState(0);
-  const [openRoleId, setOpenRoleId] = useState<string | null>(null);
 
   useEffect(() => setQuery(initialQuery), [initialQuery]);
 
@@ -49,7 +44,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 600, margin: "0 0 4px", color: li.textPrimary }}>Discover where you could go</h1>
           <p style={{ color: li.textSecondary, fontSize: 14, margin: "0 0 12px" }}>
-            Search hundreds of real roles — click any card for the full breakdown.
+            Search hundreds of roles and choose one to build your path.
           </p>
         </div>
         <button
@@ -89,7 +84,7 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
             {roles.slice(0, visible).map((role) => (
-              <RoleCard key={role.id} role={role} onClick={() => setOpenRoleId(role.id)} />
+              <RoleCard key={role.id} role={role} onClick={() => onSelectRole(role.id)} />
             ))}
           </div>
           {visible < roles.length && (
@@ -100,15 +95,6 @@ export default function ExploreView({ userId, onCompareRole, onOpenGuide, initia
             </div>
           )}
         </>
-      )}
-
-      {openRoleId && (
-        <RoleFifaCard
-          userId={userId}
-          roleId={openRoleId}
-          onClose={() => setOpenRoleId(null)}
-          onCompare={(rid) => { setOpenRoleId(null); onCompareRole(rid); }}
-        />
       )}
     </div>
   );

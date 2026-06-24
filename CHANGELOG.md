@@ -3,6 +3,13 @@
 Format: [Keep a Changelog](https://keepachangelog.com). Per-track working logs live in
 `docs/changelog/{shared,track-a,track-b}.md`; this file folds them into dated releases.
 
+## [5.0.0] — 2026-06-24
+
+- Replaced role modals and comparison with direct role-to-Your-Path navigation.
+- Added persistent Locked[IN] continuity, compact milestones, and fictional-opportunity notice.
+- Added the server-side Anthropic Career Guide endpoint with validation, rate limiting, and deterministic fallback.
+- Added Render deployment configuration; local developers can override the shared API with their own key.
+
 ## [3.0.0] — 2026-06-24
 
 Catalog depth + FIFA cards + honest readiness. Discover now serves a 207-role catalog built from

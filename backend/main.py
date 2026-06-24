@@ -5,22 +5,24 @@ v2 endpoints provide normalized, frontend-ready data for the redesigned flow.
 """
 
 import json
+import os
+import time
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from .analysis import aggregate_role_analysis
 from .comparison import compare_profile_to_role, recommend_exploratory_roles, recommend_roles
+from .career_guide import guide
 from .fit import compute_fit
 from .jobs import rank_top_applicant_jobs
 from .milestones import build_milestone_plan
 from .pathing import generate_path
-from .opportunities import OPPORTUNITIES, rank_opportunities
 from .profile_source import resolve_profile
 from .profiles import apply_override
 from .roles import explain_role, normalize_role, search_roles
-from .schemas import CompareRequest, ExplainRequest, ExploreBreadthRequest, OpportunityRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest, TopApplicantRequest
+from .schemas import CareerGuideRequest, CompareRequest, ExplainRequest, ExploreBreadthRequest, PathGenerateRequest, RecommendRequest, RoleSearchRequest, TopApplicantRequest
 
 DATA_DIR = Path(__file__).parent / "data"
 # v3: the full 207-role catalog (built from jobs_data.json by precompute) backs
@@ -33,6 +35,7 @@ USERS_BY_ID = {user["id"]: user for user in USERS}
 
 app = FastAPI(title="Career Map API", version="2.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000"], allow_methods=["*"], allow_headers=["*"])
+RATE_LIMIT: dict[str, list[float]] = {}
 
 
 def seeded_profile(user_id: str) -> dict:
@@ -47,6 +50,25 @@ def seeded_role(role_id: str) -> dict:
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {role_id}")
     return role
+
+
+def client_ip(request: Request) -> str:
+    # Render is the only trusted proxy. Locally, do not let clients spoof their IP.
+    host = request.client.host if request.client else "unknown"
+    if os.getenv("RENDER") == "true":
+        return request.headers.get("x-forwarded-for", host).split(",")[0].strip()
+    return host
+
+
+def enforce_guide_rate_limit(request: Request) -> None:
+    now = time.monotonic()
+    ip = client_ip(request)
+    recent = [stamp for stamp in RATE_LIMIT.get(ip, []) if now - stamp < 60]
+    if len(recent) >= 8:
+        RATE_LIMIT[ip] = recent
+        raise HTTPException(status_code=429, detail="Too many guide requests")
+    recent.append(now)
+    RATE_LIMIT[ip] = recent
 
 
 @app.get("/api/health")
@@ -147,7 +169,9 @@ def post_top_applicant_jobs(request: TopApplicantRequest) -> dict:
     return {"jobs": jobs, "total": len(jobs)}
 
 
-@app.post("/api/opportunities")
-def post_opportunities(request: OpportunityRequest) -> dict:
-    profile = apply_override(seeded_profile(request.userId), request.profileOverride)
-    return {"profileId": profile["id"], "opportunities": rank_opportunities(profile, request.limit), "total": len(OPPORTUNITIES)}
+@app.post("/api/career-guide/chat")
+def post_career_guide_chat(payload: CareerGuideRequest, request: Request) -> dict:
+    enforce_guide_rate_limit(request)
+    profile = apply_override(seeded_profile(payload.userId), payload.profileOverride)
+    messages = [message.model_dump() if hasattr(message, "model_dump") else message.dict() for message in payload.messages]
+    return guide(profile, ROLES, messages, recommend_roles)
