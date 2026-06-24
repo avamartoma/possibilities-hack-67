@@ -1,20 +1,21 @@
 # Comparison Page (Role Detail + Fit Math) — Person B's slice
 
 The role-detail panel that opens when a user clicks a role: what the role is,
-who's hiring, a **% fit ring**, the **have vs. missing skills** gap, **people
-like you who landed this role**, and a **"Build my path"** button that hands the
-gap to the Milestone page.
+who's hiring, a **% fit ring**, the **have vs. missing skills** gap, an
+**analysis line** ("2,000 profiles analyzed…"), and a **"Build my path"** button
+that hands the gap to the Milestone page.
 
 **"You" is a single logged-in profile** (like being signed into LinkedIn) — there
-is no profile picker. You pick a **role**; the app internally compares your
-profile against real people in the database who landed that role and surfaces the
-best matches ("People like you who landed this role") with the skills you share.
-The person-to-person comparison itself is computed server-side and not exposed as
-a raw number.
+is no profile picker. You pick a **role**; the app **invisibly** compares your
+profile against everyone in the database who landed that role and surfaces only
+the aggregate result — e.g. *"2,000 profiles analyzed · 383 landed this role ·
+111 started with skills like yours."* Individual profiles are never shown; the
+analysis (the common skills landers have that you don't) feeds the Milestone
+page's course recommendations.
 
 > Data note: the sample data is randomly generated, so *which* role someone
-> landed doesn't strongly correlate with their skills — the "matches you" ranking
-> is real, but it isn't strongly role-specific. Honest caveat for the demo.
+> landed doesn't strongly correlate with their skills. The counts shown are real;
+> the role-specific signal is weak. Honest caveat for the demo.
 
 ## Data comes from the real sample files
 
@@ -33,8 +34,8 @@ What's **real** (derived from the files):
   flag**, real templated description, real `jobCount`, and 5 real job postings
   (id/company/location/salary/level/easyApply) — all from `jobs_data.json`.
 - you ("me"): a real user from `user_data.json` (real name, degree, skills).
-- matches: real people who landed each role, ranked by skill overlap with you
-  (from `job_history` + `skills` in `user_data.json`).
+- analysis: per-role aggregate counts over people who landed it (analyzed /
+  landed / share-your-skills) — counts only, no individual profiles exposed.
 - courses: skill → real courses from `course_data.json` (for the Milestone page).
 
 What's **curated** (the only hand-authored part): each role's `skills` list.
@@ -62,7 +63,7 @@ frontend/
   lib/types.ts           # Role / User / FitResult contract
   lib/fit.ts             # computeFit() — mirror of fit.py (demo-safe fallback)
   lib/api.ts             # fetch /api/* ; falls back to bundled JSON if backend down
-  data/*.json            # offline fallback (roleSkills/me/matches/courses), from precompute.py
+  data/*.json            # offline fallback (roleSkills/me/analysis/courses), from precompute.py
   components/ComparisonPanel/{ComparisonPanel,FitRing,SkillColumns}.tsx
   app/{layout,page}.tsx  # standalone demo harness (fixed profile + role search)
 ```
@@ -88,14 +89,15 @@ isn't running, the page still works** via the bundled-JSON fallback in `lib/api.
 
 Flat skill overlap: `percent = |userSkills ∩ roleSkills| / |roleSkills|`, rounded.
 Case-insensitive. `fit.py` and `lib/fit.ts` are verified identical across all
-roles. The matches panel ranks role-holders by `|theirSkills ∩ yourSkills|`.
+roles. The analysis counts role-holders (via `job_history`) and how many share
+>=1 skill with you — aggregate only.
 
 ## Demo story
 
 "You" are `user_5329` (a real Economics grad). Pick **Financial Analyst** → 67%
-fit, and the matches panel shows real people who landed it sharing your finance
-skills. Pick **DevOps Engineer** → 33% (your security skills transfer to a field
-you'd never consider) — the "you're closer than you think" moment.
+fit, and the analysis line reports how many of the 383 landers started with
+skills like yours. Pick **DevOps Engineer** → 33% (your security skills transfer
+to a field you'd never consider) — the "you're closer than you think" moment.
 
 ## Integration notes for the team
 

@@ -1,0 +1,122 @@
+{
+  "data_scientist": {
+    "analyzed": 2000,
+    "landed": 290,
+    "similar": 89,
+    "topMissing": [
+      "Administration",
+      "Marketing",
+      "Business",
+      "Nursing",
+      "Healthcare"
+    ]
+  },
+  "devops_engineer": {
+    "analyzed": 2000,
+    "landed": 353,
+    "similar": 79,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Healthcare"
+    ]
+  },
+  "ux_designer": {
+    "analyzed": 2000,
+    "landed": 339,
+    "similar": 85,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Information"
+    ]
+  },
+  "software_engineer": {
+    "analyzed": 2000,
+    "landed": 276,
+    "similar": 83,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Teaching"
+    ]
+  },
+  "sales_representative": {
+    "analyzed": 2000,
+    "landed": 378,
+    "similar": 127,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Information"
+    ]
+  },
+  "customer_service_manager": {
+    "analyzed": 2000,
+    "landed": 313,
+    "similar": 102,
+    "topMissing": [
+      "Administration",
+      "Finance",
+      "Healthcare",
+      "Nursing",
+      "Accounting"
+    ]
+  },
+  "financial_analyst": {
+    "analyzed": 2000,
+    "landed": 383,
+    "similar": 111,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Computer"
+    ]
+  },
+  "marketing_specialist": {
+    "analyzed": 2000,
+    "landed": 381,
+    "similar": 103,
+    "topMissing": [
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Administration",
+      "Information"
+    ]
+  },
+  "hr_coordinator": {
+    "analyzed": 2000,
+    "landed": 420,
+    "similar": 123,
+    "topMissing": [
+      "Administration",
+      "Healthcare",
+      "Medicine",
+      "Nursing",
+      "Marketing"
+    ]
+  },
+  "product_manager": {
+    "analyzed": 2000,
+    "landed": 358,
+    "similar": 124,
+    "topMissing": [
+      "Administration",
+      "AWS",
+      "Blockchain",
+      "DevOps",
+      "Information"
+    ]
+  }
+}

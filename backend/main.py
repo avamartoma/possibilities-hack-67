@@ -4,8 +4,8 @@ Endpoints:
   GET /api/roles             -> role catalog (map / role search consume this)
   GET /api/me                -> the logged-in profile ("you")
   GET /api/courses           -> skill -> real courses (Milestone page)
-  GET /api/fit?roleId=...     -> your fit vs a role + the real people who landed
-                                it and best match your profile
+  GET /api/fit?roleId=...     -> your fit vs a role + an invisible aggregate
+                                analysis of people who landed it (counts only)
 
 Run: uvicorn backend.main:app --reload  (from the repo root)
 """
@@ -20,7 +20,7 @@ from .build_data import build_all
 
 # Build app data directly from the real sample_data/ files at startup
 # (no pre-generated files in backend/).
-ROLES, CURRENT_USER, MATCHES, COURSES = build_all()
+ROLES, CURRENT_USER, ANALYSIS, COURSES = build_all()
 
 app = FastAPI(title="Career Map — Comparison API")
 
@@ -53,14 +53,15 @@ def get_courses() -> dict:
 
 @app.get("/api/fit")
 def get_fit(roleId: str) -> dict:
-    """Your fit vs a role, plus the real people who landed it and best match you.
+    """Your fit vs a role + an invisible aggregate analysis of people who landed it.
 
-    The person-to-person comparison is computed internally; the response exposes
-    your fit-vs-role (ring + skills) and a ranked list of matching people.
+    The per-profile comparison is computed internally and NOT returned; the
+    response exposes your fit-vs-role (ring + skills) and counts only
+    (analyzed / landed / similar), which drive the "Build my path" handoff.
     """
     role = ROLES.get(roleId)
     if role is None:
         raise HTTPException(status_code=404, detail=f"Unknown roleId: {roleId}")
     result = compute_fit(CURRENT_USER["skills"], role)
-    result["matches"] = MATCHES.get(roleId, [])
+    result["analysis"] = ANALYSIS.get(roleId)
     return result

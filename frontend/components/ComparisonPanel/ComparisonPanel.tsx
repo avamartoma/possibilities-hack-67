@@ -196,71 +196,26 @@ export default function ComparisonPanel({
           missingSkills={fit.missingSkills}
         />
 
-        {/* People like you who landed this role. The person-to-person comparison
-            is computed internally; we surface who matched + the shared skills. */}
-        {fit.matches.length > 0 && (
-          <>
-            <hr style={{ border: "none", borderTop: `1px solid ${li.cardBorder}`, margin: "20px 0" }} />
-            <h4 style={{ margin: "0 0 4px", fontSize: 16 }}>People like you who landed this role</h4>
-            <p style={{ margin: "0 0 12px", color: li.textSecondary, fontSize: 13 }}>
-              Based on the skills you share with people already in this role.
-            </p>
-            <div>
-              {fit.matches.map((p) => (
-                <div
-                  key={p.id}
-                  style={{
-                    display: "flex",
-                    gap: 12,
-                    padding: "10px 0",
-                    borderBottom: `1px solid ${li.cardBorder}`,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: "50%",
-                      background: li.blue,
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 16,
-                      fontWeight: 700,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {p.name.charAt(0)}
-                  </div>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, fontSize: 15 }}>
-                      {p.name}
-                      <span
-                        style={{
-                          marginLeft: 8,
-                          background: li.greenBg,
-                          color: li.green,
-                          borderRadius: 4,
-                          padding: "1px 8px",
-                          fontSize: 12,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {p.matchLabel}
-                      </span>
-                    </div>
-                    {p.degree && (
-                      <div style={{ color: li.textSecondary, fontSize: 14 }}>{p.degree}</div>
-                    )}
-                    <div style={{ color: li.textHint, fontSize: 12, marginTop: 2 }}>
-                      Skills you share: {p.sharedSkills.join(", ")}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
+        {/* Invisible analysis: we compare your profile against everyone who
+            landed this role behind the scenes and only surface the counts. */}
+        {fit.analysis && (
+          <div
+            style={{
+              marginTop: 20,
+              padding: "12px 16px",
+              background: li.blueLight,
+              borderRadius: 8,
+              fontSize: 14,
+              color: li.textPrimary,
+            }}
+          >
+            <strong>{fit.analysis.analyzed.toLocaleString()} profiles analyzed.</strong>{" "}
+            {fit.analysis.landed.toLocaleString()} landed this role
+            {fit.analysis.similar > 0 && (
+              <> — {fit.analysis.similar.toLocaleString()} started with skills like yours</>
+            )}
+            . We used what they had in common to build your path below.
+          </div>
         )}
 
         {/* Handoff to Milestone page */}

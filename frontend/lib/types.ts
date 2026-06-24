@@ -38,15 +38,14 @@ export interface User {
   skills: string[];
 }
 
-// A real person from the database who landed a role and matches your profile.
-// The numeric person-to-person overlap stays internal; we expose a label +
-// the skills you share with them.
-export interface MatchedPerson {
-  id: string;
-  name: string;
-  degree?: string;
-  sharedSkills: string[];
-  matchLabel: string; // "Strong match" | "Good match" | "Some overlap"
+// Invisible aggregate analysis of people who landed a role. We never expose
+// individual profiles — only counts (+ the most common skills landers have that
+// you don't, which feeds the Milestone page).
+export interface Analysis {
+  analyzed: number; // total profiles analyzed (whole dataset)
+  landed: number;   // how many landed this role
+  similar: number;  // of those, how many share >=1 skill with you
+  topMissing: string[];
 }
 
 // A real course pulled from course_data.json (for the gap / Milestone page).
@@ -76,6 +75,6 @@ export interface FitResult {
   percent: number; // 0-100
   haveSkills: string[];
   missingSkills: string[];
-  // Real people who landed this role and best match your profile.
-  matches: MatchedPerson[];
+  // Invisible aggregate analysis of people who landed this role (counts only).
+  analysis?: Analysis;
 }

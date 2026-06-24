@@ -2,16 +2,16 @@
 // Primary path: the FastAPI backend (proxied via Next.js rewrites at /api/*).
 // Fallback: bundled JSON + the client-side computeFit, so the demo never breaks.
 
-import type { Role, User, FitResult, Course, MatchedPerson } from "./types";
+import type { Role, User, FitResult, Course, Analysis } from "./types";
 import { computeFit } from "./fit";
 import rolesData from "../data/roleSkills.json";
 import meData from "../data/me.json";
-import matchesData from "../data/matches.json";
+import analysisData from "../data/analysis.json";
 import coursesData from "../data/courses.json";
 
 const ROLES = rolesData as Record<string, Role>;
 const ME = meData as User;
-const MATCHES = matchesData as Record<string, MatchedPerson[]>;
+const ANALYSIS = analysisData as Record<string, Analysis>;
 const COURSES = coursesData as Record<string, Course[]>;
 
 async function tryFetch<T>(url: string): Promise<T | null> {
@@ -41,7 +41,8 @@ export async function getCourses(): Promise<Record<string, Course[]>> {
   return live ?? COURSES;
 }
 
-// Your fit vs a role + the real people who landed it and best match you.
+// Your fit vs a role + an invisible aggregate analysis (counts only) of people
+// who landed it.
 export async function getFit(roleId: string): Promise<FitResult> {
   const live = await tryFetch<FitResult>(
     `/api/fit?roleId=${encodeURIComponent(roleId)}`
@@ -51,5 +52,5 @@ export async function getFit(roleId: string): Promise<FitResult> {
   // Fallback: compute locally from bundled data.
   const role = ROLES[roleId];
   if (!role) throw new Error(`Unknown role (${roleId})`);
-  return computeFit(ME.skills, role, MATCHES[roleId] ?? []);
+  return computeFit(ME.skills, role, ANALYSIS[roleId]);
 }

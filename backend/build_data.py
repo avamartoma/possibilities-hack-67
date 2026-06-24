@@ -114,58 +114,50 @@ def build_current_user(users_raw):
     return _shape_user(users_raw[0])
 
 
-def _match_label(shared, mine):
-    """Person-to-person match strength (the numeric overlap stays internal)."""
-    if not mine:
-        return "Some overlap"
-    ratio = shared / len(mine)
-    if ratio >= 0.6:
-        return "Strong match"
-    if ratio >= 0.3:
-        return "Good match"
-    return "Some overlap"
+def build_analysis(users_raw, jobs_raw, current_user):
+    """For each role, INVISIBLE aggregate analysis of people who landed it.
 
+    We never expose individual profiles — only counts, so the screen can say
+    e.g. "2,000 profiles analyzed · 383 landed this role · 111 share your
+    skills". "Landed it" = the user's job_history contains that position.
 
-def build_matches(users_raw, jobs_raw, current_user, top=6):
-    """For each role, find REAL people who landed it, ranked by skill overlap
-    with the current user.
-
-    "Landed it" = the user's job_history contains a job with that position.
-    Returns { roleId: [ {id, name, degree, sharedSkills, matchLabel} ] }.
-    Only people who share >=1 skill with the current user are kept (they're the
-    "good matches"); the numeric overlap itself is not exposed.
+    Returns { roleId: {analyzed, landed, similar, topMissing} } where topMissing
+    is the skills most commonly held by role-landers that you don't have yet
+    (this is what feeds the Milestone page's recommendations).
     """
     job_position = {j["id"]: j["position"] for j in jobs_raw}
     my_skills = set(current_user["skills"])
+    analyzed = len(users_raw)
 
-    # position -> list of (user, shared_skills) for holders that overlap with me
-    by_position = defaultdict(list)
+    landed = defaultdict(int)
+    similar = defaultdict(int)
+    missing_counts = defaultdict(lambda: defaultdict(int))  # role -> skill -> count
     for u in users_raw:
         if u["id"] == current_user["id"]:
             continue
-        held = {job_position.get(jid) for jid in u.get("job_history", [])}
-        shared = sorted(set(u.get("skills", [])) & my_skills)
-        if not shared:
-            continue
-        for position in held:
-            if position:
-                by_position[position].append((u, shared))
+        positions = {job_position.get(jid) for jid in u.get("job_history", [])}
+        u_skills = set(u.get("skills", []))
+        for position in positions:
+            if not position:
+                continue
+            rid = role_id(position)
+            landed[rid] += 1
+            if u_skills & my_skills:
+                similar[rid] += 1
+            for s in u_skills - my_skills:
+                missing_counts[rid][s] += 1
 
-    matches = {}
-    for position, entries in by_position.items():
-        entries.sort(key=lambda e: (-len(e[1]), e[0]["name"]))
-        people = []
-        for u, shared in entries[:top]:
-            people.append({
-                "id": u["id"],
-                "name": u["name"],
-                "degree": (u["school_history"][0]["degree"]
-                           if u.get("school_history") else None),
-                "sharedSkills": shared,
-                "matchLabel": _match_label(len(shared), current_user["skills"]),
-            })
-        matches[role_id(position)] = people
-    return matches
+    analysis = {}
+    for rid in landed:
+        # sort by count desc, then skill name asc for a stable, reproducible order
+        top_missing = sorted(missing_counts[rid].items(), key=lambda kv: (-kv[1], kv[0]))[:5]
+        analysis[rid] = {
+            "analyzed": analyzed,
+            "landed": landed[rid],
+            "similar": similar[rid],
+            "topMissing": [s for s, _ in top_missing],
+        }
+    return analysis
 
 
 def build_courses(courses_raw):
@@ -183,16 +175,17 @@ def build_courses(courses_raw):
 
 
 def build_all():
-    """Build (roles, current_user, matches, courses) from sample_data/.
+    """Build (roles, current_user, analysis, courses) from sample_data/.
 
     - roles: role catalog enriched from jobs_data.json
     - current_user: the single logged-in profile ("you")
-    - matches: roleId -> real people who landed that role, ranked by overlap with you
+    - analysis: roleId -> invisible aggregate stats over people who landed it
+      (counts only; no individual profiles exposed)
     - courses: skill -> real courses
     """
     users_raw, jobs_raw, courses_raw = load_sample()
     roles = build_roles(jobs_raw)
     current_user = build_current_user(users_raw)
-    matches = build_matches(users_raw, jobs_raw, current_user)
+    analysis = build_analysis(users_raw, jobs_raw, current_user)
     courses = build_courses(courses_raw)
-    return roles, current_user, matches, courses
+    return roles, current_user, analysis, courses

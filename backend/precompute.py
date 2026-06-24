@@ -15,16 +15,15 @@ from build_data import build_all, HERO_ID
 
 OUT = Path(__file__).resolve().parent.parent / "frontend" / "data"
 
-roles, current_user, matches, courses = build_all()
+roles, current_user, analysis, courses = build_all()
 
 OUT.mkdir(parents=True, exist_ok=True)
 (OUT / "roleSkills.json").write_text(json.dumps(roles, indent=2) + "\n")
 (OUT / "me.json").write_text(json.dumps(current_user, indent=2) + "\n")
-(OUT / "matches.json").write_text(json.dumps(matches, indent=2) + "\n")
+(OUT / "analysis.json").write_text(json.dumps(analysis, indent=2) + "\n")
 (OUT / "courses.json").write_text(json.dumps(courses, indent=2) + "\n")
 
-n_people = sum(len(v) for v in matches.values())
 print(f"frontend/data/roleSkills.json: {len(roles)} roles")
 print(f"frontend/data/me.json:         {current_user['name']} (hero={HERO_ID})")
-print(f"frontend/data/matches.json:    {n_people} matched people across {len(matches)} roles")
+print(f"frontend/data/analysis.json:   aggregate stats for {len(analysis)} roles")
 print(f"frontend/data/courses.json:    {len(courses)} skills -> courses")
