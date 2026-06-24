@@ -94,7 +94,7 @@ export default function Home() {
         {/* The Comparison Page */}
         <div style={{ flex: 1 }}>
           {userId && roleId && (
-            <ComparisonPanel userId={userId} roleId={roleId} />
+            <ComparisonPanel userId={userId} roleId={roleId} onBuildPath={({roleId: r}) => { window.location.href = `/milestones-demo.html?role=${r}&user=${userId}`; }} />
           )}
         </div>
       </div>
