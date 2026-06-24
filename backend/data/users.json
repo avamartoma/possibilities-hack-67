@@ -1,38 +1,67 @@
 [
   {
     "id": "user_5329",
-    "name": "Alex Rivera",
+    "name": "Alice Johnson",
     "degree": "Economics",
-    "skills": ["Corporate Finance", "Economics", "Ethical Hacking", "Financial Modeling", "Information Security", "Investing", "Network Security"],
-    "hero": true,
-    "tagline": "Econ grad with a hidden security streak"
+    "skills": [
+      "Information Security",
+      "Economics",
+      "Investing",
+      "Corporate Finance",
+      "Ethical Hacking",
+      "Network Security",
+      "Financial Modeling"
+    ],
+    "hero": true
   },
   {
     "id": "user_5377",
-    "name": "Sam Carter",
+    "name": "Bob Smith",
     "degree": "Software Engineering",
-    "skills": ["AWS", "Blockchain", "Computer", "DevOps", "Engineering", "Science", "Software"],
-    "tagline": "Builder, all-in on infrastructure"
+    "skills": [
+      "AWS",
+      "Science",
+      "DevOps",
+      "Engineering",
+      "Software",
+      "Blockchain",
+      "Computer"
+    ],
+    "hero": false
   },
   {
     "id": "user_8705",
-    "name": "Jordan Lee",
-    "degree": "Information Technology",
-    "skills": ["AWS", "Blockchain", "Computer", "Corporate Finance", "DevOps", "Financial Modeling", "Information", "Investing", "Science", "Technology"],
-    "tagline": "Half techie, half finance"
-  },
-  {
-    "id": "user_4579",
-    "name": "Maya Brooks",
-    "degree": "Psychology",
-    "skills": ["Education", "Psychology"],
-    "tagline": "People-first, exploring her options"
+    "name": "Charlie Brown",
+    "degree": "Economics",
+    "skills": [
+      "Economics",
+      "Finance"
+    ],
+    "hero": false
   },
   {
     "id": "user_9138",
-    "name": "Chris Diaz",
+    "name": "Edward Norton",
     "degree": "Accounting",
-    "skills": ["Accounting", "Corporate Finance", "Ethical Hacking", "Financial Modeling", "Information Security", "Investing", "Network Security"],
-    "tagline": "Numbers person curious about more"
+    "skills": [
+      "Investing",
+      "Corporate Finance",
+      "Information Security",
+      "Ethical Hacking",
+      "Network Security",
+      "Accounting",
+      "Financial Modeling"
+    ],
+    "hero": false
+  },
+  {
+    "id": "user_4579",
+    "name": "Bob Smith",
+    "degree": "Psychology",
+    "skills": [
+      "Education",
+      "Psychology"
+    ],
+    "hero": false
   }
 ]

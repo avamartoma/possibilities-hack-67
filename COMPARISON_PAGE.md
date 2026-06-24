@@ -4,14 +4,41 @@ The role-detail panel that opens when a user clicks a role on the map: what the
 role is, who's hiring, a **% fit ring**, the **have vs. missing skills** gap, and
 a **"Build my path"** button that hands the gap to the Milestone page.
 
+## Data comes from the real sample files
+
+`backend/precompute.py` reads the three real datasets in `sample_data/`
+(`user_data.json`, `jobs_data.json`, `course_data.json`) and emits the app's
+data into `backend/data/`. Re-run it with `python3 backend/precompute.py`.
+
+What's **real** (derived from the files):
+- roles: real companies, industries, salary range, levels, **real `easy_apply`
+  flag**, real templated description, real `jobCount`, and 5 real job postings
+  (id/company/location/salary/level/easyApply) — all from `jobs_data.json`.
+- users: real users sampled from `user_data.json` (real name, degree from
+  `school_history`, real `skills`).
+- courses: skill → real courses from `course_data.json` (for the Milestone page).
+
+What's **curated** (the only hand-authored part): each role's `skills` list.
+`jobs_data.json` has no skills field, and aggregating the skills of users who
+hold each role is noise (the sample data is randomly generated — verified), so
+role→skills is hand-authored. **Every curated skill is drawn from the 30 skills
+that actually appear in `user_data.json`** so that real users reach non-zero fit
+on every role. (Earlier versions used soft skills like "Communication"/"Scrum"
+that no user has, which forced several roles to 0% for everyone — fixed.)
+
+The role list in the left rail is a **search box**: type to filter roles by
+name, category, or skill.
+
 ## What's here
 
 ```
 backend/
-  data/roleSkills.json   # canonical role -> skills/description/companies (10 roles)
-  data/users.json        # 5 demo users incl. hero (Alex Rivera, user_5329)
+  precompute.py          # reads sample_data/*, writes backend/data/* (run once)
+  data/roleSkills.json   # 10 roles enriched from real jobs_data.json
+  data/users.json        # 5 real users incl. hero (user_5329)
+  data/courses.json      # skill -> real courses from course_data.json
   fit.py                 # compute_fit() — flat skill overlap (PURE)
-  main.py                # FastAPI: /api/roles, /api/users, /api/fit
+  main.py                # FastAPI: /api/roles, /api/users, /api/courses, /api/fit
   requirements.txt
 frontend/
   lib/types.ts           # Role / User / FitResult contract
@@ -47,10 +74,10 @@ demo user×role combos (denominators never hit a .5 rounding edge).
 
 ## Demo story (the hero)
 
-Pick **Alex Rivera** (⭐, an Economics grad). Expected: **67% Financial Analyst**
-(obvious) — but **33% DevOps Engineer**, because her Information Security /
-Network Security skills transfer to a field she'd never consider. That's the
-"you're closer than you think" moment.
+Pick the **⭐ hero** (`user_5329`, a real Economics grad from the dataset).
+Expected: **67% Financial Analyst** (obvious) — but **33% DevOps Engineer**,
+because their real Information Security / Network Security skills transfer to a
+field they'd never consider. That's the "you're closer than you think" moment.
 
 ## Integration notes for the team
 
@@ -64,7 +91,8 @@ Network Security skills transfer to a field she'd never consider. That's the
 ## Data caveat (important, verified)
 
 The sample data is randomly generated — a user's `job_history` does **not**
-correlate with their skills (aggregating holders' skills makes "Software Engineer"
-look like it needs "Economics"). So role→skills here is a **hand-authored
-canonical map**, with skills chosen to intersect the real user/course skill
-vocabulary so fits land at believable values and missing skills map to real courses.
+correlate with their skills (aggregating holders' skills makes "Software
+Engineer" look like it needs "Economics"). That's why role→skills is the one
+curated field (see "Data comes from the real sample files" above); everything
+else — companies, salaries, levels, the real `easy_apply` flag, postings, users,
+and course mappings — is derived from the real datasets by `precompute.py`.

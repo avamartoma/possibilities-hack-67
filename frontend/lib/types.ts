@@ -1,5 +1,17 @@
 // Shared data contract between backend (/api) and the Comparison Page.
-// Keep in sync with backend/data/roleSkills.json and backend/fit.py.
+// Keep in sync with backend/data/roleSkills.json (produced by backend/precompute.py
+// from the real sample_data/ files) and backend/fit.py.
+
+// A real job posting pulled from jobs_data.json.
+export interface Posting {
+  id: string;
+  company: string;
+  location: string;
+  level: string;
+  salaryFrom: number;
+  salaryTo: number;
+  easyApply: boolean; // REAL flag from jobs_data.json
+}
 
 export interface Role {
   id: string;
@@ -8,6 +20,14 @@ export interface Role {
   description: string;
   skills: string[];
   companies: string[];
+  // Real fields derived from jobs_data.json by precompute.py:
+  industries?: string[];
+  levels?: string[];
+  salaryFrom?: number;
+  salaryTo?: number;
+  easyApplyPct?: number;
+  jobCount?: number;
+  postings?: Posting[];
 }
 
 export interface User {
@@ -19,9 +39,30 @@ export interface User {
   tagline?: string;
 }
 
+// A real course pulled from course_data.json (for the gap / Milestone page).
+export interface Course {
+  id: string;
+  name: string;
+  length?: { value: number; unit: string };
+  level?: string;
+}
+
 // Returned by GET /api/fit and by the client-side fallback (lib/fit.ts).
+// Carries the real role enrichment so the panel can render salary, real
+// postings, and the real easy-apply flag.
 export interface FitResult {
-  role: Pick<Role, "id" | "name" | "description" | "companies">;
+  role: Pick<
+    Role,
+    | "id"
+    | "name"
+    | "description"
+    | "companies"
+    | "salaryFrom"
+    | "salaryTo"
+    | "easyApplyPct"
+    | "jobCount"
+    | "postings"
+  >;
   percent: number; // 0-100
   haveSkills: string[];
   missingSkills: string[];
