@@ -239,7 +239,7 @@ function renderPanel() {
   document.getElementById("build-btn").addEventListener("click", () => {
     const payload = { roleId: fit.role.id, missingSkills: fit.missingSkills };
     console.log("Build my path →", payload);
-    showToast("Build my path →\n" + JSON.stringify(payload, null, 2));
+    window.location.href = "milestones-demo.html?role=" + fit.role.id + "&user=" + currentUserId;
   });
 }
 
